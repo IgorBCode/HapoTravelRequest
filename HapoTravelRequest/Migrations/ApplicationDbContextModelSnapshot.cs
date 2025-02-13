@@ -42,7 +42,7 @@ namespace HapoTravelRequest.Migrations
 
                     b.HasIndex("TravelRequestId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("HapoTravelRequest.Data.TravelRequest", b =>
@@ -180,86 +180,7 @@ namespace HapoTravelRequest.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TravelRequests");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "39e088b2-cd8e-40d2-8d14-7abd2662987b",
-                            Name = "Administrator"
-                        },
-                        new
-                        {
-                            Id = "3ec66596-f421-42a1-832c-365951b19e7d",
-                            Name = "VP"
-                        },
-                        new
-                        {
-                            Id = "e6429c0b-cc83-474e-8851-243fbcd898eb",
-                            Name = "CEO"
-                        },
-                        new
-                        {
-                            Id = "b7641d7a-e9ba-47f3-bef7-f9bf36e935be",
-                            Name = "Processor"
-                        },
-                        new
-                        {
-                            Id = "fc391dc9-7793-4ac2-b51e-474635c7d0d7",
-                            Name = "Employee"
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("TravelRequests", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.ApplicationUser", b =>
@@ -341,6 +262,85 @@ namespace HapoTravelRequest.Migrations
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "39e088b2-cd8e-40d2-8d14-7abd2662987b",
+                            Name = "Administrator"
+                        },
+                        new
+                        {
+                            Id = "3ec66596-f421-42a1-832c-365951b19e7d",
+                            Name = "VP"
+                        },
+                        new
+                        {
+                            Id = "e6429c0b-cc83-474e-8851-243fbcd898eb",
+                            Name = "CEO"
+                        },
+                        new
+                        {
+                            Id = "b7641d7a-e9ba-47f3-bef7-f9bf36e935be",
+                            Name = "Processor"
+                        },
+                        new
+                        {
+                            Id = "fc391dc9-7793-4ac2-b51e-474635c7d0d7",
+                            Name = "Employee"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>

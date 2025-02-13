@@ -4,7 +4,7 @@ namespace HapoTravelRequest.Data
 {
     public class TravelRequest
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [MaxLength(300)]
         public string PurposeOfTravel { get; set; }
@@ -95,8 +95,9 @@ namespace HapoTravelRequest.Data
         public bool Booked { get; set; }
 
         // creator data
+        public string UserId { get; set; }// Foreign key for user who created request
         public ApplicationUser User { get; set; }
-        public Guid UserId { get; set; }// Foreign key for user who created request
+        
 
         // travel request comments
         public List<Comment> Comments { get; set; } = new List<Comment>();

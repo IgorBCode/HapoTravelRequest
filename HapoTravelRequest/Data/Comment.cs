@@ -7,14 +7,12 @@
         public string Content { get; set; }
         public DateTime CreatedTime { get; set; }
 
-        // foreign key linking comment to travel request
-        [Required]
-        public TravelRequest TravelRequest { get; set; }
-        public Guid TravelRequestId { get; set; }
-
         // foreign key linking comment to user who posted it
+        public string UserId { get; set; }
         public ApplicationUser User { get; set; }
-        public Guid UserId { get; set; }
 
+        // foreign key linking comment to travel request
+        public Guid TravelRequestId { get; set; }
+        public TravelRequest TravelRequest { get; set; }
     }
 }

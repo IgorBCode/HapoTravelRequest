@@ -15,6 +15,30 @@ namespace HapoTravelRequest.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            // set up relationships
+            // One user => many travel requests
+            builder.Entity<TravelRequest>()
+                .HasOne(tr => tr.User)
+                .WithMany(u => u.TravelRequests)
+                .HasForeignKey(tr => tr.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // prevent cascade delete for comments
+            builder.Entity<Comment>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Comments)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // cascade delete if TravelRequest is deleted
+            builder.Entity<Comment>()
+                .HasOne(c => c.TravelRequest)
+                .WithMany(tr => tr.Comments)
+                .HasForeignKey(c => c.TravelRequestId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
             builder.Entity<IdentityRole>().HasData(
                 new IdentityRole
                 {
@@ -58,7 +82,10 @@ namespace HapoTravelRequest.Data
                     LockoutEnabled = false,
                     FirstName = "Default",
                     LastName = "Admin",
-                    DateOfBirth = new DateOnly(2000, 01, 01)
+                    DateOfBirth = new DateOnly(2000, 01, 01),
+                    PositionTitle = "Administrator",
+                    Department = "N/A",
+                    DepartmentDirector = "N/A"
                 });
 
             // assign admin role to admin user
