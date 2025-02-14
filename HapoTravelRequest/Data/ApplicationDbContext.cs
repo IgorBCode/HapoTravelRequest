@@ -43,27 +43,33 @@ namespace HapoTravelRequest.Data
                 new IdentityRole
                 {
                     Id = "39e088b2-cd8e-40d2-8d14-7abd2662987b",
-                    Name = "Administrator"
+                    Name = "Administrator",
+                    NormalizedName = "ADMINISTRATOR"
+                    
                 },
                 new IdentityRole
                 {
                     Id = "3ec66596-f421-42a1-832c-365951b19e7d",
-                    Name = "VP"
+                    Name = "VP",
+                    NormalizedName = "VP"
                 },
                 new IdentityRole
                 {
                     Id = "e6429c0b-cc83-474e-8851-243fbcd898eb",
-                    Name = "CEO"
+                    Name = "CEO",
+                    NormalizedName = "CEO"
                 },
                 new IdentityRole
                 {
                     Id = "b7641d7a-e9ba-47f3-bef7-f9bf36e935be",
-                    Name = "Processor"
+                    Name = "Processor",
+                    NormalizedName = "PROCESSOR"
                 },
                 new IdentityRole
                 {
                     Id = "fc391dc9-7793-4ac2-b51e-474635c7d0d7",
-                    Name = "Employee"
+                    Name = "Employee",
+                    NormalizedName = "EMPLOYEE"
                 }
                 );
 
