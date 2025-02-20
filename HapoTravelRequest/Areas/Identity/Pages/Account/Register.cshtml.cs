@@ -1,8 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -55,6 +51,8 @@ namespace HapoTravelRequest.Areas.Identity.Pages.Account
         /// </summary>
         [BindProperty]
         public InputModel Input { get; set; } = new InputModel();
+
+        public string[] RoleNames { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -134,9 +132,6 @@ namespace HapoTravelRequest.Areas.Identity.Pages.Account
 
             [Required]
             public string RoleName { get; set; }
-
-            public string[] RoleNames { get; set; }
-
         }
 
 
@@ -147,7 +142,7 @@ namespace HapoTravelRequest.Areas.Identity.Pages.Account
             var roles = await _roleManager.Roles
                 .Select(q => q.Name)
                 .ToArrayAsync();
-            Input.RoleNames = roles;
+            RoleNames = roles;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -177,19 +172,19 @@ namespace HapoTravelRequest.Areas.Identity.Pages.Account
 
                     if (Input.RoleName == "VP")
                     {
-                        await _userManager.AddToRolesAsync(user, ["Employee", "VP"]);
+                        await _userManager.AddToRolesAsync(user, new[] {"Employee", "VP"});
                     }
                     else if (Input.RoleName == "CEO")
                     {
-                        await _userManager.AddToRolesAsync(user, ["Employee", "CEO"]);
+                        await _userManager.AddToRolesAsync(user, new[] {"Employee", "CEO"});
                     }
                     else if (Input.RoleName == "Processor")
                     {
-                        await _userManager.AddToRolesAsync(user, ["Employee", "Processor"]);
+                        await _userManager.AddToRolesAsync(user, new[] { "Employee", "Processor"});
                     }
                     else if (Input.RoleName == "Administrator")
                     {
-                        await _userManager.AddToRolesAsync(user, ["Employee", "CEO", "VP", "Processor", "Administrator"]);
+                        await _userManager.AddToRolesAsync(user, new[] {"Employee", "CEO", "VP", "Processor", "Administrator" });
                     }
                     else
                     {
@@ -219,6 +214,8 @@ namespace HapoTravelRequest.Areas.Identity.Pages.Account
                     //    return LocalRedirect(returnUrl);
                     //}
 
+                    await _emailSender.SendEmailAsync(Input.Email, "Test Email Subject", $"Check this out! It's not a virus :) <a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>click here</a>");
+
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
@@ -228,7 +225,10 @@ namespace HapoTravelRequest.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            var roles = await _roleManager.Roles
+                .Select(q => q.Name)
+                .ToArrayAsync();
+            RoleNames = roles;
             return Page();
         }
 

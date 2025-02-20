@@ -47,7 +47,8 @@
                 <label asp-for="Input.DepartmentDirector">Department Director</label>
                 <span asp-validation-for="Input.DepartmentDirector" class="text-danger"></span>
             </div>
-            @foreach(var role in Model.Input.RoleNames)
+            <div class="mb-4">
+            @foreach(var role in Model.RoleNames)
             {
                 <div class="form-check">
                     <input class="form-check-input" type="radio" asp-for="Input.RoleName" value="@role" />
@@ -56,6 +57,8 @@
                     </label>
                 </div>
             }
+            <span asp-validation-for="Input.RoleName" class="text-danger"></span>
+            </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.Password">Password</label>
