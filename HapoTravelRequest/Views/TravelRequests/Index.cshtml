@@ -1,0 +1,227 @@
+﻿@model IEnumerable<HapoTravelRequest.Data.TravelRequest>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PurposeOfTravel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NonEmployeeLegalName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NonEmployeeDOB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConferenceDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConferenceLink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AlternativeText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CostOfConference)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConferenceStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConferenceEndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReturnDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeesAttending)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeesAttendingNames)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConferenceHotelName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PreferredLodgingInfo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecialTravelRequest)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransportationMode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AirlineDetails)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlightCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GroundTransportation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MileageReimbursement)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MileageRoundTrip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MIE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DailyMIEAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DaysForMIE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepositAccount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApprovalStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApprovedByVP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApprovedByCEO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Booked)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurposeOfTravel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NonEmployeeLegalName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NonEmployeeDOB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConferenceDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConferenceLink)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AlternativeText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostOfConference)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConferenceStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConferenceEndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartureDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReturnDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeesAttending)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeesAttendingNames)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConferenceHotelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreferredLodgingInfo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecialTravelRequest)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransportationMode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AirlineDetails)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlightCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GroundTransportation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MileageReimbursement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MileageRoundTrip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MIE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DailyMIEAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DaysForMIE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepositAccount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApprovalStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApprovedByVP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApprovedByCEO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Booked)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
