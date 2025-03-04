@@ -7,7 +7,7 @@ html {
     font-size: 16px;
   }
 }
-
+ 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -19,4 +19,182 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+/*HAPO logo*/
+.logo {
+    width: 200px;
+    height: auto;
+    margin-right: auto;
+}
+
+/*Web icons in nav bar*/
+.icon{
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: 'Verdana', sans-serif;
+    cursor: pointer;
+    margin: 0 10px;
+}
+.nav-link.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffcc00;
+    color: black;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+/*Home Page*/
+.request-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+/*CEO/VP*/
+.ceo-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+/*Processor*/
+.processor-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+.request-header {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.request-table {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel {
+    background-color: #C21A09;
+    color: #FDF6F4;
+}
+
+.disabled {
+    background-color: gray;
+    color: white;
+    cursor: not-allowed;
+}
+
+.action-btn {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+}
+.approve {
+    font-size: 24px;
+}
+
+.deny {
+    font-size: 24px;
+}
+
+
+.status {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.booked {
+    background-color: #a0e6a0;
+    color: #007f00;
+}
+
+.denied {
+    background-color: #B22222;
+    color: #800000;
+}
+
+.pending {
+    background-color: #ffdb4d;
+    color: #8f6500;
+}
+
+.btn container {
+    position: sticky;
+    right: 20px;
+    top: 80px;
+    float: right;
+    z-index: 100;
+}
+
+.create-request {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffcc00;
+    color: black;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.create-request span {
+    margin-right: 8px;
 }
