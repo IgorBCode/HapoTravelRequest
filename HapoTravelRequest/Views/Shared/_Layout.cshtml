@@ -13,8 +13,8 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img class="logo" src="/Images/Logo.png" alt="HAPO"/>
-                </a> 
+                    <img class="logo" src="assets/logo.png" alt="HAPO Logo" />
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -24,18 +24,19 @@
                         <li class="nav-item">
                             <!--3/3 allows active nav bar link to be highlighted when on the relevant page-->
                             <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")"
-                            asp-area="" 
-                            asp-controller="Home" 
-                            asp-action="Index">
+                               asp-area=""
+                               asp-controller="Home"
+                               asp-action="Index">
                                 <span class="icon">🏠</span>
                                 Home
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")"
-                            asp-area="" 
-                            asp-controller="Home" 
-                            asp-action="Privacy">Request Travel
+                               asp-area=""
+                               asp-controller="Home"
+                               asp-action="Privacy">
+                                Request Travel
                             </a>
                         </li>
                         @if (User.IsInRole("Administrator"))
