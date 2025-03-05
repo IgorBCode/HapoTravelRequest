@@ -1,4 +1,4 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -7,41 +7,138 @@
 
 @* </div> *@
 
-@* Demo content for design doc. Can be erased *@
-<div class="container mt-4">
-    <h2 class="mb-4">My Travel Requests</h2>
-    <div class="d-flex flex-column gap-2">
-        <!-- Static Travel Request 1 -->
-        <a href="google.com" class="text-decoration-none text-dark">
-            <div class="card shadow-sm p-2">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <h6 class="mb-0">New York, NY</h6>
-                    <span class="text-muted"><strong>Start:</strong> May 10, 2025</span>
-                    <span class="text-muted"><strong>End:</strong> May 15, 2025</span>
-                </div>
-            </div>
-        </a>
-
-        <!-- Static Travel Request 2 -->
-        <a href="google.com" class="text-decoration-none text-dark">
-            <div class="card shadow-sm p-2">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <h6 class="mb-0">Los Angeles, CA</h6>
-                    <span class="text-muted"><strong>Start:</strong> June 1, 2025</span>
-                    <span class="text-muted"><strong>End:</strong> June 7, 2025</span>
-                </div>
-            </div>
-        </a>
-
-        <!-- Static Travel Request 3 -->
-        <a href="google.com" class="text-decoration-none text-dark">
-            <div class="card shadow-sm p-2">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <h6 class="mb-0">Chicago, IL</h6>
-                    <span class="text-muted"><strong>Start:</strong> July 12, 2025</span>
-                    <span class="text-muted"><strong>End:</strong> July 18, 2025</span>
-                </div>
-            </div>
-        </a>
+<!--Task: Will need to implement a foreach loop to grab database data for the homepage elements-->
+<body> 
+    <div class="request-container">
+        <h2 class="request_header">My Requests</h2>
+        <div class="request-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Quick Action</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>New York, NY</td>
+                        <td>May 10, 2025 - May 15, 2025</td>
+                        <td><button class="btn cancel">Cancel</button></td>
+                        <td><span class="status booked">Booked</span></td>
+                    </tr>
+                    <tr>
+                        <td>Los Angeles, CA</td>
+                        <td>June 1, 2025 - June 7, 2025</td>
+                        <td><button class="btn disabled">Cancel</button></td>
+                        <td><span class="status denied">Denied</span></td>
+                    </tr>
+                    <tr>
+                        <td>Chicago, IL</td>
+                        <td>July 12, 2025 - July 18, 2025</td>
+                        <td><button class="btn cancel">Cancel</button></td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div class="btn container">
+        <!--Replace Privacy with create travel request location-->
+        <button class="create-request" onclick="window.location.href='Home/Privacy';">
+            <span>📅</span> Create Travel Request
+        </button>
     </div>
-</div>
+
+    <!--CEO/VP Section-->
+    <div class="ceo-container">
+        <h2 class="request_header">Waiting Approvals</h2>
+        <div class="request-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Quick Action</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>New York, NY</td>
+                        <td>May 10, 2025 - May 15, 2025</td>
+                        <td>
+                            <div class="action-btn">
+                            <button class="btn approve"><span>✅</span></button>
+                            <button class="btn deny"><span>❎</span></button>
+                            </div>
+                        </td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+                    <tr>
+                        <td>Los Angeles, CA</td>
+                        <td>June 1, 2025 - June 7, 2025</td>
+                        <td>
+                            <div class="action-btn">
+                            <button class="btn approve"><span>✅</span></button>
+                            <button class="btn deny"><span>❎</span></button>
+                            </div>
+                        </td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+                    <tr>
+                        <td>Chicago, IL</td>
+                        <td>July 12, 2025 - July 18, 2025</td>
+                        <td>
+                            <div class="action-btn">
+                            <button class="btn approve"><span>✅</span></button>
+                            <button class="btn deny"><span>❎</span></button>
+                            </div>
+                        </td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+     </div>
+
+     <!--Processor Section-->
+     <div class="processor-container">
+        <h2 class="request_header">Booking Required</h2>
+        <div class="request-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Transportation</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jane Cooper</td>
+                        <td>New York, NY</td>
+                        <td>May 10, 2025 - May 15, 2025</td>
+                        <td>Greyhound Bus</td>
+                        <td>$50</td>
+                    </tr>
+                    <tr>
+                        <td>Floyd Miles</td>
+                        <td>Los Angeles, CA</td>
+                        <td>June 1, 2025 - June 7, 2025</td>
+                        <td>Plane</td>
+                        <td>$750</td>
+                    </tr>
+                    <tr>
+                        <td>Ronald Richards</td>
+                        <td>Chicago, IL</td>
+                        <td>July 12, 2025 - July 18, 2025</td>
+                        <td>Car</td>
+                        <td>$3.50</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
