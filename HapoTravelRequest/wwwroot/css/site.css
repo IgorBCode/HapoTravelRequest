@@ -1,119 +1,112 @@
-html {
-  font-size: 14px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+:root {
+    --bs-body-color: #141414;
+}
+
+html {
+    position: relative;
+}
+
+body {
+    margin-bottom: 3.75rem;
 }
  
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-
 /*HAPO logo*/
 .logo {
-    width: 200px;
+    width: 8rem;
     height: auto;
-    margin-right: auto;
+    margin: 0 auto 0 1rem;
 }
 
 /*Web icons in nav bar*/
-.icon{
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
+.icon {
+    margin-right: 0.5rem;
 }
 
 .nav-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: black;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 14px;
-    font-family: 'Verdana', sans-serif;
+    padding: 0.625rem 0.9375rem;
+    border-radius: 0.3125rem;
+    font-family: 'Museo Sans', var(--bs-font-sans-serif);
     cursor: pointer;
-    margin: 0 10px;
+    margin: 0 0.625rem;
 }
 .nav-link.active {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #ffcc00;
-    color: black;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 14px;
+    background-color: #ffdc32;
+    padding: 0.625rem 0.9375rem;
+    border-radius: 0.3125rem;
     font-weight: 700;
     cursor: pointer;
-    margin: 0 10px;
+    margin: 0 0.625rem;
 }
 
 /*Home Page*/
 .request-container {
     width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
+    max-width: 75rem;
+    margin: 2.5rem auto;
     background: white;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 1.25rem;
+    border-radius: 0.625rem;
     box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
 }
 
 /*CEO/VP*/
 .ceo-container {
     width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
+    max-width: 75rem;
+    margin: 2.5rem auto;
     background: white;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 1.25rem;
+    border-radius: 0.625rem;
     box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
 }
 /*Processor*/
 .processor-container {
     width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
+    max-width: 75rem;
+    margin: 2.5rem auto;
     background: white;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 1.25rem;
+    border-radius: 0.625rem;
     box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
 }
 
 .request-header {
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
 }
 
 .request-table {
     overflow-x: auto;
-    margin-top: 20px;
+    margin-top: 1.25rem;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     background: white;
-    margin-top: 10px;
+    margin-top: 1.25rem;
 }
 
 th, td {
-    padding: 12px 15px;
+    padding: 0.75rem 0.9375rem;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 0.0625rem solid #ddd;
 }
 
 th {
@@ -121,9 +114,9 @@ th {
 }
 
 .btn {
-    padding: 6px 12px;
+    padding: 0.375rem 0.75rem;
     border: none;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     cursor: pointer;
 }
 
@@ -133,50 +126,49 @@ th {
 }
 
 .disabled {
-    background-color: gray;
-    color: white;
+    background-color: #9D9FA2;
+    color: #FFFFFF;
     cursor: not-allowed;
 }
 
 .action-btn {
     display: flex;
     justify-content: flex-start;
-    gap: 5px;
+    gap: 0.3125rem;
 }
 .approve {
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 
 .deny {
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 
 
 .status {
-    padding: 6px 12px;
-    border-radius: 4px;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.25rem;
     font-weight: bold;
 }
 
 .booked {
-    background-color: #a0e6a0;
+    background-color: #6CC72B;
     color: #007f00;
 }
 
 .denied {
-    background-color: #B22222;
-    color: #800000;
+    background-color: #FFC5C5;
+    color: #DF0404;
 }
 
 .pending {
-    background-color: #ffdb4d;
-    color: #8f6500;
+    background-color: #FFDC32;
 }
 
 .btn container {
     position: sticky;
-    right: 20px;
-    top: 80px;
+    right: 1.25rem;
+    top: 5rem;
     float: right;
     z-index: 100;
 }
@@ -185,16 +177,14 @@ th {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #ffcc00;
-    color: black;
-    padding: 12px 16px;
-    border-radius: 8px;
+    background-color: #FFDC32;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
     border: none;
-    font-size: 16px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 1.25rem;
 }
 
 .create-request span {
-    margin-right: 8px;
+    margin-right: 0.5rem;
 }
