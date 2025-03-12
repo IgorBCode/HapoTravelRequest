@@ -1,69 +1,144 @@
-﻿@model List<HapoTravelRequest.Models.TravelRequest.TravelRequestListVM>
-
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+@* <div class="text-center"> *@
+@*     <h1 class="display-4">Welcome</h1> *@
 
-</div>
+@* </div> *@
 
-<div class="request-container">
-    <h2 class="request_header">My Requests</h2>
-    <div class="request-table">
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        Employee Name
-                    </th>
-                    <th>
-                        Location
-                    </th>
-                    <th>
-                        Date
-                    </th>
-                    <th>
-                        Transportation
-                    </th>
-                    <th>
-                        Cost
-                    </th>
-                    <th>
-                        Quick Action
-                    </th>
-                </tr>
-            </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @item.FirstName @item.LastName
-                    </td>
-                    <td>
-                        @item.Location
-                    </td>
-                    <td>
-                        @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
-                    </td>
-                    <td>
-                        @item.TransportationMode
-                    </td>
-                    <td>
-                        $@item.CostOfConference
-                    </td>
-                    <td>
-                        Buttons Placeholder
-                    </td>
-                </tr>
-            }
-        </tbody>
-        </table>
-    </div class="btn container">
-    <!--Replace Privacy with create travel request location-->
-    <button class="create-request" onclick="window.location.href='Home/Privacy';">
-        <span>📅</span> Create Travel Request
-    </button>
-</div>
+<!--Task: Will need to implement a foreach loop to grab database data for the homepage elements-->
+<body> 
+    <div class="request-container">
+        <h2 class="request_header">My Requests</h2>
+        <div class="request-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Quick Action</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>New York, NY</td>
+                        <td>May 10, 2025 - May 15, 2025</td>
+                        <td><button class="btn cancel">Cancel</button></td>
+                        <td><span class="status booked">Booked</span></td>
+                    </tr>
+                    <tr>
+                        <td>Los Angeles, CA</td>
+                        <td>June 1, 2025 - June 7, 2025</td>
+                        <td><button class="btn disabled">Cancel</button></td>
+                        <td><span class="status denied">Denied</span></td>
+                    </tr>
+                    <tr>
+                        <td>Chicago, IL</td>
+                        <td>July 12, 2025 - July 18, 2025</td>
+                        <td><button class="btn cancel">Cancel</button></td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div class="btn container">
+        <!--Replace Privacy with create travel request location-->
+        <button class="create-request" onclick="window.location.href='Home/Privacy';">
+            <span>📅</span> Create Travel Request
+        </button>
+    </div>
+
+    <!--CEO/VP Section-->
+    <div class="ceo-container">
+        <h2 class="request_header">Waiting Approvals</h2>
+        <div class="request-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Quick Action</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>New York, NY</td>
+                        <td>May 10, 2025 - May 15, 2025</td>
+                        <td>
+                            <div class="action-btn">
+                            <button class="btn approve"><span>✅</span></button>
+                            <button class="btn deny"><span>❎</span></button>
+                            </div>
+                        </td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+                    <tr>
+                        <td>Los Angeles, CA</td>
+                        <td>June 1, 2025 - June 7, 2025</td>
+                        <td>
+                            <div class="action-btn">
+                            <button class="btn approve"><span>✅</span></button>
+                            <button class="btn deny"><span>❎</span></button>
+                            </div>
+                        </td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+                    <tr>
+                        <td>Chicago, IL</td>
+                        <td>July 12, 2025 - July 18, 2025</td>
+                        <td>
+                            <div class="action-btn">
+                            <button class="btn approve"><span>✅</span></button>
+                            <button class="btn deny"><span>❎</span></button>
+                            </div>
+                        </td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+     </div>
+
+     <!--Processor Section-->
+     <div class="processor-container">
+        <h2 class="request_header">Booking Required</h2>
+        <div class="request-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Transportation</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jane Cooper</td>
+                        <td>New York, NY</td>
+                        <td>May 10, 2025 - May 15, 2025</td>
+                        <td>Greyhound Bus</td>
+                        <td>$50</td>
+                    </tr>
+                    <tr>
+                        <td>Floyd Miles</td>
+                        <td>Los Angeles, CA</td>
+                        <td>June 1, 2025 - June 7, 2025</td>
+                        <td>Plane</td>
+                        <td>$750</td>
+                    </tr>
+                    <tr>
+                        <td>Ronald Richards</td>
+                        <td>Chicago, IL</td>
+                        <td>July 12, 2025 - July 18, 2025</td>
+                        <td>Car</td>
+                        <td>$3.50</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
