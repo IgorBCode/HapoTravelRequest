@@ -3,6 +3,7 @@ using HapoTravelRequest.Models;
 using HapoTravelRequest.Models.TravelRequest;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace HapoTravelRequest.Controllers
 {
@@ -11,29 +12,33 @@ namespace HapoTravelRequest.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
             // get 3 most recent travel requests
             var travelRequests = await _context.TravelRequests
-                .Include(tr => tr.User)
-                .OrderByDescending(tr => tr.ConferenceStartDate)
+                .Where(q => q.UserId == user.Id)
+                .Include(q => q.User)
+                .OrderByDescending(q => q.ConferenceStartDate)
                 .Take(3)
-                .Select(tr => new TravelRequestListVM
+                .Select(q => new TravelRequestListVM
                 {
-                    FirstName = tr.User.FirstName,
-                    LastName = tr.User.LastName,
-                    Location = tr.Location,
-                    ConferenceStartDate = tr.ConferenceStartDate,
-                    ConferenceEndDate = tr.ConferenceEndDate,
-                    TransportationMode = tr.TransportationMode,
-                    CostOfConference = tr.CostOfConference
+                    FirstName = q.User.FirstName,
+                    LastName = q.User.LastName,
+                    Location = q.Location,
+                    ConferenceStartDate = q.ConferenceStartDate,
+                    ConferenceEndDate = q.ConferenceEndDate,
+                    TransportationMode = q.TransportationMode,
+                    CostOfConference = q.CostOfConference
                 })
                 .ToListAsync();
 

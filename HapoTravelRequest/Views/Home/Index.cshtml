@@ -1,14 +1,72 @@
+@using HapoTravelRequest.Helpers
+@model List<HapoTravelRequest.Models.TravelRequest.TravelRequestListVM>
+
 @{
     ViewData["Title"] = "Home Page";
 }
 
-@* <div class="text-center"> *@
-@*     <h1 class="display-4">Welcome</h1> *@
-
-@* </div> *@
-
 <!--Task: Will need to implement a foreach loop to grab database data for the homepage elements-->
-<body> 
+<div class="request-container">
+    <h2 class="request_header">THIS IS A TEST TABLE POPULATED WITH DB INFO</h2>
+    <div class="request-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Location</th>
+                    <th>Date</th>
+                    <th>Transportation</th>
+                    <th>Cost</th>
+                    <th>Quick Action</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.FirstName @item.LastName
+                            </td>
+                            <td>
+                                @item.Location
+                            </td>
+                            <td>
+                                @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
+                            </td>
+                            <td>
+                                @item.TransportationMode
+                            </td>
+                            <td>
+                                $@item.CostOfConference
+                            </td>
+                            <td><button class="btn cancel">Cancel</button></td>
+                            <td>
+                                @item.ApprovalStatus.GetDisplayName()
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                        <h3>No travel requests available.</h3>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+</div>
+
+
+
+
+
+
     <div class="request-container">
         <h2 class="request_header">My Requests</h2>
         <div class="request-table">
@@ -45,7 +103,7 @@
         </div class="btn container">
         <!--Replace Privacy with create travel request location-->
         <button class="create-request" onclick="window.location.href='Home/Privacy';">
-            <span>📅</span> Create Travel Request
+            <i class="bi bi-calendar-week me-2"></i> Create Travel Request
         </button>
     </div>
 
@@ -68,8 +126,8 @@
                         <td>May 10, 2025 - May 15, 2025</td>
                         <td>
                             <div class="action-btn">
-                            <button class="btn approve"><span>✅</span></button>
-                            <button class="btn deny"><span>❎</span></button>
+                        <button class="btn btn-success"><i class="bi bi-check-square"></i></button>
+                        <button class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
                             </div>
                         </td>
                         <td><span class="status pending">Pending</span></td>
@@ -79,8 +137,8 @@
                         <td>June 1, 2025 - June 7, 2025</td>
                         <td>
                             <div class="action-btn">
-                            <button class="btn approve"><span>✅</span></button>
-                            <button class="btn deny"><span>❎</span></button>
+                        <button class="btn btn-success"><i class="bi bi-check-square"></i></button>
+                        <button class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
                             </div>
                         </td>
                         <td><span class="status pending">Pending</span></td>
@@ -90,8 +148,8 @@
                         <td>July 12, 2025 - July 18, 2025</td>
                         <td>
                             <div class="action-btn">
-                            <button class="btn approve"><span>✅</span></button>
-                            <button class="btn deny"><span>❎</span></button>
+                        <button class="btn btn-success"><i class="bi bi-check-square"></i></button>
+                        <button class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
                             </div>
                         </td>
                         <td><span class="status pending">Pending</span></td>
@@ -141,4 +199,3 @@
             </table>
         </div>
     </div>
-</body>

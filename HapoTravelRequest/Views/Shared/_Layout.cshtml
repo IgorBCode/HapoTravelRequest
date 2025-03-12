@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HapoTravelRequest.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img class="logo" src="assets/logo.png" alt="HAPO Logo" />
+                    <img class="logo" src="~/assets/logo.png" alt="HAPO Logo" />
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -27,15 +28,15 @@
                                asp-area=""
                                asp-controller="Home"
                                asp-action="Index">
-                                <span class="icon">🏠</span>
+                                <i class="bi bi-house-door me-2"></i>
                                 Home
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")"
                                asp-area=""
-                               asp-controller="Home"
-                               asp-action="Privacy">
+                               asp-controller="TravelRequests"
+                               asp-action="Create">
                                 Request Travel
                             </a>
                         </li>

@@ -12,4 +12,5 @@ public class TravelRequestListVM
     public DateTime? ConferenceEndDate { get; set; }
     public string? TransportationMode { get; set; }
     public decimal? CostOfConference { get; set; }
+    public ApprovalStatus ApprovalStatus { get; set; }
 }
