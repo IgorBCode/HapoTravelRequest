@@ -4,6 +4,7 @@ using HapoTravelRequest.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HapoTravelRequest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250309231132_UpdateDateTime")]
+    partial class UpdateDateTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,7 +117,7 @@ namespace HapoTravelRequest.Migrations
                         {
                             Id = "10684443-90ea-4553-86a3-49d08b55dffe",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1945ee04-6747-4426-bf27-31cba23b149a",
+                            ConcurrencyStamp = "c1ee3531-1d81-4486-a719-f6aa82fa8183",
                             DateOfBirth = new DateOnly(2000, 1, 1),
                             Department = "N/A",
                             DepartmentDirector = "N/A",
@@ -125,10 +128,10 @@ namespace HapoTravelRequest.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFzjlIgMZPEFyaxOgbT6QVRa4k/Npx03ODxH4Gbo2S54gq/nVX6QJFNCAJcu8j6u/w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEl1Ei4oai9B80baOrutDBGdnZngSSotoolZrvJCFk9xwd62Xy4J/KQSAataBp1ILA==",
                             PhoneNumberConfirmed = false,
                             PositionTitle = "Administrator",
-                            SecurityStamp = "81bdce6f-d3ca-42e2-a9bf-c49ac1596bb5",
+                            SecurityStamp = "d9bb2ba9-e8c0-42ab-89d3-b1be80234445",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -192,7 +195,7 @@ namespace HapoTravelRequest.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<DateTime?>("ConferenceEndDate")
+                    b.Property<DateTime>("ConferenceEndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ConferenceHotelName")
@@ -203,22 +206,22 @@ namespace HapoTravelRequest.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime?>("ConferenceStartDate")
+                    b.Property<DateTime>("ConferenceStartDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("CorporateCard")
                         .HasColumnType("bit");
 
-                    b.Property<decimal?>("CostOfConference")
+                    b.Property<decimal>("CostOfConference")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<decimal?>("DailyMIEAmount")
+                    b.Property<decimal>("DailyMIEAmount")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int?>("DaysForMIE")
+                    b.Property<int>("DaysForMIE")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DepartureDate")
+                    b.Property<DateTime>("DepartureDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DepartureReturnDates")
@@ -243,7 +246,7 @@ namespace HapoTravelRequest.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<decimal?>("FlightCost")
+                    b.Property<decimal>("FlightCost")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("GroundOptions")
@@ -260,13 +263,13 @@ namespace HapoTravelRequest.Migrations
                     b.Property<bool>("MIE")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("MileageReimbursement")
+                    b.Property<int>("MileageReimbursement")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MileageRoundTrip")
+                    b.Property<int>("MileageRoundTrip")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("NonEmployeeDOB")
+                    b.Property<DateTime>("NonEmployeeDOB")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("NonEmployeeGuests")
@@ -290,7 +293,7 @@ namespace HapoTravelRequest.Migrations
                     b.Property<bool>("RegisteredForConference")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("ReturnDate")
+                    b.Property<DateTime>("ReturnDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SpecialTravelRequest")
@@ -300,7 +303,7 @@ namespace HapoTravelRequest.Migrations
                     b.Property<string>("TSANumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("TotalCost")
+                    b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("TransportationMode")

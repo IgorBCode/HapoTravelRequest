@@ -1,6 +1,6 @@
 ﻿namespace HapoTravelRequest.Models.TravelRequest
 {
-    public class TravelRequestEdit : BaseTravelRequestVM
+    public class TravelRequestEditVM
     {
         public Guid Id { get; set; }
     }

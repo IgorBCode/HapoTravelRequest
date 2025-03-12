@@ -1,7 +1,7 @@
-﻿@model HapoTravelRequest.Data.TravelRequest
+﻿@model HapoTravelRequest.Models.TravelRequest.TravelRequestCreateVM
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Travel Request";
 }
 
 <h1>Create</h1>
@@ -11,11 +11,61 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
+            @Html.AntiForgeryToken()
+
+            @* User Info Section *@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Department" class="control-label"></label>
+                <input asp-for="Department" class="form-control" />
+                <span asp-validation-for="Department" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PositionTitle" class="control-label"></label>
+                <input asp-for="PositionTitle" class="form-control" />
+                <span asp-validation-for="PositionTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartmentDirector" class="control-label"></label>
+                <input asp-for="DepartmentDirector" class="form-control" />
+                <span asp-validation-for="DepartmentDirector" class="text-danger"></span>
+            </div>
+
+            @* Travel Request Section *@
             <div class="form-group">
                 <label asp-for="PurposeOfTravel" class="control-label"></label>
                 <input asp-for="PurposeOfTravel" class="form-control" />
                 <span asp-validation-for="PurposeOfTravel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Are there Non-Employee Guests?</label>
+                <div>
+                    <input type="radio" asp-for="NonEmployeeGuests" value="true" id="NonEmployeeGuestsYes" />
+                    <label for="NonEmployeeGuestsYes">Yes</label>
+
+                    <input type="radio" asp-for="NonEmployeeGuests" value="false" id="NonEmployeeGuestsNo" />
+                    <label for="NonEmployeeGuestsNo">No</label>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="NonEmployeeLegalName" class="control-label"></label>
@@ -127,10 +177,14 @@
                 <input asp-for="MileageRoundTrip" class="form-control" />
                 <span asp-validation-for="MileageRoundTrip" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="MIE" /> @Html.DisplayNameFor(model => model.MIE)
-                </label>
+            <div class="form-group">
+                <label>Meals & Incidentals (M&IE)</label>
+                <div>
+                    <input type="radio" asp-for="MIE" value="true" id="MIEYes" />
+                    <label for="MIE">Yes</label>
+                    <input type="radio" asp-for="MIE" value="false" id="MIENo" />
+                    <label for="MIE">No</label>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="DailyMIEAmount" class="control-label"></label>
@@ -153,29 +207,62 @@
                 <span asp-validation-for="AccountType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ApprovalStatus" class="control-label"></label>
-                <input asp-for="ApprovalStatus" class="form-control" />
-                <span asp-validation-for="ApprovalStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="ApprovedByVP" /> @Html.DisplayNameFor(model => model.ApprovedByVP)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="ApprovedByCEO" /> @Html.DisplayNameFor(model => model.ApprovedByCEO)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Booked" /> @Html.DisplayNameFor(model => model.Booked)
-                </label>
+                <label>Corporate Card?</label>
+                <div>
+                    <input type="radio" asp-for="CorporateCard" value="true" id="CorporateCardYes" />
+                    <label for="CorporateCard">Yes</label>
+                    <input type="radio" asp-for="CorporateCard" value="false" id="CorporateCardNo" />
+                    <label for="CorporateCard">No</label>
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+                <label asp-for="ValueExplination" class="control-label"></label>
+                <input asp-for="ValueExplination" class="form-control" />
+                <span asp-validation-for="ValueExplination" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="EmergencyContactname" class="control-label"></label>
+                <input asp-for="EmergencyContactname" class="form-control" />
+                <span asp-validation-for="EmergencyContactname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmergencyContactPhoneNumber" class="control-label"></label>
+                <input asp-for="EmergencyContactPhoneNumber" class="form-control" />
+                <span asp-validation-for="EmergencyContactPhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TSANumber" class="control-label"></label>
+                <input asp-for="TSANumber" class="form-control" />
+                <span asp-validation-for="TSANumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GroundOptions" class="control-label"></label>
+                <input asp-for="GroundOptions" class="form-control" />
+                <span asp-validation-for="GroundOptions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Registered For Conference</label>
+                <div>
+                    <input type="radio" asp-for="RegisteredForConference" value="true" id="RegisteredForConferenceYes" />
+                    <label for="RegisteredForConference">Yes</label>
+                    <input type="radio" asp-for="RegisteredForConference" value="false" id="RegisteredForConferenceNo" />
+                    <label for="RegisteredForConference">No</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Registered?</label>
+                <div>
+                    <input type="radio" asp-for="Registered" value="true" id="RegisteredYes" />
+                    <label for="Registered">Yes</label>
+                    <input type="radio" asp-for="Registered" value="false" id="RegisteredNo" />
+                    <label for="Registered">No</label>
+                </div>
+            </div>
+            @* <div class="form-group"> *@
+            @*     <label asp-for="CommentContent">Add a Comment</label> *@
+            @*     <textarea asp-for="CommentContent" class="form-control" rows="3"></textarea> *@
+            @* </div> *@
+            <input type="hidden" asp-for="UserId" />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

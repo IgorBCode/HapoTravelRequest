@@ -2,10 +2,10 @@
 {
     public enum ApprovalStatus
     {
-        Incomplete,
         Pending,
         ApprovedByVP,
         ApprovedByCEO,
-        Booked
+        Booked,
+        Denied
     }
 }

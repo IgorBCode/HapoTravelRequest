@@ -4,6 +4,7 @@ using HapoTravelRequest.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HapoTravelRequest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250308235230_AddNewFieldsToModel")]
+    partial class AddNewFieldsToModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,7 +117,7 @@ namespace HapoTravelRequest.Migrations
                         {
                             Id = "10684443-90ea-4553-86a3-49d08b55dffe",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1945ee04-6747-4426-bf27-31cba23b149a",
+                            ConcurrencyStamp = "1ec032df-efe5-4587-9489-c5c7734e152f",
                             DateOfBirth = new DateOnly(2000, 1, 1),
                             Department = "N/A",
                             DepartmentDirector = "N/A",
@@ -125,10 +128,10 @@ namespace HapoTravelRequest.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFzjlIgMZPEFyaxOgbT6QVRa4k/Npx03ODxH4Gbo2S54gq/nVX6QJFNCAJcu8j6u/w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAlJIj6DR/+h+s+nfbsFK29Q06fmjX6aWw/tzQjHactjEuj+9EEkD7pBm5UAhq839g==",
                             PhoneNumberConfirmed = false,
                             PositionTitle = "Administrator",
-                            SecurityStamp = "81bdce6f-d3ca-42e2-a9bf-c49ac1596bb5",
+                            SecurityStamp = "2d90c271-2962-486a-b30d-4de5bb1c7695",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -174,65 +177,85 @@ namespace HapoTravelRequest.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AccountType")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("AirlineDetails")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("AlternativeText")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("ApprovalStatus")
-                        .HasColumnType("int");
+                    b.Property<string>("ApprovalStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ApprovedByCEO")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ApprovedByVP")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Booked")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ConferenceDescription")
+                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<DateTime?>("ConferenceEndDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("ConferenceEndDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("ConferenceHotelName")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ConferenceLink")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime?>("ConferenceStartDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("ConferenceStartDate")
+                        .HasColumnType("date");
 
                     b.Property<bool>("CorporateCard")
                         .HasColumnType("bit");
 
-                    b.Property<decimal?>("CostOfConference")
+                    b.Property<decimal>("CostOfConference")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<decimal?>("DailyMIEAmount")
+                    b.Property<decimal>("DailyMIEAmount")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.Property<int?>("DaysForMIE")
+                    b.Property<int>("DaysForMIE")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("DepartureDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("DepartureDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("DepartureReturnDates")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DepositAccount")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("EmergencyContactPhoneNumber")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("EmergencyContactname")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -240,47 +263,54 @@ namespace HapoTravelRequest.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("EmployeesAttendingNames")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<decimal?>("FlightCost")
+                    b.Property<decimal>("FlightCost")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("GroundOptions")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GroundTransportation")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Location")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<bool>("MIE")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("MileageReimbursement")
+                    b.Property<int>("MileageReimbursement")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MileageRoundTrip")
+                    b.Property<int>("MileageRoundTrip")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("NonEmployeeDOB")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("NonEmployeeDOB")
+                        .HasColumnType("date");
 
                     b.Property<bool>("NonEmployeeGuests")
                         .HasColumnType("bit");
 
                     b.Property<string>("NonEmployeeLegalName")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PreferredLodgingInfo")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("PurposeOfTravel")
+                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
@@ -290,20 +320,23 @@ namespace HapoTravelRequest.Migrations
                     b.Property<bool>("RegisteredForConference")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("ReturnDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("ReturnDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("SpecialTravelRequest")
+                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("TSANumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("TotalCost")
+                    b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<string>("TransportationMode")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -312,6 +345,7 @@ namespace HapoTravelRequest.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ValueExplination")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
