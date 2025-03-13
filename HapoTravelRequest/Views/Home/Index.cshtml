@@ -1,13 +1,12 @@
 @using HapoTravelRequest.Helpers
-@model List<HapoTravelRequest.Models.TravelRequest.TravelRequestListVM>
+@model HapoTravelRequest.Models.HomePageVM
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<!--Task: Will need to implement a foreach loop to grab database data for the homepage elements-->
 <div class="request-container">
-    <h2 class="request_header">THIS IS A TEST TABLE POPULATED WITH DB INFO</h2>
+    <h2 class="request_header">This is a test table with loged in users travel requests</h2>
     <div class="request-table">
         <table>
             <thead>
@@ -22,9 +21,10 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null && Model.Any())
+                @* display travel requests if they exist *@
+                @if (Model.UserTravelRequests != null && Model.UserTravelRequests.Any())
                 {
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.UserTravelRequests)
                     {
                         <tr>
                             <td>
@@ -49,10 +49,11 @@
                         </tr>
                     }
                 }
+                @* if no travel requests exist display message *@
                 else
                 {
                     <tr>
-                        <td>
+                        <td class="text-center">
                         <h3>No travel requests available.</h3>
                         </td>
                     </tr>
@@ -62,8 +63,66 @@
         </div>
 </div>
 
-
-
+@if (User.IsInRole("VP"))
+{
+<div class="request-container">
+<h2 class="request_header">Test need approval by VP (should only show up for vp)</h2>
+<div class="request-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Transportation</th>
+                <th>Cost</th>
+                <th>Quick Action</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @* display travel requests if they exist *@
+            @if (Model.VPApprovalList != null && Model.VPApprovalList.Any())
+            {
+                @foreach (var item in Model.VPApprovalList)
+                {
+                    <tr>
+                        <td>
+                            @item.FirstName @item.LastName
+                        </td>
+                        <td>
+                            @item.Location
+                        </td>
+                        <td>
+                            @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
+                        </td>
+                        <td>
+                            @item.TransportationMode
+                        </td>
+                        <td>
+                            $@item.CostOfConference
+                        </td>
+                        <td><button class="btn cancel">Cancel</button></td>
+                        <td>
+                            @item.ApprovalStatus.GetDisplayName()
+                        </td>
+                    </tr>
+                }
+            }
+            @* if no travel requests exist display message *@
+            else
+            {
+                <tr>
+                    <td class="text-center">
+                    <h3>No travel requests to approve.</h3>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+</div>
+}
 
 
 

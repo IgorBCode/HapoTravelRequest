@@ -4,6 +4,7 @@ using HapoTravelRequest.Data;
 using HapoTravelRequest.Models.TravelRequest;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using HapoTravelRequest.Services;
 
 namespace HapoTravelRequest.Controllers
 {
@@ -12,11 +13,17 @@ namespace HapoTravelRequest.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
 
-        public TravelRequestsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public TravelRequestsController(
+            ApplicationDbContext context, 
+            UserManager<ApplicationUser> userManager,
+            IEmailSender emailSender
+            )
         {
             _context = context;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         // GET: TravelRequests
@@ -187,18 +194,12 @@ namespace HapoTravelRequest.Controllers
             _context.TravelRequests.Add(travelRequest);
             await _context.SaveChangesAsync();
 
-            //if (!string.IsNullOrWhiteSpace(model.CommentContent))
-            //{
-            //    var comment = new Comment
-            //    {
-            //        Content = model.CommentContent,
-            //        CreatedTime = DateTime.UtcNow,
-            //        UserId = user.Id,
-            //        TravelRequestId = travelRequest.Id
-            //    };
-            //    _context.Comments.Add(comment);
-            //    await _context.SaveChangesAsync();
-            //}
+            string emailSubject = $"New travel request from {user.FirstName} {user.LastName}";
+            string msg = $"<p>{user.FirstName} {user.LastName} has submitted a new travel request.</p><hr>" +
+                $@"<p><strong>Dates:</strong> {model.ConferenceStartDate} - {model.ConferenceEndDate}" +
+                $@"<p><strong>Location:</strong> {model.Location}" +
+                $@"<p><strong>Conference Fee:</strong> ${model.CostOfConference}";
+            await _emailSender.SendEmailAsync(user.DepartmentDirector, emailSubject, msg);
 
             return RedirectToAction("Index", "Home");
 
