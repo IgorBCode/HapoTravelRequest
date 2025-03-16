@@ -6,6 +6,10 @@
 
 :root {
     --bs-body-color: #141414;
+    --hapo-yellow: #FFDC32;
+    --hapo-grey: #9D9FA2;
+    --hapo-green: #6CC72B;
+    --hapo-black: #000000;
 }
 
 html {
@@ -129,6 +133,57 @@ th {
     background-color: #9D9FA2;
     color: #FFFFFF;
     cursor: not-allowed;
+}
+
+/*Sort and dropdown menu*/
+.sort {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    font-family: 'Museo Sans', var(--bs-font-sans-serif);
+    background-color: var(--hapo-grey);
+    color: var(--hapo-black);
+    border: none;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    position: relative;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 10rem;
+    box-shadow: 0rem 0.5rem 1rem 0rem rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content li {
+    color: var(--hapo-black);
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    display: block;
+}
+
+/*change color of option on hover*/
+.dropdown-content li:hover {
+    background-color: var(--hapo-yellow);
+}
+
+/*Show dropdown menu on hover*/
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/*Change color of sort button on hover*/
+.dropdown:hover .sort {
+    background-color: var(--hapo-yellow);
 }
 
 .action-btn {
