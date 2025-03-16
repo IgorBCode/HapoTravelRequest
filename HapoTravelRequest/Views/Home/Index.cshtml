@@ -5,8 +5,19 @@
     ViewData["Title"] = "Home Page";
 }
 
+<!--User Requests Section (Default)-->
 <div class="request-container">
-    <h2 class="request_header">This is a test table with loged in users travel requests</h2>
+    <h2 class="request_header">This is a test table with logged in users travel requests</h2>
+    <!--Sort button implementation-->
+    <div class="dropdown">
+        <button class="btn sort">Sort By</button>
+        <div class="dropdown-content">
+            <ul id="sortoptions-user">
+                <li onclick="sortRequests('newest', 'request-body-user')">Newest</li>
+                <li onclick="sortRequests('oldest', 'request-body-user')">Oldest</li>
+            </ul>
+        </div>
+    </div>  
     <div class="request-table">
         <table>
             <thead>
@@ -20,7 +31,7 @@
                     <th>Status</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="request-body-user">
                 @* display travel requests if they exist *@
                 @if (Model.UserTravelRequests != null && Model.UserTravelRequests.Any())
                 {
@@ -44,7 +55,18 @@
                             </td>
                             <td><button class="btn cancel">Cancel</button></td>
                             <td>
-                                @item.ApprovalStatus.GetDisplayName()
+                                @if(item.ApprovalStatus.GetDisplayName() == "Pending")
+                                {
+                                    <span class="status pending">@item.ApprovalStatus.GetDisplayName()</span>
+                                }
+                                else if(item.ApprovalStatus.GetDisplayName() == "Booked")
+                                {
+                                    <span class="status booked">@item.ApprovalStatus.GetDisplayName()</span>
+                                }
+                                else
+                                {
+                                    <span class="status denied">@item.ApprovalStatus.GetDisplayName()</span>
+                                }
                             </td>
                         </tr>
                     }
@@ -61,12 +83,28 @@
             </tbody>
         </table>
         </div>
+    <div class="btn container">
+        <!--Replace Privacy with create travel request location-->
+        <button class="create-request" onclick="window.location.href='TravelRequests/Create';">
+            <i class="bi bi-calendar-week me-2"></i> Create Travel Request
+        </button>
+    </div>
 </div>
 
+<!--CEO/VP Section-->
 @if (User.IsInRole("VP"))
 {
 <div class="request-container">
 <h2 class="request_header">Test need approval by VP (should only show up for vp)</h2>
+        <div class="dropdown">
+            <button class="btn sort">Sort By</button>
+            <div class="dropdown-content">
+                <ul id="sortoptions-vp">
+                    <li onclick="sortRequests('newest', 'request-body-vp')">Newest</li>
+                    <li onclick="sortRequests('oldest', 'request-body-vp')">Oldest</li>
+                </ul>
+            </div>
+        </div>
 <div class="request-table">
     <table>
         <thead>
@@ -80,7 +118,7 @@
                 <th>Status</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="request-body-vp">
             @* display travel requests if they exist *@
             @if (Model.VPApprovalList != null && Model.VPApprovalList.Any())
             {
@@ -121,58 +159,34 @@
         </tbody>
     </table>
     </div>
+        <div class="btn container">
+            <!--Replace Privacy with create travel request location-->
+            <button class="create-request" onclick="window.location.href='Home/Create';">
+                <i class="bi bi-calendar-week me-2"></i> Create Travel Request
+            </button>
+        </div>
 </div>
 }
 
 
-
-    <div class="request-container">
-        <h2 class="request_header">My Requests</h2>
-        <div class="request-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Location</th>
-                        <th>Date</th>
-                        <th>Quick Action</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>New York, NY</td>
-                        <td>May 10, 2025 - May 15, 2025</td>
-                        <td><button class="btn cancel">Cancel</button></td>
-                        <td><span class="status booked">Booked</span></td>
-                    </tr>
-                    <tr>
-                        <td>Los Angeles, CA</td>
-                        <td>June 1, 2025 - June 7, 2025</td>
-                        <td><button class="btn disabled">Cancel</button></td>
-                        <td><span class="status denied">Denied</span></td>
-                    </tr>
-                    <tr>
-                        <td>Chicago, IL</td>
-                        <td>July 12, 2025 - July 18, 2025</td>
-                        <td><button class="btn cancel">Cancel</button></td>
-                        <td><span class="status pending">Pending</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div class="btn container">
-        <!--Replace Privacy with create travel request location-->
-        <button class="create-request" onclick="window.location.href='Home/Privacy';">
-            <i class="bi bi-calendar-week me-2"></i> Create Travel Request
-        </button>
-    </div>
-
-    <!--CEO/VP Section-->
+@if (User.IsInRole("CEO"))
+{
     <div class="ceo-container">
         <h2 class="request_header">Waiting Approvals</h2>
+        <div class="dropdown">
+            <button class="btn sort">Sort By</button>
+            <div class="dropdown-content">
+                <ul id="sortoptions-ceo">
+                    <li onclick="sortRequests('newest', 'request-body-ceo')">Newest</li>
+                    <li onclick="sortRequests('oldest', 'request-body-ceo')">Oldest</li>
+                </ul>
+            </div>
+        </div>
         <div class="request-table">
             <table>
                 <thead>
                     <tr>
+                        <th>Employee Name</th>
                         <th>Location</th>
                         <th>Date</th>
                         <th>Quick Action</th>
@@ -180,47 +194,79 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>New York, NY</td>
-                        <td>May 10, 2025 - May 15, 2025</td>
-                        <td>
-                            <div class="action-btn">
-                        <button class="btn btn-success"><i class="bi bi-check-square"></i></button>
-                        <button class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
-                            </div>
-                        </td>
-                        <td><span class="status pending">Pending</span></td>
-                    </tr>
-                    <tr>
-                        <td>Los Angeles, CA</td>
-                        <td>June 1, 2025 - June 7, 2025</td>
-                        <td>
-                            <div class="action-btn">
-                        <button class="btn btn-success"><i class="bi bi-check-square"></i></button>
-                        <button class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
-                            </div>
-                        </td>
-                        <td><span class="status pending">Pending</span></td>
-                    </tr>
-                    <tr>
-                        <td>Chicago, IL</td>
-                        <td>July 12, 2025 - July 18, 2025</td>
-                        <td>
-                            <div class="action-btn">
-                        <button class="btn btn-success"><i class="bi bi-check-square"></i></button>
-                        <button class="btn btn-danger"><i class="bi bi-x-lg"></i></button>
-                            </div>
-                        </td>
-                        <td><span class="status pending">Pending</span></td>
-                    </tr>
+                <tbody id="request-body-ceo">
+                        @* display travel requests if they exist *@
+                        @if (Model.CEOApprovalList != null && Model.CEOApprovalList.Any())
+                        {
+                            @foreach (var item in Model.CEOApprovalList)
+                            {
+                            <tr>
+                                <td>
+                                        @item.FirstName @item.LastName
+                                </td>
+                                <td>
+                                        @item.Location
+                                </td>
+                                <td>
+                                        @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
+                                </td>
+                                <td>
+                                    <div class="action-btn">
+                                        <button class="btn btn-success">
+                                            <i class="bi bi-check-square"></i>
+                                        </button>
+                                        <button class="btn btn-danger">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                        @if (item.ApprovalStatus.GetDisplayName() == "Pending")
+                                        {
+                                        <span class="status pending">@item.ApprovalStatus.GetDisplayName()</span>
+                                        }
+                                        else if (item.ApprovalStatus.GetDisplayName() == "Booked")
+                                        {
+                                        <span class="status booked">@item.ApprovalStatus.GetDisplayName()</span>
+                                        }
+                                        else
+                                        {
+                                        <span class="status denied">@item.ApprovalStatus.GetDisplayName()</span>
+                                        }
+                                </td>
+                            </tr>
+                            }
+                        }
+                        @* if no travel requests exist display message *@
+                        else
+                        {
+                        <tr>
+                            <td class="text-center">
+                                <h3>No travel requests available.</h3>
+                            </td>
+                        </tr>
+                        }
                 </tbody>
             </table>
         </div>
-     </div>
+    </div>
+}
+    
 
-     <!--Processor Section-->
-     <div class="processor-container">
+<!--Processor Section-->
+@if (User.IsInRole("Processor"))
+{
+    <div class="processor-container">
         <h2 class="request_header">Booking Required</h2>
+        <div class="dropdown">
+            <button class="btn sort">Sort By</button>
+            <div class="dropdown-content">
+                <ul id="sortoptions-processor">
+                    <li onclick="sortRequests('newest', 'request-body-processor')">Newest</li>
+                    <li onclick="sortRequests('oldest', 'request-body-processor')">Oldest</li>
+                </ul>
+            </div>
+        </div>
         <div class="request-table">
             <table>
                 <thead>
@@ -232,29 +278,371 @@
                         <th>Cost</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Jane Cooper</td>
-                        <td>New York, NY</td>
-                        <td>May 10, 2025 - May 15, 2025</td>
-                        <td>Greyhound Bus</td>
-                        <td>$50</td>
-                    </tr>
-                    <tr>
-                        <td>Floyd Miles</td>
-                        <td>Los Angeles, CA</td>
-                        <td>June 1, 2025 - June 7, 2025</td>
-                        <td>Plane</td>
-                        <td>$750</td>
-                    </tr>
-                    <tr>
-                        <td>Ronald Richards</td>
-                        <td>Chicago, IL</td>
-                        <td>July 12, 2025 - July 18, 2025</td>
-                        <td>Car</td>
-                        <td>$3.50</td>
-                    </tr>
+                <tbody id="request-body-processor">
+                    @if (Model.BookerList != null && Model.BookerList.Any())
+                    {
+                        @foreach (var item in Model.BookerList)
+                        {
+                            <tr>
+                                <td>
+                                    @item.FirstName @item.LastName
+                                </td>
+                                <td>
+                                    @item.Location
+                                </td>
+                                <td>
+                                    @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
+                                </td>
+                                <td>
+                                    @item.TransportationMode
+                                </td>
+                                <td>
+                                    @item.CostOfConference
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @* if no travel requests exist display message *@
+                    else
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <h3>No travel requests available.</h3>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
+}
+     
+
+@if (User.IsInRole("Administrator"))
+{
+    <!--USER SECTION-->
+    <div class="request-container">
+        <h2 class="request_header">This is a test table with logged in users travel requests</h2>
+        <!--Sort button implementation-->
+        <div class="dropdown">
+            <button class="btn sort">Sort By</button>
+            <div class="dropdown-content">
+                <ul id="sortoptions-user">
+                    <li onclick="sortRequests('newest', 'request-body-user')">Newest</li>
+                    <li onclick="sortRequests('oldest', 'request-body-user')">Oldest</li>
+                </ul>
+            </div>
+        </div>
+        <div class="request-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Transportation</th>
+                        <th>Cost</th>
+                        <th>Quick Action</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="request-body-user">
+                    @* display travel requests if they exist *@
+                    @if (Model.UserTravelRequests != null && Model.UserTravelRequests.Any())
+                    {
+                        @foreach (var item in Model.UserTravelRequests)
+                        {
+                            <tr>
+                                <td>
+                                    @item.FirstName @item.LastName
+                                </td>
+                                <td>
+                                    @item.Location
+                                </td>
+                                <td>
+                                    @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
+                                </td>
+                                <td>
+                                    @item.TransportationMode
+                                </td>
+                                <td>
+                                    $@item.CostOfConference
+                                </td>
+                                <td><button class="btn cancel">Cancel</button></td>
+                                <td>
+                                    @if (item.ApprovalStatus.GetDisplayName() == "Pending")
+                                    {
+                                        <span class="status pending">@item.ApprovalStatus.GetDisplayName()</span>
+                                    }
+                                    else if (item.ApprovalStatus.GetDisplayName() == "Booked")
+                                    {
+                                        <span class="status booked">@item.ApprovalStatus.GetDisplayName()</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status denied">@item.ApprovalStatus.GetDisplayName()</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @* if no travel requests exist display message *@
+                    else
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <h3>No travel requests available.</h3>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="btn container">
+            <!--Replace Privacy with create travel request location-->
+            <button class="create-request" onclick="window.location.href='TravelRequests/Create';">
+                <i class="bi bi-calendar-week me-2"></i> Create Travel Request
+            </button>
+        </div>
+    </div>
+
+    <!--VP SECTION-->
+    <div class="request-container">
+        <h2 class="request_header">Test need approval by VP (should only show up for vp)</h2>
+        <div class="dropdown">
+            <button class="btn sort">Sort By</button>
+            <div class="dropdown-content">
+                <ul id="sortoptions-vp">
+                    <li onclick="sortRequests('newest', 'request-body-vp')">Newest</li>
+                    <li onclick="sortRequests('oldest', 'request-body-vp')">Oldest</li>
+                </ul>
+            </div>
+        </div>
+        <div class="request-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Transportation</th>
+                        <th>Cost</th>
+                        <th>Quick Action</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="request-body-vp">
+                    @* display travel requests if they exist *@
+                    @if (Model.VPApprovalList != null && Model.VPApprovalList.Any())
+                    {
+                        @foreach (var item in Model.VPApprovalList)
+                        {
+                            <tr>
+                                <td>
+                                    @item.FirstName @item.LastName
+                                </td>
+                                <td>
+                                    @item.Location
+                                </td>
+                                <td>
+                                    @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
+                                </td>
+                                <td>
+                                    @item.TransportationMode
+                                </td>
+                                <td>
+                                    $@item.CostOfConference
+                                </td>
+                                <td><button class="btn cancel">Cancel</button></td>
+                                <td>
+                                    @item.ApprovalStatus.GetDisplayName()
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @* if no travel requests exist display message *@
+                    else
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <h3>No travel requests to approve.</h3>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="btn container">
+            <!--Replace Privacy with create travel request location-->
+            <button class="create-request" onclick="window.location.href='Home/Create';">
+                <i class="bi bi-calendar-week me-2"></i> Create Travel Request
+            </button>
+        </div>
+    </div>
+
+    <!--CEO SECTION-->
+    <div class="ceo-container">
+        <h2 class="request_header">Waiting Approvals</h2>
+        <div class="dropdown">
+            <button class="btn sort">Sort By</button>
+            <div class="dropdown-content">
+                <ul id="sortoptions-ceo">
+                    <li onclick="sortRequests('newest', 'request-body-ceo')">Newest</li>
+                    <li onclick="sortRequests('oldest', 'request-body-ceo')">Oldest</li>
+                </ul>
+            </div>
+        </div>
+        <div class="request-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Quick Action</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tbody id="request-body-ceo">
+                        @* display travel requests if they exist *@
+                        @if (Model.CEOApprovalList != null && Model.CEOApprovalList.Any())
+                        {
+                            @foreach (var item in Model.CEOApprovalList)
+                            {
+                            <tr>
+                                <td>
+                                        @item.FirstName @item.LastName
+                                </td>
+                                <td>
+                                        @item.Location
+                                </td>
+                                <td>
+                                        @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
+                                </td>
+                                <td>
+                                    <div class="action-btn">
+                                        <button class="btn btn-success">
+                                            <i class="bi bi-check-square"></i>
+                                        </button>
+                                        <button class="btn btn-danger">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                        @if (item.ApprovalStatus.GetDisplayName() == "Pending")
+                                        {
+                                        <span class="status pending">@item.ApprovalStatus.GetDisplayName()</span>
+                                        }
+                                        else if (item.ApprovalStatus.GetDisplayName() == "Booked")
+                                        {
+                                        <span class="status booked">@item.ApprovalStatus.GetDisplayName()</span>
+                                        }
+                                        else
+                                        {
+                                        <span class="status denied">@item.ApprovalStatus.GetDisplayName()</span>
+                                        }
+                                </td>
+                            </tr>
+                            }
+                        }
+                        @* if no travel requests exist display message *@
+                        else
+                        {
+                        <tr>
+                            <td class="text-center">
+                                <h3>No travel requests available.</h3>
+                            </td>
+                        </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--PROCESSOR SECTION-->
+    <div class="processor-container">
+        <h2 class="request_header">Booking Required</h2>
+        <div class="dropdown">
+            <button class="btn sort">Sort By</button>
+            <div class="dropdown-content">
+                <ul id="sortoptions-processor">
+                    <li onclick="sortRequests('newest', 'request-body-processor')">Newest</li>
+                    <li onclick="sortRequests('oldest', 'request-body-processor')">Oldest</li>
+                </ul>
+            </div>
+        </div>
+        <div class="request-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Transportation</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody id="request-body-processor">
+                    @if (Model.BookerList != null && Model.BookerList.Any())
+                    {
+                        @foreach (var item in Model.BookerList)
+                        {
+                            <tr>
+                                <td>
+                                    @item.FirstName @item.LastName
+                                </td>
+                                <td>
+                                    @item.Location
+                                </td>
+                                <td>
+                                    @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
+                                </td>
+                                <td>
+                                    @item.TransportationMode
+                                </td>
+                                <td>
+                                    @item.CostOfConference
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @* if no travel requests exist display message *@
+                    else
+                    {
+                        <tr>
+                            <td class="text-center">
+                                <h3>No travel requests available.</h3>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+<script>
+    function sortRequests(criteria, tableID) {
+        const requestBody = document.getElementById(tableID);
+        let rows = Array.from(requestBody.getElementsByTagName('tr'));
+
+        rows.sort((a,b) => {
+            let dateA = new Date(a.cells[2].innerText.split(' - ')[0]);
+            let dateB = new Date(b.cells[2].innerText.split(' - ')[0]);
+            switch (criteria) {
+                case 'newest':
+                    return dateB - dateA;
+                case 'oldest':
+                    return dateA - dateB;
+            }
+        });
+
+        //clear existing rows
+        requestBody.innerHTML = '';
+
+        //append sorted rows
+        rows.forEach(row => requestBody.appendChild(row));
+    }
+</script>
