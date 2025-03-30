@@ -4,6 +4,7 @@ using HapoTravelRequest.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HapoTravelRequest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250330190030_AddRegistrationDeadline")]
+    partial class AddRegistrationDeadline
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,7 +117,7 @@ namespace HapoTravelRequest.Migrations
                         {
                             Id = "10684443-90ea-4553-86a3-49d08b55dffe",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5893dbbf-6668-4b1d-a10b-2f8a0033933c",
+                            ConcurrencyStamp = "59f83417-3856-4bab-9da2-fddd7ebfe376",
                             DateOfBirth = new DateOnly(2000, 1, 1),
                             Department = "N/A",
                             DepartmentDirector = "N/A",
@@ -125,10 +128,10 @@ namespace HapoTravelRequest.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEL89YuTrg56v3KYTG+zrAD0LiH2zO0oYMmfJHjUxBIY5Ni72EpXMrU8BakpgB1WF5A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBjdQ8Nk+dbCg8nkMiB2uV4xRmyPbp3sygD4sFBOFeGxI4sDgvdvos+onPHQDkMIjw==",
                             PhoneNumberConfirmed = false,
                             PositionTitle = "Administrator",
-                            SecurityStamp = "76154e16-4831-4636-9297-b659e234331b",
+                            SecurityStamp = "ffe4cf36-6735-4f95-93a9-5b66a580730f",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -260,8 +263,8 @@ namespace HapoTravelRequest.Migrations
                     b.Property<bool>("MIE")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("MileageReimbursement")
-                        .HasColumnType("bit");
+                    b.Property<int?>("MileageReimbursement")
+                        .HasColumnType("int");
 
                     b.Property<int?>("MileageRoundTrip")
                         .HasColumnType("int");
