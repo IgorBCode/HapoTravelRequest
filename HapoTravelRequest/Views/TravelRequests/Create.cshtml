@@ -4,268 +4,363 @@
     ViewData["Title"] = "Create Travel Request";
 }
 
-<h1>Create</h1>
-
-<h4>TravelRequest</h4>
+<h4>Request Travel</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <div class="col-md">
+        <form asp-action="Create" id="formstyle">
             @Html.AntiForgeryToken()
 
+            <ul id="progressbar">
+                <li class="active">User Info</li>
+                <li>Conference info</li>
+                <li>Attendees</li>
+                <li>Accommodations</li>
+                <li>Transportation</li>
+                <li>Reimbursements</li>
+                <li>Misc. Info</li>
+            </ul>
             @* User Info Section *@
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Department" class="control-label"></label>
-                <input asp-for="Department" class="form-control" />
-                <span asp-validation-for="Department" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PositionTitle" class="control-label"></label>
-                <input asp-for="PositionTitle" class="form-control" />
-                <span asp-validation-for="PositionTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartmentDirector" class="control-label"></label>
-                <input asp-for="DepartmentDirector" class="form-control" />
-                <span asp-validation-for="DepartmentDirector" class="text-danger"></span>
-            </div>
+            <fieldset>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-row row">
+                    <div class="form-group col-md-3 mt-3">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3 mt-3">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3 mt-3">
+                        <label asp-for="DateOfBirth" class="control-label"></label>
+                        <input asp-for="DateOfBirth" class="form-control" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3 mt-3">
+                        <label asp-for="PhoneNumber" class="control-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-5 mt-3">
+                        <label asp-for="Department" class="control-label"></label>
+                        <input asp-for="Department" class="form-control" />
+                        <span asp-validation-for="Department" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-5 mt-3">
+                        <label asp-for="PositionTitle" class="control-label"></label>
+                        <input asp-for="PositionTitle" class="form-control" />
+                        <span asp-validation-for="PositionTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-5 mt-3">
+                        <label asp-for="DepartmentDirector" class="control-label"></label>
+                        <input asp-for="DepartmentDirector" class="form-control" />
+                        <span asp-validation-for="DepartmentDirector" class="text-danger"></span>
+                    </div>
 
-            @* Travel Request Section *@
-            <div class="form-group">
-                <label asp-for="PurposeOfTravel" class="control-label"></label>
-                <input asp-for="PurposeOfTravel" class="form-control" />
-                <span asp-validation-for="PurposeOfTravel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Are there Non-Employee Guests?</label>
-                <div>
-                    <input type="radio" asp-for="NonEmployeeGuests" value="true" id="NonEmployeeGuestsYes" />
-                    <label for="NonEmployeeGuestsYes">Yes</label>
+                </div>
+                <div class="form-group col-md-5 mt-3">
+                    <label asp-for="PurposeOfTravel" class="control-label"></label>
+                    <textarea asp-for="PurposeOfTravel" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="PurposeOfTravel" class="text-danger"></span>
+                </div>
+                <input type="button" name="next" class="next action-button mt-4" value="Next" />
+            </fieldset>
+            @* Conference info Section *@
+            <fieldset>
+                <div class="form-row row">
+                    <div class="form-group col-md-6 mt-3">
+                        <label asp-for="ConferenceLink" class="control-label"></label>
+                        <input asp-for="ConferenceLink" class="form-control" />
+                        <span asp-validation-for="ConferenceLink" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6 mt-3">
+                        <label asp-for="AlternativeText" class="control-label"></label>
+                        <input asp-for="AlternativeText" class="form-control" />
+                        <span asp-validation-for="AlternativeText" class="text-danger"></span>
+                    </div>
+                    <div class="form-row col-md-6 row">
+                        <div class="form-group mt-4">
+                            <label asp-for="ConferenceDescription" class="control-label"></label>
+                            <textarea asp-for="ConferenceDescription" class="form-control"></textarea>
+                            <span asp-validation-for="ConferenceDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3 mt-3">
+                    <label asp-for="RegistrationDeadline" class="control-label"></label>
+                    <input asp-for="RegistrationDeadline" class="form-control" />
+                    <span asp-validation-for="RegistrationDeadline" class="text-danger"></span>
+                </div>
+                <div class="form-row row">
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="ConferenceStartDate" class="control-label"></label>
+                        <input asp-for="ConferenceStartDate" class="form-control" placeholder="mm/dd/yyyy" />
+                        <span asp-validation-for="ConferenceStartDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="ConferenceEndDate" class="control-label"></label>
+                        <input asp-for="ConferenceEndDate" class="form-control" placeholder="mm/dd/yyyy" />
+                        <span asp-validation-for="ConferenceEndDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row row">
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="DepartureDate" class="control-label"></label>
+                        <input asp-for="DepartureDate" class="form-control" placeholder="mm/dd/yyyy" />
+                        <small class="form-text text-muted">The approximate date and time you plan to leave for your trip</small>
+                        <span asp-validation-for="DepartureDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="ReturnDate" class="control-label"></label>
+                        <input asp-for="ReturnDate" class="form-control" placeholder="mm/dd/yyyy" />
+                        <span asp-validation-for="ReturnDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row row">
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="Location" class="control-label"></label>
+                        <input asp-for="Location" class="form-control" />
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="CostOfConference" class="control-label"></label>
+                        <input asp-for="CostOfConference" class="form-control" />
+                        <span asp-validation-for="CostOfConference" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6 mt-3">
+                        <label asp-for="ValueExplination" class="control-label"></label>
+                        <textarea asp-for="ValueExplination" class="form-control"></textarea>
+                        <span asp-validation-for="ValueExplination" class="text-danger"></span>
+                    </div>
+                </div>
+                    <input type="button" name="previous" class="previous action-button-previous mt-3" value="Previous" />
+                <input type="button" name="next" class="next action-button mt-3" value="Next" />
 
-                    <input type="radio" asp-for="NonEmployeeGuests" value="false" id="NonEmployeeGuestsNo" />
-                    <label for="NonEmployeeGuestsNo">No</label>
+            </fieldset>
+            @* attendees info Section *@
+            <fieldset>
+                <div class="form-group mt-3">
+                    <label>Are there Non-Employee Guests?</label>
+                    <div>
+                        <input type="radio" asp-for="NonEmployeeGuests" value="true" id="NonEmployeeGuestsYes" />
+                        <label for="NonEmployeeGuestsYes">Yes</label>
+
+                        <input type="radio" asp-for="NonEmployeeGuests" value="false" id="NonEmployeeGuestsNo" />
+                        <label for="NonEmployeeGuestsNo">No</label>
+                    </div>
+                    <small class="form-text text-muted">If Yes: Expense of non-employees(s) travel is paid by employee.</small>
                 </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="NonEmployeeLegalName" class="control-label"></label>
-                <input asp-for="NonEmployeeLegalName" class="form-control" />
-                <span asp-validation-for="NonEmployeeLegalName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NonEmployeeDOB" class="control-label"></label>
-                <input asp-for="NonEmployeeDOB" class="form-control" />
-                <span asp-validation-for="NonEmployeeDOB" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConferenceDescription" class="control-label"></label>
-                <input asp-for="ConferenceDescription" class="form-control" />
-                <span asp-validation-for="ConferenceDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConferenceLink" class="control-label"></label>
-                <input asp-for="ConferenceLink" class="form-control" />
-                <span asp-validation-for="ConferenceLink" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AlternativeText" class="control-label"></label>
-                <input asp-for="AlternativeText" class="form-control" />
-                <span asp-validation-for="AlternativeText" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
-                <span asp-validation-for="Location" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CostOfConference" class="control-label"></label>
-                <input asp-for="CostOfConference" class="form-control" />
-                <span asp-validation-for="CostOfConference" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConferenceStartDate" class="control-label"></label>
-                <input asp-for="ConferenceStartDate" class="form-control" />
-                <span asp-validation-for="ConferenceStartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConferenceEndDate" class="control-label"></label>
-                <input asp-for="ConferenceEndDate" class="form-control" />
-                <span asp-validation-for="ConferenceEndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepartureDate" class="control-label"></label>
-                <input asp-for="DepartureDate" class="form-control" />
-                <span asp-validation-for="DepartureDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ReturnDate" class="control-label"></label>
-                <input asp-for="ReturnDate" class="form-control" />
-                <span asp-validation-for="ReturnDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeesAttending" class="control-label"></label>
-                <input asp-for="EmployeesAttending" class="form-control" />
-                <span asp-validation-for="EmployeesAttending" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmployeesAttendingNames" class="control-label"></label>
-                <input asp-for="EmployeesAttendingNames" class="form-control" />
-                <span asp-validation-for="EmployeesAttendingNames" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConferenceHotelName" class="control-label"></label>
-                <input asp-for="ConferenceHotelName" class="form-control" />
-                <span asp-validation-for="ConferenceHotelName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PreferredLodgingInfo" class="control-label"></label>
-                <input asp-for="PreferredLodgingInfo" class="form-control" />
-                <span asp-validation-for="PreferredLodgingInfo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SpecialTravelRequest" class="control-label"></label>
-                <input asp-for="SpecialTravelRequest" class="form-control" />
-                <span asp-validation-for="SpecialTravelRequest" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TransportationMode" class="control-label"></label>
-                <input asp-for="TransportationMode" class="form-control" />
-                <span asp-validation-for="TransportationMode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AirlineDetails" class="control-label"></label>
-                <input asp-for="AirlineDetails" class="form-control" />
-                <span asp-validation-for="AirlineDetails" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FlightCost" class="control-label"></label>
-                <input asp-for="FlightCost" class="form-control" />
-                <span asp-validation-for="FlightCost" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GroundTransportation" class="control-label"></label>
-                <input asp-for="GroundTransportation" class="form-control" />
-                <span asp-validation-for="GroundTransportation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MileageReimbursement" class="control-label"></label>
-                <input asp-for="MileageReimbursement" class="form-control" />
-                <span asp-validation-for="MileageReimbursement" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MileageRoundTrip" class="control-label"></label>
-                <input asp-for="MileageRoundTrip" class="form-control" />
-                <span asp-validation-for="MileageRoundTrip" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Meals & Incidentals (M&IE)</label>
-                <div>
-                    <input type="radio" asp-for="MIE" value="true" id="MIEYes" />
-                    <label for="MIE">Yes</label>
-                    <input type="radio" asp-for="MIE" value="false" id="MIENo" />
-                    <label for="MIE">No</label>
+                <div class="form-row row">
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="NonEmployeeLegalName" class="control-label"></label>
+                        <input asp-for="NonEmployeeLegalName" class="form-control" />
+                        <small class="form-text text-muted">As shown on ID for travel purposes.</small>
+                        <span asp-validation-for="NonEmployeeLegalName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3 mt-3">
+                        <label asp-for="NonEmployeeDOB" class="control-label"></label>
+                        <input asp-for="NonEmployeeDOB" class="form-control" />
+                        <small class="form-text text-muted">Air travel only.</small>
+                        <span asp-validation-for="NonEmployeeDOB" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="DailyMIEAmount" class="control-label"></label>
-                <input asp-for="DailyMIEAmount" class="form-control" />
-                <span asp-validation-for="DailyMIEAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DaysForMIE" class="control-label"></label>
-                <input asp-for="DaysForMIE" class="form-control" />
-                <span asp-validation-for="DaysForMIE" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DepositAccount" class="control-label"></label>
-                <input asp-for="DepositAccount" class="form-control" />
-                <span asp-validation-for="DepositAccount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AccountType" class="control-label"></label>
-                <input asp-for="AccountType" class="form-control" />
-                <span asp-validation-for="AccountType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Corporate Card?</label>
-                <div>
-                    <input type="radio" asp-for="CorporateCard" value="true" id="CorporateCardYes" />
-                    <label for="CorporateCard">Yes</label>
-                    <input type="radio" asp-for="CorporateCard" value="false" id="CorporateCardNo" />
-                    <label for="CorporateCard">No</label>
+                <div class="form-row row">
+                    <div class="form-group col-md-3 mt-3">
+                        <label asp-for="EmployeesAttending" class="control-label"></label>
+                        <input asp-for="EmployeesAttending" class="form-control" />
+                        <small class="form-text text-muted">Including yourself.</small>
+                        <span asp-validation-for="EmployeesAttending" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="ValueExplination" class="control-label"></label>
-                <input asp-for="ValueExplination" class="form-control" />
-                <span asp-validation-for="ValueExplination" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmergencyContactname" class="control-label"></label>
-                <input asp-for="EmergencyContactname" class="form-control" />
-                <span asp-validation-for="EmergencyContactname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmergencyContactPhoneNumber" class="control-label"></label>
-                <input asp-for="EmergencyContactPhoneNumber" class="form-control" />
-                <span asp-validation-for="EmergencyContactPhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TSANumber" class="control-label"></label>
-                <input asp-for="TSANumber" class="form-control" />
-                <span asp-validation-for="TSANumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GroundOptions" class="control-label"></label>
-                <input asp-for="GroundOptions" class="form-control" />
-                <span asp-validation-for="GroundOptions" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Registered For Conference</label>
-                <div>
-                    <input type="radio" asp-for="RegisteredForConference" value="true" id="RegisteredForConferenceYes" />
-                    <label for="RegisteredForConference">Yes</label>
-                    <input type="radio" asp-for="RegisteredForConference" value="false" id="RegisteredForConferenceNo" />
-                    <label for="RegisteredForConference">No</label>
+                <div class="form-row row">
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="EmployeesAttendingNames" class="control-label"></label>
+                        <textarea asp-for="EmployeesAttendingNames" class="form-control"></textarea>
+                        <small class="form-text text-muted">Not including yourself. - Each employee must fill out individual request to travel.</small>
+                        <span asp-validation-for="EmployeesAttendingNames" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>Registered?</label>
-                <div>
-                    <input type="radio" asp-for="Registered" value="true" id="RegisteredYes" />
-                    <label for="Registered">Yes</label>
-                    <input type="radio" asp-for="Registered" value="false" id="RegisteredNo" />
-                    <label for="Registered">No</label>
+                <input type="button" name="previous" class="previous action-button-previous mt-3" value="Previous" />
+                <input type="button" name="next" class="next action-button mt-3" value="Next" />
+            </fieldset>
+            @* Accommodations info Section *@
+            <fieldset>
+                <div class="form-row row"> 
+                    <div class="form-group col-md-6 mt-3">
+                        <label asp-for="ConferenceHotelName" class="control-label"></label>
+                        <input asp-for="ConferenceHotelName" class="form-control" />
+                        <small class="form-text text-muted">Preferred hotel for conference.</small>
+                        <span asp-validation-for="ConferenceHotelName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6 mt-3">
+                        <label asp-for="PreferredLodgingInfo" class="control-label"></label>
+                        <textarea asp-for="PreferredLodgingInfo" class="form-control"></textarea>
+                        <small class="form-text text-muted">If conference hotel is N/A or unavailable please list preferred place to stay.</small>
+                        <span asp-validation-for="PreferredLodgingInfo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6 mt-3">
+                        <label asp-for="SpecialTravelRequest" class="control-label"></label>
+                        <textarea asp-for="SpecialTravelRequest" class="form-control"></textarea>
+                        <span asp-validation-for="SpecialTravelRequest" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            @* <div class="form-group"> *@
-            @*     <label asp-for="CommentContent">Add a Comment</label> *@
-            @*     <textarea asp-for="CommentContent" class="form-control" rows="3"></textarea> *@
-            @* </div> *@
-            <input type="hidden" asp-for="UserId" />
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+                <input type="button" name="previous" class="previous action-button-previous mt-3" value="Previous" />
+                <input type="button" name="next" class="next action-button mt-3" value="Next" />
+            </fieldset>
+            @* transportation info Section *@
+            <fieldset>
+                <div class="form-row row">
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="TransportationMode" class="control-label"></label>
+                        <input asp-for="TransportationMode" class="form-control" />
+                        <span asp-validation-for="TransportationMode" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row row">
+                    <div class="form-group col-md-6 mt-3">
+                        <label asp-for="AirlineDetails" class="control-label"></label>
+                        <textarea asp-for="AirlineDetails" class="form-control"></textarea>
+                        <small class="form-text text-muted">Preferred Flights (carrier, flight # and preferred times).</small>
+                        <span asp-validation-for="AirlineDetails" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row row">
+                    <div class="form-row row">
+                        <div class="form-group col-md-3 mt-3">
+                            <label asp-for="FlightCost" class="control-label"></label>
+                            <input asp-for="FlightCost" class="form-control" />
+                            <span asp-validation-for="FlightCost" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3 mt-3">
+                            <label asp-for="TSANumber" class="control-label"></label>
+                            <input asp-for="TSANumber" class="form-control" />
+                            <small class="form-text text-muted">If applicable please enter TSA number for Pre Check.</small>
+                            <span asp-validation-for="TSANumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3 mt-3">
+                            <label asp-for="GroundTransportation" class="control-label"></label>
+                            <input asp-for="GroundTransportation" class="form-control" />
+                            <small class="form-text text-muted">Other than Taxi/Uber</small>
+                            <span asp-validation-for="GroundTransportation" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                <input type="button" name="next" class="next action-button" value="Next" />
+            </fieldset>
+            @* reimbursement info Section *@
+            <fieldset>
+                <div class="form-group mt-3">
+                    <label>Mileage Reimbursement?</label>
+                    <div>
+                        <input type="radio" asp-for="MileageReimbursement" value="true" id="MileageReimbursementYes" />
+                        <label for="Registered">Yes</label>
+                        <input type="radio" asp-for="MileageReimbursement" value="false" id="MileageReimbursementNo" />
+                        <label for="MileageReimbursement">No</label>
+                    </div>
+                </div>
+                <div class="form-row row">
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="MileageRoundTrip" class="control-label"></label>
+                        <input asp-for="MileageRoundTrip" class="form-control" />
+                        <span asp-validation-for="MileageRoundTrip" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label>Meals & Incidentals (M&IE)</label>
+                    <div>
+                        <input type="radio" asp-for="MIE" value="true" id="MIEYes" />
+                        <label for="MIE">Yes</label>
+                        <input type="radio" asp-for="MIE" value="false" id="MIENo" />
+                        <label for="MIE">No</label>
+                    </div>
+                    <small class="form-text text-muted">If traveling within the Pacific NW: 1 meal and mileage reimbursement day(s) of travel will be included</small>
+                </div>
+                <div class="form-row row">
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="DailyMIEAmount" class="control-label"></label>
+                        <input asp-for="DailyMIEAmount" class="form-control" />
+                        <span asp-validation-for="DailyMIEAmount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="DaysForMIE" class="control-label"></label>
+                        <input asp-for="DaysForMIE" class="form-control" />
+                        <span asp-validation-for="DaysForMIE" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row row">
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="DepositAccount" class="control-label"></label>
+                        <input asp-for="DepositAccount" class="form-control" />
+                        <span asp-validation-for="DepositAccount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4 mt-3">
+                        <label asp-for="AccountType" class="control-label"></label>
+                        <input asp-for="AccountType" class="form-control" />
+                        <span asp-validation-for="AccountType" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label>Corporate Card?</label>
+                    <div>
+                        <input type="radio" asp-for="CorporateCard" value="true" id="CorporateCardYes" />
+                        <label for="CorporateCard">Yes</label>
+                        <input type="radio" asp-for="CorporateCard" value="false" id="CorporateCardNo" />
+                        <label for="CorporateCard">No</label>
+                    </div>
+                    <small class="form-text text-muted">If Yes- Same allowance for M*IE apply. There will be no deposit into your account.</small>
+                </div>
+                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                <input type="button" name="next" class="next action-button" value="Next" />
+            </fieldset>
+                @* Misc Info Section *@
+                <fieldset>
+                    <div class="field-row row">
+                        <div class="form-group col-md-3 mt-3">
+                            <label asp-for="EmergencyContactname" class="control-label"></label>
+                            <input asp-for="EmergencyContactname" class="form-control" />
+                            <span asp-validation-for="EmergencyContactname" class="text-danger"></span>
+                        </div>
+                    <div class="form-group col-md-3 mt-3">
+                            <label asp-for="EmergencyContactPhoneNumber" class="control-label"></label>
+                            <input asp-for="EmergencyContactPhoneNumber" class="form-control" />
+                            <span asp-validation-for="EmergencyContactPhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                <div class="form-row row">
+                    <div class="form-group col-md-6 mt-3">
+                        <label asp-for="GroundOptions" class="control-label"></label>
+                        <input asp-for="GroundOptions" class="form-control" />
+                        <span asp-validation-for="GroundOptions" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row row mt-3">
+                    <div class="form-group col-md-3">
+                        <label>Registered For Conference</label>
+                        <div>
+                            <input type="radio" asp-for="RegisteredForConference" value="true" id="RegisteredForConferenceYes" />
+                            <label for="RegisteredForConference">Yes</label>
+                            <input type="radio" asp-for="RegisteredForConference" value="false" id="RegisteredForConferenceNo" />
+                            <label for="RegisteredForConference">No</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>Registered?</label>
+                        <div>
+                            <input type="radio" asp-for="Registered" value="true" id="RegisteredYes" />
+                            <label for="Registered">Yes</label>
+                            <input type="radio" asp-for="Registered" value="false" id="RegisteredNo" />
+                            <label for="Registered">No</label>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" asp-for="UserId" />
+                <input type="button" name="previous" class="previous action-button-previous mt-3" value="Previous" />
+                <input type="submit" name="submit" class="submit action-button mt-3" value="Submit" />
+            </fieldset>
         </form>
     </div>
 </div>
@@ -275,5 +370,54 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Function to validate only fields in the current step
+        function validateStep($fieldset) {
+            // Get all inputs, selects, and textareas inside this step
+            const $inputs = $fieldset.find("input, select, textarea");
+
+            let isValid = true;
+
+            // Trigger validation manually for each field
+            $inputs.each(function () {
+                if (!$(this).valid()) {
+                    isValid = false;
+                }
+            });
+
+            return isValid;
+        }
+
+        $(".next").click(function () {
+            let current_fs = $(this).parent();
+            let next_fs = $(this).parent().next();
+
+            // Only continue if current step is valid
+            if (validateStep(current_fs)) {
+                // Move to the next step
+                $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+                current_fs.hide();
+                next_fs.show();
+            }
+        });
+
+        $(".previous").click(function () {
+            let current_fs = $(this).parent();
+            let previous_fs = $(this).parent().prev();
+
+            $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+            current_fs.hide();
+            previous_fs.show();
+        });
+
+        // Prevent actual form submit for now (remove this later)
+        // $(".submit").click(function () {
+        //     return false;
+        // });
+    </script>
 }
+

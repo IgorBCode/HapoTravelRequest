@@ -33,6 +33,9 @@ namespace HapoTravelRequest.Data
         public decimal? CostOfConference { get; set; }
 
         [DataType(DataType.Date)]
+        public DateTime? RegistrationDeadline { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime? ConferenceStartDate { get; set; }
 
         [DataType(DataType.Date)]
@@ -70,7 +73,7 @@ namespace HapoTravelRequest.Data
         [MaxLength(100)]
         public string? GroundTransportation  { get; set; }
 
-        public int? MileageReimbursement { get; set; }
+        public bool MileageReimbursement { get; set; }
 
         public int? MileageRoundTrip { get; set; }
 
