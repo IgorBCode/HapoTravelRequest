@@ -43,10 +43,10 @@
                         @if (User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")" 
+                                <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Admin Panel" ? "active" : "")" 
                                 asp-area="" 
-                                asp-controller="Home" 
-                                asp-action="Privacy">Admin Panel
+                                asp-controller="Admin" 
+                                asp-action="UserList">Admin Panel
                             </a>
                             </li>
                         }
