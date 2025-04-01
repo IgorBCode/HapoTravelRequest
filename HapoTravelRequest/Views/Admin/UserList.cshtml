@@ -1,0 +1,112 @@
+﻿@model List<HapoTravelRequest.Models.User.UserListVM>
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Users List";
+}
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.role-dropdown').on('change', function () {
+                const userId = $(this).data('userid');
+                const newRole = $(this).val();
+                const userName = $(this).data('username');
+
+                if (!confirm(`Are you sure you want to change ${userName}'s role to ${newRole}?'`)) {
+                    location.reload();
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("ChangeRoleAjax", "Admin")',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ userId, newRole }),
+                    success: function (res) {
+                        if (res.success)
+                        {
+                            alert(res.message);
+                        } else {
+                            alert("Error: " + res.message);
+                        }
+                    },
+                    error: function () {
+                        alert("An unexpected error occurred.");
+                        location.reload();
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<h2>Manage Users</h2>
+<div class="request-container">
+    <form method="get" asp-action="UserList" class="mb-3">
+        <div class="row align-items-end">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search by name or email"
+                            value="@ViewBag.SearchQuery" />
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        
+            @if (!string.IsNullOrWhiteSpace(ViewBag.SearchQuery as string))
+            {
+                <div class="col-auto">
+                <a href="@Url.Action("UserList", "Admin")" class="btn btn-secondary">Clear Search</a>
+                </div>
+            }
+        </div>
+    </form>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
+                    <td>@user.PositionTitle</td>
+                    <td>
+                        <select class="form-control role-dropdown"
+                                data-userid="@user.UserId"
+                                data-username="@user.FirstName @user.LastName">
+                                @foreach (var role in user.AvailableRoles)
+                                {
+                                    <option value="@role" selected=@(role == user.CurrentRole)>
+                                        @role
+                                    </option>
+                                }
+
+                        </select>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@* <td> *@
+@*     <form asp-action="ChangeRole" method="post"> *@
+@*         <input type="hidden" name="userId" value="@user.UserId" /> *@
+@*         <select name="newRole" class="form-control" onchange="this.form.submit()"> *@
+@*             @foreach (var role in user.AvailableRoles) *@
+@*             { *@
+@*                 <option value="@role" selected="@(role == user.CurrentRole ? "selected" : null)">@role</option> *@
+@*             } *@
+@*         </select> *@
+@*     </form> *@
+@* </td> *@
