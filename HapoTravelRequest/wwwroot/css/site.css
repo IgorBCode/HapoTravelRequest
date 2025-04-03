@@ -267,13 +267,14 @@ th {
     background-color: #FFDC32;
 }
 
-.request-btn{
+.request-btn {
     position: fixed;
-    bottom: 1.25rem;
-    right: 1.25rem;
+    bottom: 0.06rem;
+    right: 7.5rem;
     z-index: 100;
     box-sizing: border-box;
-    margin-bottom: 15rem;
+    margin-bottom: 3rem;
+    margin-left: 2rem;
 }
 
 .create-request {
@@ -281,15 +282,24 @@ th {
     align-items: center;
     justify-content: center;
     background-color: #FFDC32;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
+    color: var(--hapo-black);
+    border-radius: 50%;
     border: none;
     cursor: pointer;
-    margin-top: 1.25rem;
+    margin-top: 3.25rem;
+    height: 2.188rem;
+    width: 2.188rem;
+    font-size: 3.75rem;
+}
+
+/* invert button colors on hover */
+.create-request:hover {
+    background-color: var(--hapo-black);
+    color: #FFDC32;
 }
 
 .create-request span {
-    margin-right: 0.5rem;
+        margin-right: 0.5rem;
 }
 
 /* create travel request form styles*/
