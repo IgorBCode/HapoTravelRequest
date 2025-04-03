@@ -19,9 +19,13 @@ html {
 body {
     margin-bottom: 3.75rem;
 }
- 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 /*HAPO logo*/
@@ -46,6 +50,7 @@ body {
     cursor: pointer;
     margin: 0 0.625rem;
 }
+
 .nav-link.active {
     display: flex;
     align-items: center;
@@ -66,7 +71,7 @@ body {
     background: white;
     padding: 1.25rem;
     border-radius: 0.625rem;
-/*    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);*/
+    /*    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);*/
 }
 
 /*CEO*/
@@ -128,14 +133,15 @@ table {
     margin-top: 1.25rem;
 }
 
-th, td {
+th,
+td {
     padding: 0.75rem 0.9375rem;
     text-align: left;
     border-bottom: 0.0625rem solid #ddd;
 }
 
 th {
-/*    background-color: #f2f2f2;*/
+    /*    background-color: #f2f2f2;*/
     color: var(--hapo-grey)
 }
 
@@ -169,7 +175,7 @@ th {
     border: none;
     cursor: pointer;
     border-radius: 0.25rem;
-    box-shadow: 0rem 0.25rem 0.5rem 0rem rgba(0,0,0,0.2);
+    box-shadow: 0rem 0.25rem 0.5rem 0rem rgba(0, 0, 0, 0.2);
     position: relative;
     width: 9.688rem;
     padding: 0.625rem;
@@ -185,8 +191,13 @@ th {
     position: absolute;
     background-color: white;
     min-width: 10rem;
-    box-shadow: 0rem 0.5rem 1rem 0rem rgba(0,0,0,0.2);
+    box-shadow: 0rem 0.5rem 1rem 0rem rgba(0, 0, 0, 0.2);
     z-index: 1;
+}
+
+.dropdown-content ul {
+    margin: 0;
+    padding: 0;
 }
 
 .dropdown-content li {
@@ -238,6 +249,7 @@ th {
     justify-content: flex-start;
     gap: 0.3125rem;
 }
+
 .approve {
     font-size: 1.5rem;
 }
@@ -267,25 +279,33 @@ th {
     background-color: #FFDC32;
 }
 
-.request-btn{
+.request-btn {
     position: fixed;
-    bottom: 1.25rem;
-    right: 1.25rem;
-    z-index: 100;
-    box-sizing: border-box;
-    margin-bottom: 15rem;
+    bottom: 0;
+    right: 3rem;
+    margin: 0 0 3rem 2rem;
+    z-index: 1;
 }
 
 .create-request {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 2.1875rem;
+    width: 2.1875rem;
     background-color: #FFDC32;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
+    color: var(--hapo-black);
+    border-radius: 50%;
     border: none;
     cursor: pointer;
-    margin-top: 1.25rem;
+    margin-top: 3.25rem;
+    font-size: 3.75rem;
+}
+
+/* invert button colors on hover */
+.create-request:hover {
+    background-color: var(--hapo-black);
+    color: #FFDC32;
 }
 
 .create-request span {
@@ -299,56 +319,58 @@ th {
     margin-top: 30px;
 }
 
-    #formstyle fieldset {
-        background: white;
-        border: 0 none;
-        border-radius: 0px;
-        box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-        padding: 20px 30px;
-        box-sizing: border-box;
-        width: 80%;
-        margin: 0 10%;
-        position: relative;
-    }
+#formstyle fieldset {
+    background: white;
+    border: 0 none;
+    border-radius: 0px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+    padding: 20px 30px;
+    box-sizing: border-box;
+    width: 80%;
+    margin: 0 10%;
+    position: relative;
+}
 
-        /*Hide all except first fieldset*/
-        #formstyle fieldset:not(:first-of-type) {
-            display: none;
-        }
+/*Hide all except first fieldset*/
+#formstyle fieldset:not(:first-of-type) {
+    display: none;
+}
 
 
-    /*buttons*/
-    #formstyle .action-button {
-        width: 100px;
-        background: #FFDC32;
-        font-weight: bold;
-        color: #111827;
-        border: 0 none;
-        border-radius: 25px;
-        cursor: pointer;
-        padding: 10px 5px;
-        margin: 10px 5px;
-    }
+/*buttons*/
+#formstyle .action-button {
+    width: 100px;
+    background: #FFDC32;
+    font-weight: bold;
+    color: #111827;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+}
 
-        #formstyle .action-button:hover, #msform .action-button:focus {
-            box-shadow: 0 0 0 2px white, 0 0 0 3px #111827;
-        }
+#formstyle .action-button:hover,
+#msform .action-button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #111827;
+}
 
-    #formstyle .action-button-previous {
-        width: 100px;
-        background: #9D9FA2;
-        font-weight: bold;
-        color: white;
-        border: 0 none;
-        border-radius: 25px;
-        cursor: pointer;
-        padding: 10px 5px;
-        margin: 10px 5px;
-    }
+#formstyle .action-button-previous {
+    width: 100px;
+    background: #9D9FA2;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+}
 
-        #formstyle .action-button-previous:hover, #formstyle .action-button-previous:focus {
-            box-shadow: 0 0 0 2px white, 0 0 0 3px #111827;
-        }
+#formstyle .action-button-previous:hover,
+#formstyle .action-button-previous:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #111827;
+}
 
 /*headings*/
 .fs-title {
@@ -376,42 +398,42 @@ th {
 }
 
 #progressbar li {
-list-style-type: none;
-color: #141414;
-text-transform: uppercase;
-font-size: 12px;
-width: calc(100% / 7);
-float: left;
-position: relative;
-letter-spacing: 1px;
-text-align: center;
+    list-style-type: none;
+    color: #141414;
+    text-transform: uppercase;
+    font-size: 12px;
+    width: calc(100% / 7);
+    float: left;
+    position: relative;
+    letter-spacing: 1px;
+    text-align: center;
 }
 
-    #progressbar li:before {
-        content: counter(step);
-        counter-increment: step;
-        width: 30px;
-        height: 30px;
-        line-height: 32px;
-        display: block;
-        font-size: 15px;
-        color: #FFFFFF;
-        background: #111827;
-        border-radius: 25px;
-        margin: 0 auto 10px auto;
-    }
+#progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 30px;
+    height: 30px;
+    line-height: 32px;
+    display: block;
+    font-size: 15px;
+    color: #FFFFFF;
+    background: #111827;
+    border-radius: 25px;
+    margin: 0 auto 10px auto;
+}
 
 /*progressbar connectors*/
-    #progressbar li:after {
-        content: '';
-        width: 100%;
-        height: 2px;
-        background: #AAAAAA;
-        position: absolute;
-        left: -50%;
-        top: 9px;
-        z-index: -1;
-    }
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: #AAAAAA;
+    position: absolute;
+    left: -50%;
+    top: 9px;
+    z-index: -1;
+}
 
 #progressbar li:first-child:after {
     /*connector not needed before the first step*/
@@ -419,10 +441,12 @@ text-align: center;
 }
 
 /*marking active/completed steps yellow*/
-    #progressbar li.active:before, #progressbar li.active:after {
-        background: #FFDC32;
-        color: #111827;
-    }
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: #FFDC32;
+    color: #111827;
+}
+
 /* This is for floating approve, deny, book buttons */
 .sticky-action-bar {
     position: fixed;
@@ -458,6 +482,7 @@ text-align: center;
 }
 
 .custom-btn-yellow:hover {
-    background-color: #E6C62D; /* Slightly darker shade */
+    background-color: #E6C62D;
+    /* Slightly darker shade */
     color: #212529;
 }
