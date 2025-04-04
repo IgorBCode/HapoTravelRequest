@@ -121,7 +121,9 @@ namespace HapoTravelRequest.Data
 
         // travel request comments
         public List<Comment> Comments { get; set; } = new List<Comment>();
-
-
+        
+        public string ItineraryNumber { get; internal set; }
+        
+        public string ConfirmationNumber { get; internal set; }
     }
 }
