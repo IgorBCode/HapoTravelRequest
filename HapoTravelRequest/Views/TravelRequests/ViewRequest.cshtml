@@ -1,0 +1,70 @@
+@model HapoTravelRequest.Models.TravelRequest.TravelRequestReadOnlyVM
+@using Microsoft.AspNetCore.Identity
+
+@{
+    ViewData["Title"] = "View Travel Request";
+}
+
+<h2>Travel Request Details</h2>
+
+<div class="card p-4 shadow rounded-2xl mb-4">
+    <h3 class="text-xl font-semibold mb-2">Employee Information</h3>
+    <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
+    <p><strong>DOB:</strong> @Model.DateOfBirth?.ToShortDateString()</p>
+    <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+    <p><strong>Department:</strong> @Model.Department</p>
+    <p><strong>Position Title:</strong> @Model.PositionTitle</p>
+    <p><strong>Director:</strong> @Model.DepartmentDirector</p>
+</div>
+
+<div class="card p-4 shadow rounded-2xl mb-4">
+    <h3 class="text-xl font-semibold mb-2">Conference Information</h3>
+    <p><strong>Purpose:</strong> @Model.PurposeOfTravel</p>
+    <p><strong>Conference:</strong> @Model.ConferenceDescription</p>
+    <p><strong>Link:</strong> <a href="@Model.ConferenceLink" target="_blank">@Model.ConferenceLink</a></p>
+    <p><strong>Dates:</strong> @Model.ConferenceStartDate?.ToShortDateString() -
+        @Model.ConferenceEndDate?.ToShortDateString()</p>
+    <p><strong>Location:</strong> @Model.Location</p>
+</div>
+
+<div class="card p-4 shadow rounded-2xl mb-4">
+    <h3 class="text-xl font-semibold mb-2">Travel Details</h3>
+    <p><strong>Departure:</strong> @Model.DepartureDate?.ToShortDateString()</p>
+    <p><strong>Return:</strong> @Model.ReturnDate?.ToShortDateString()</p>
+    <p><strong>Transportation:</strong> @Model.TransportationMode</p>
+    <p><strong>Flight Cost:</strong> $@Model.FlightCost</p>
+    <p><strong>Status:</strong> @Model.ApprovalStatus.ToString()</p>
+</div>
+
+@if (Model.IsApprover)
+{
+    <form asp-action="ApproveOrDeny" method="post" class="mb-3 d-flex gap-2">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button name="action" value="approve" class="btn btn-success">Approve</button>
+        <button name="action" value="deny" class="btn btn-danger">Deny</button>
+        <a asp-controller="TravelRequests" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+    </form>
+}
+
+
+@if (Model.IsProcessor)
+{
+    <form asp-action="UpdateBookingInfo" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <div class="mb-2">
+            <label>Flight Cost:</label>
+            <input name="FlightCost" value="@Model.FlightCost" class="form-control" />
+        </div>
+        <div class="mb-2">
+            <label>Itinerary #:</label>
+            <input name="ItineraryNumber" value="@Model.ItineraryNumber" class="form-control" />
+        </div>
+        <div class="mb-2">
+            <label>Confirmation #:</label>
+            <input name="ConfirmationNumber" value="@Model.ConfirmationNumber" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Update Booking Info</button>
+    </form>
+}
+
+<a asp-action="Index" class="btn btn-secondary mt-4">Back to Requests</a>
