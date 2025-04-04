@@ -276,7 +276,49 @@ namespace HapoTravelRequest.Controllers
 
             return View(travelRequest);
         }
+        // GET: TravelRequests/ViewRequest
+        [Authorize(Roles = "Admin,User,VP,CEO,Processor")]
+        public async Task<IActionResult> ViewRequest(int id)
+        {
+            var request = await _context.TravelRequests
+                .Include(t => t.User)
+                .FirstOrDefaultAsync(t => t.Id == id);
 
+            if (request == null)
+                return NotFound();
+
+            var vm = new TravelRequestReadOnlyVM
+            {
+                Id = request.Id,
+                FirstName = request.User.FirstName,
+                LastName = request.User.LastName,
+                DateOfBirth = request.User.DateOfBirth.ToDateTime(TimeOnly.MinValue),
+                PhoneNumber = request.User.PhoneNumber,
+                Department = request.User.Department,
+                PositionTitle = request.User.PositionTitle,
+                DepartmentDirector = request.User.DepartmentDirector,
+
+                PurposeOfTravel = request.PurposeOfTravel,
+                ConferenceDescription = request.ConferenceDescription,
+                ConferenceLink = request.ConferenceLink,
+                Location = request.Location,
+                FlightCost = request.FlightCost,
+                TransportationMode = request.TransportationMode,
+                ConferenceStartDate = request.ConferenceStartDate,
+                ConferenceEndDate = request.ConferenceEndDate,
+                DepartureDate = request.DepartureDate,
+                ReturnDate = request.ReturnDate,
+                ApprovalStatus = request.ApprovalStatus,
+                ItineraryNumber = request.ItineraryNumber,
+                ConfirmationNumber = request.ConfirmationNumber,
+
+                IsApprover = User.IsInRole("VP") || User.IsInRole("CEO") || User.IsInRole("Admin"),
+                IsProcessor = User.IsInRole("Processor")
+            };
+
+
+            return View(vm);
+        }
         // POST: TravelRequests/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
