@@ -1,0 +1,67 @@
+﻿@using HapoTravelRequest.Helpers
+@model List<HapoTravelRequest.Models.TravelRequest.TravelRequestListVM>
+
+@{
+    ViewData["Title"] = "My Travel Requests";
+}
+
+<h2>My Travel Requests</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        You have not submitted any travel requests.
+    </div>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Location</th>
+                <th>Dates</th>
+                <th>Transportation</th>
+                <th>Cost</th>
+                <th>Quick Action</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="TravelRequests" asp-action="Overview" asp-route-id="@item.Id">
+                            @item.Location
+                        </a>
+                    </td>
+                    <td>
+                        @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
+                    </td>
+                    <td>
+                        @item.TransportationMode
+                    </td>
+                    <td>
+                        $@item.CostOfConference
+                    </td>
+                    <td>
+                        <button class="btn cancel">Cancel</button></td>
+                    <td>
+                        @if (item.ApprovalStatus.GetDisplayName() == "Pending")
+                        {
+                            <span class="status pending">@item.ApprovalStatus.GetDisplayName()</span>
+                        }
+                        else if (item.ApprovalStatus.GetDisplayName() == "Booked")
+                        {
+                            <span class="status booked">@item.ApprovalStatus.GetDisplayName()</span>
+                        }
+                        else
+                        {
+                            <span class="status denied">@item.ApprovalStatus.GetDisplayName()</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

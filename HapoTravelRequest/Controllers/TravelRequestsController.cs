@@ -5,6 +5,7 @@ using HapoTravelRequest.Models.TravelRequest;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using HapoTravelRequest.Services;
+using System.Runtime.ConstrainedExecution;
 
 namespace HapoTravelRequest.Controllers
 {
@@ -38,8 +39,7 @@ namespace HapoTravelRequest.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: TravelRequests/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Approval(int? id)
         {
             if (id == null)
             {
@@ -47,14 +47,177 @@ namespace HapoTravelRequest.Controllers
             }
 
             var travelRequest = await _context.TravelRequests
-                .Include(t => t.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (travelRequest == null)
+                .Include(tr => tr.User)
+                .FirstOrDefaultAsync(tr => tr.Id == id);
+
+            if (travelRequest == null || travelRequest.User == null)
             {
                 return NotFound();
             }
 
-            return View(travelRequest);
+            var user = travelRequest.User;
+
+            var model = new TravelRequestReadOnlyVM
+            {
+                // User info ***********************************
+                Id = travelRequest.Id,
+                UserId = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Department = user.Department,
+                PhoneNumber = user.PhoneNumber,
+                PositionTitle = user.PositionTitle,
+                DepartmentDirector = user.DepartmentDirector,
+
+                // Travel request info *************************
+                PurposeOfTravel = travelRequest.PurposeOfTravel,
+                NonEmployeeGuests = travelRequest.NonEmployeeGuests,
+                NonEmployeeLegalName = travelRequest.NonEmployeeLegalName,
+                NonEmployeeDOB = travelRequest.NonEmployeeDOB,
+                ConferenceDescription = travelRequest.ConferenceDescription,
+                ConferenceLink = travelRequest.ConferenceLink,
+                AlternativeText = travelRequest.AlternativeText,
+                Location = travelRequest.Location,
+                CostOfConference = travelRequest.CostOfConference,
+                ConferenceStartDate = travelRequest.ConferenceStartDate,
+                ConferenceEndDate = travelRequest.ConferenceEndDate,
+                RegistrationDeadline = travelRequest.RegistrationDeadline,
+                DepartureDate = travelRequest.DepartureDate ?? DateTime.MinValue,
+                ReturnDate = travelRequest.ReturnDate ?? DateTime.MinValue,
+                EmployeesAttending = travelRequest.EmployeesAttending,
+                EmployeesAttendingNames = travelRequest.EmployeesAttendingNames,
+                ConferenceHotelName = travelRequest.ConferenceHotelName,
+                PreferredLodgingInfo = travelRequest.PreferredLodgingInfo,
+                SpecialTravelRequest = travelRequest.SpecialTravelRequest,
+                TransportationMode = travelRequest.TransportationMode,
+                AirlineDetails = travelRequest.AirlineDetails,
+                FlightCost = travelRequest.FlightCost,
+                GroundTransportation = travelRequest.GroundTransportation,
+                MileageReimbursement = travelRequest.MileageReimbursement,
+                MileageRoundTrip = travelRequest.MileageRoundTrip,
+                MIE = travelRequest.MIE,
+                DailyMIEAmount = travelRequest.DailyMIEAmount,
+                DaysForMIE = travelRequest.DaysForMIE,
+                DepositAccount = travelRequest.DepositAccount,
+                AccountType = travelRequest.AccountType,
+                CorporateCard = travelRequest.CorporateCard,
+                ValueExplination = travelRequest.ValueExplination,
+                EmergencyContactname = travelRequest.EmergencyContactname,
+                EmergencyContactPhoneNumber = travelRequest.EmergencyContactPhoneNumber,
+                TSANumber = travelRequest.TSANumber,
+                GroundOptions = travelRequest.GroundOptions,
+                RegisteredForConference = travelRequest.RegisteredForConference,
+                Registered = travelRequest.Registered
+            };
+
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Overview(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var travelRequest = await _context.TravelRequests
+                .Include(tr => tr.User)
+                .FirstOrDefaultAsync(tr => tr.Id == id);
+
+            if (travelRequest == null || travelRequest.User == null)
+            {
+                return NotFound();
+            }
+
+            var user = travelRequest.User;
+
+            var model = new TravelRequestReadOnlyVM
+            {
+                // User info ***********************************
+                Id = travelRequest.Id,
+                UserId = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Department = user.Department,
+                PhoneNumber = user.PhoneNumber,
+                PositionTitle = user.PositionTitle,
+                DepartmentDirector = user.DepartmentDirector,
+
+                // Travel request info *************************
+                PurposeOfTravel = travelRequest.PurposeOfTravel,
+                NonEmployeeGuests = travelRequest.NonEmployeeGuests,
+                NonEmployeeLegalName = travelRequest.NonEmployeeLegalName,
+                NonEmployeeDOB = travelRequest.NonEmployeeDOB,
+                ConferenceDescription = travelRequest.ConferenceDescription,
+                ConferenceLink = travelRequest.ConferenceLink,
+                AlternativeText = travelRequest.AlternativeText,
+                Location = travelRequest.Location,
+                CostOfConference = travelRequest.CostOfConference,
+                ConferenceStartDate = travelRequest.ConferenceStartDate,
+                ConferenceEndDate = travelRequest.ConferenceEndDate,
+                RegistrationDeadline = travelRequest.RegistrationDeadline,
+                DepartureDate = travelRequest.DepartureDate ?? DateTime.MinValue,
+                ReturnDate = travelRequest.ReturnDate ?? DateTime.MinValue,
+                EmployeesAttending = travelRequest.EmployeesAttending,
+                EmployeesAttendingNames = travelRequest.EmployeesAttendingNames,
+                ConferenceHotelName = travelRequest.ConferenceHotelName,
+                PreferredLodgingInfo = travelRequest.PreferredLodgingInfo,
+                SpecialTravelRequest = travelRequest.SpecialTravelRequest,
+                TransportationMode = travelRequest.TransportationMode,
+                AirlineDetails = travelRequest.AirlineDetails,
+                FlightCost = travelRequest.FlightCost,
+                GroundTransportation = travelRequest.GroundTransportation,
+                MileageReimbursement = travelRequest.MileageReimbursement,
+                MileageRoundTrip = travelRequest.MileageRoundTrip,
+                MIE = travelRequest.MIE,
+                DailyMIEAmount = travelRequest.DailyMIEAmount,
+                DaysForMIE = travelRequest.DaysForMIE,
+                DepositAccount = travelRequest.DepositAccount,
+                AccountType = travelRequest.AccountType,
+                CorporateCard = travelRequest.CorporateCard,
+                ValueExplination = travelRequest.ValueExplination,
+                EmergencyContactname = travelRequest.EmergencyContactname,
+                EmergencyContactPhoneNumber = travelRequest.EmergencyContactPhoneNumber,
+                TSANumber = travelRequest.TSANumber,
+                GroundOptions = travelRequest.GroundOptions,
+                RegisteredForConference = travelRequest.RegisteredForConference,
+                Registered = travelRequest.Registered
+            };
+
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> MyRequests()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // get all travel requests
+            var travelRequests = await _context.TravelRequests
+                .Where(q => q.UserId == user.Id)
+                .Include(q => q.User)
+                .OrderByDescending(q => q.ConferenceStartDate)
+                .Select(q => new TravelRequestListVM
+                {
+                    Id = q.Id,
+                    FirstName = q.User.FirstName,
+                    LastName = q.User.LastName,
+                    Location = q.Location,
+                    ConferenceStartDate = q.ConferenceStartDate,
+                    ConferenceEndDate = q.ConferenceEndDate,
+                    TransportationMode = q.TransportationMode,
+                    CostOfConference = q.CostOfConference,
+                    ApprovalStatus = q.ApprovalStatus
+                })
+                .ToListAsync();
+
+            return View(travelRequests);
         }
 
         // GET: TravelRequests/Create
@@ -198,12 +361,127 @@ namespace HapoTravelRequest.Controllers
             string msg = $"<p>{user.FirstName} {user.LastName} has submitted a new travel request.</p><hr>" +
                 $@"<p><strong>Dates:</strong> {model.ConferenceStartDate} - {model.ConferenceEndDate}" +
                 $@"<p><strong>Location:</strong> {model.Location}" +
-                $@"<p><strong>Conference Fee:</strong> ${model.CostOfConference}";
+                $@"<p><strong>Conference Fee:</strong> ${model.CostOfConference}" +
+                "<br><br><p>Log into the travel request system to approve/deny the request.</p>";
             await _emailSender.SendEmailAsync(user.DepartmentDirector, emailSubject, msg);
 
             return RedirectToAction("Index", "Home");
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ApproveOrDeny(int id, string decision)
+        {
+            string emailSubject = "";
+            string msg = "";
+
+            var request = await _context.TravelRequests.FindAsync(id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            string userEmailAddress = request.User.Email;
+
+            // if vp approved the request
+            if (decision == "approve" && User.IsInRole("VP"))
+            {
+                request.ApprovalStatus = Models.ApprovalStatus.ApprovedByVP;
+
+                // send email to CEO
+                var ceos = await _userManager.GetUsersInRoleAsync("CEO"); // get first user with ceo role in database
+                var ceo = ceos.FirstOrDefault();
+                string CEOemailAddress = ceo?.Email ?? "CEO@localhost.com"; // if no ceo found a place holder email is used.
+                emailSubject = $"Travel request for {request.User.FirstName} {request.User.LastName} waiting for approval";
+
+                msg = $"<p>{request.User.FirstName} {request.User.LastName} has submitted a new travel request.</p><hr>" +
+                $@"<p><strong>Dates:</strong> {request.ConferenceStartDate} - {request.ConferenceEndDate}" +
+                $@"<p><strong>Location:</strong> {request.Location}" +
+                $@"<p><strong>Conference Fee:</strong> ${request.CostOfConference}" +
+                "<br><br><p>Log into the travel request system to approve/deny the request.</p>";
+
+                try
+                {
+                    await _emailSender.SendEmailAsync(CEOemailAddress, emailSubject, msg);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error sending email: {ex.ToString()}");
+                }
+
+                // set up email for user
+                emailSubject = "Travel request approved by VP";
+
+                msg = $"<p>Your request for:</p><hr>" +
+                $@"<p><strong>Dates:</strong> {request.ConferenceStartDate} - {request.ConferenceEndDate}" +
+                $@"<p><strong>Location:</strong> {request.Location}" +
+                "has been approved by your manager. Currently awaiting CEO Approval.";
+            }
+            // if ceo approved request
+            else if (decision == "approve" && User.IsInRole("CEO"))
+            {
+                request.ApprovalStatus = Models.ApprovalStatus.ApprovedByCEO;
+
+                // send email to processor
+                var processors = await _userManager.GetUsersInRoleAsync("Processor");
+                var processor = processors.FirstOrDefault(); // get first user with processor role in database
+                string processorEmail = processor.Email;
+                emailSubject = $"Booking required for {request.User.FirstName} {request.User.LastName}'s travel request";
+
+                msg = $"<p>{request.User.FirstName} {request.User.LastName}'s travel request has been approved and is waiting for booking'.</p><hr>" +
+                $@"<p><strong>Dates:</strong> {request.ConferenceStartDate} - {request.ConferenceEndDate}" +
+                $@"<p><strong>Location:</strong> {request.Location}" +
+                $@"<p><strong>Conference Fee:</strong> ${request.CostOfConference}" +
+                "<br><br><p>Log into the travel request system to book the request.</p>";
+
+                try
+                {
+                    await _emailSender.SendEmailAsync(processorEmail, emailSubject, msg);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error sending email: {ex.ToString()}");
+                }
+
+                // set up email for user
+                emailSubject = "Travel request approved by CEO";
+
+                msg = $"<p>Your request for:</p><hr>" +
+                $@"<p><strong>Dates:</strong> {request.ConferenceStartDate} - {request.ConferenceEndDate}" +
+                $@"<p><strong>Location:</strong> {request.Location}" +
+                "has been approved by the CEO. Currently awaiting booking.";
+            }
+            else if (decision == "deny")
+            {
+                request.ApprovalStatus = Models.ApprovalStatus.Denied;
+
+                // set up email for user
+                emailSubject = "Travel request denied";
+
+                msg = $"<p>Your request for:</p><hr>" +
+                $@"<p><strong>Dates:</strong> {request.ConferenceStartDate} - {request.ConferenceEndDate}" +
+                $@"<p><strong>Location:</strong> {request.Location}" +
+                "has been denied.";
+            }
+
+            // send approval status email to user
+
+            try
+            {
+                await _emailSender.SendEmailAsync(userEmailAddress, emailSubject, msg);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error sending email: {ex.ToString()}");
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
 
         // GET: TravelRequests/Edit/5
         public async Task<IActionResult> Edit(int? id)

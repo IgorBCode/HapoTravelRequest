@@ -7,6 +7,7 @@ public class TravelRequestListVM
     public string LastName { get; set; }
 
     // travel request info
+    public int Id { get; set; }
     public string Location { get; set; }
     public DateTime? ConferenceStartDate { get; set; }
     public DateTime? ConferenceEndDate { get; set; }
