@@ -33,6 +33,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "MyRequests" ? "active" : "")"
+                               asp-area=""
+                               asp-controller="TravelRequests"
+                               asp-action="MyRequests">
+                                My Requests
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ? "active" : "")"
                                asp-area=""
                                asp-controller="TravelRequests"
@@ -43,8 +51,8 @@
                         @if (User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Admin Panel" ? "active" : "")" 
-                                asp-area="" 
+                                <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Admin" ? "active" : "")"
+                                   asp-area="" 
                                 asp-controller="Admin" 
                                 asp-action="UserList">Admin Panel
                             </a>

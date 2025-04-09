@@ -1,0 +1,70 @@
+﻿@model HapoTravelRequest.Models.TravelRequest.TravelRequestReadOnlyVM
+
+@{
+    ViewData["Title"] = "Travel Request Details";
+}
+
+<h2>Travel Request Details</h2>
+
+<hr />
+<h4>Employee Information</h4>
+<div class="row">
+    <div class="col-md-6">
+        <p><strong>@Html.DisplayNameFor(m => m.FirstName):</strong> @Model.FirstName</p>
+        <p><strong>@Html.DisplayNameFor(m => m.LastName):</strong> @Model.LastName</p>
+        <p><strong>@Html.DisplayNameFor(m => m.DateOfBirth):</strong> @Model.DateOfBirth</p>
+        <p><strong>@Html.DisplayNameFor(m => m.PhoneNumber):</strong> @Model.PhoneNumber</p>
+    </div>
+    <div class="col-md-6">
+        <p><strong>@Html.DisplayNameFor(m => m.Department):</strong> @Model.Department</p>
+        <p><strong>@Html.DisplayNameFor(m => m.PositionTitle):</strong> @Model.PositionTitle</p>
+        <p><strong>@Html.DisplayNameFor(m => m.DepartmentDirector):</strong> @Model.DepartmentDirector</p>
+    </div>
+</div>
+
+<hr />
+<h4>Conference & Travel Information</h4>
+<div class="row">
+    <div class="col-md-6">
+        <p><strong>@Html.DisplayNameFor(m => m.PurposeOfTravel):</strong> @Model.PurposeOfTravel</p>
+        <p><strong>@Html.DisplayNameFor(m => m.NonEmployeeGuests):</strong> @(Model.NonEmployeeGuests ? "Yes" : "No")</p>
+        <p><strong>@Html.DisplayNameFor(m => m.NonEmployeeLegalName):</strong> @Model.NonEmployeeLegalName</p>
+        <p><strong>@Html.DisplayNameFor(m => m.NonEmployeeDOB):</strong> @Model.NonEmployeeDOB?.ToShortDateString()</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ConferenceDescription):</strong> @Model.ConferenceDescription</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ConferenceLink):</strong> @Model.ConferenceLink</p>
+        <p><strong>@Html.DisplayNameFor(m => m.AlternativeText):</strong> @Model.AlternativeText</p>
+        <p><strong>@Html.DisplayNameFor(m => m.Location):</strong> @Model.Location</p>
+        <p><strong>@Html.DisplayNameFor(m => m.CostOfConference):</strong> $@Model.CostOfConference</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ConferenceStartDate):</strong> @Model.ConferenceStartDate?.ToShortDateString()</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ConferenceEndDate):</strong> @Model.ConferenceEndDate?.ToShortDateString()</p>
+        <p><strong>@Html.DisplayNameFor(m => m.RegistrationDeadline):</strong> @Model.RegistrationDeadline?.ToShortDateString()</p>
+        <p><strong>@Html.DisplayNameFor(m => m.DepartureDate):</strong> @Model.DepartureDate.ToShortDateString()</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ReturnDate):</strong> @Model.ReturnDate.ToShortDateString()</p>
+    </div>
+    <div class="col-md-6">
+        <p><strong>@Html.DisplayNameFor(m => m.EmployeesAttending):</strong> @Model.EmployeesAttending</p>
+        <p><strong>@Html.DisplayNameFor(m => m.EmployeesAttendingNames):</strong> @Model.EmployeesAttendingNames</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ConferenceHotelName):</strong> @Model.ConferenceHotelName</p>
+        <p><strong>@Html.DisplayNameFor(m => m.PreferredLodgingInfo):</strong> @Model.PreferredLodgingInfo</p>
+        <p><strong>@Html.DisplayNameFor(m => m.SpecialTravelRequest):</strong> @Model.SpecialTravelRequest</p>
+        <p><strong>@Html.DisplayNameFor(m => m.TransportationMode):</strong> @Model.TransportationMode</p>
+        <p><strong>@Html.DisplayNameFor(m => m.AirlineDetails):</strong> @Model.AirlineDetails</p>
+        <p><strong>@Html.DisplayNameFor(m => m.FlightCost):</strong> $@Model.FlightCost</p>
+        <p><strong>@Html.DisplayNameFor(m => m.GroundTransportation):</strong> @Model.GroundTransportation</p>
+        <p><strong>@Html.DisplayNameFor(m => m.MileageReimbursement):</strong> @(Model.MileageReimbursement ? "Yes" : "No")</p>
+        <p><strong>@Html.DisplayNameFor(m => m.MileageRoundTrip):</strong> @Model.MileageRoundTrip</p>
+        <p><strong>@Html.DisplayNameFor(m => m.MIE):</strong> @(Model.MIE ? "Yes" : "No")</p>
+        <p><strong>@Html.DisplayNameFor(m => m.DailyMIEAmount):</strong> $@Model.DailyMIEAmount</p>
+        <p><strong>@Html.DisplayNameFor(m => m.DaysForMIE):</strong> @Model.DaysForMIE</p>
+        <p><strong>@Html.DisplayNameFor(m => m.DepositAccount):</strong> @Model.DepositAccount</p>
+        <p><strong>@Html.DisplayNameFor(m => m.AccountType):</strong> @Model.AccountType</p>
+        <p><strong>@Html.DisplayNameFor(m => m.CorporateCard):</strong> @(Model.CorporateCard ? "Yes" : "No")</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ValueExplination):</strong> @Model.ValueExplination</p>
+        <p><strong>@Html.DisplayNameFor(m => m.EmergencyContactname):</strong> @Model.EmergencyContactname</p>
+        <p><strong>@Html.DisplayNameFor(m => m.EmergencyContactPhoneNumber):</strong> @Model.EmergencyContactPhoneNumber</p>
+        <p><strong>@Html.DisplayNameFor(m => m.TSANumber):</strong> @Model.TSANumber</p>
+        <p><strong>@Html.DisplayNameFor(m => m.GroundOptions):</strong> @Model.GroundOptions</p>
+        <p><strong>@Html.DisplayNameFor(m => m.Registered):</strong> @(Model.Registered ? "Yes" : "No")</p>
+        <p><strong>@Html.DisplayNameFor(m => m.RegisteredForConference):</strong> @(Model.RegisteredForConference ? "Yes" : "No")</p>
+    </div>
+</div>

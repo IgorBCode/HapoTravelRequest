@@ -37,6 +37,7 @@ namespace HapoTravelRequest.Controllers
                 .Take(3)
                 .Select(q => new TravelRequestListVM
                 {
+                    Id = q.Id,
                     FirstName = q.User.FirstName,
                     LastName = q.User.LastName,
                     Location = q.Location,
@@ -66,6 +67,7 @@ namespace HapoTravelRequest.Controllers
                 .Take(3)
                 .Select(q => new TravelRequestListVM
                 {
+                    Id = q.Id,
                     FirstName = q.User.FirstName,
                     LastName = q.User.LastName,
                     Location = q.Location,
@@ -87,6 +89,7 @@ namespace HapoTravelRequest.Controllers
                 .Take(3)
                 .Select(q => new TravelRequestListVM
                 {
+                    Id = q.Id,
                     FirstName = q.User.FirstName,
                     LastName = q.User.LastName,
                     Location = q.Location,
@@ -108,6 +111,7 @@ namespace HapoTravelRequest.Controllers
                 .Take(3)
                 .Select(q => new TravelRequestListVM
                 {
+                    Id = q.Id,
                     FirstName = q.User.FirstName,
                     LastName = q.User.LastName,
                     Location = q.Location,
@@ -129,6 +133,7 @@ namespace HapoTravelRequest.Controllers
                 .Take(3)
                 .Select(q => new TravelRequestListVM
                 {
+                    Id = q.Id,
                     FirstName = q.User.FirstName,
                     LastName = q.User.LastName,
                     Location = q.Location,

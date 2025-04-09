@@ -45,7 +45,9 @@
                     {
                         <tr>
                             <td>
-                                @item.FirstName @item.LastName
+                                <a asp-controller="TravelRequests" asp-action="Overview" asp-route-id="@item.Id">
+                                    @item.FirstName @item.LastName
+                                </a>
                             </td>
                             <td>
                                 @item.Location
@@ -135,7 +137,9 @@
                     {
                         <tr>
                             <td>
-                                @item.FirstName @item.LastName
+                                <a asp-controller="TravelRequests" asp-action="Approval" asp-route-id="@item.Id">
+                                    @item.FirstName @item.LastName
+                                </a>
                             </td>
                             <td>
                                 @item.Location
@@ -211,7 +215,9 @@
                                 {
                                 <tr>
                                     <td>
+                                        <a asp-controller="TravelRequests" asp-action="Approval" asp-route-id="@item.Id">
                                             @item.FirstName @item.LastName
+                                        </a>
                                     </td>
                                     <td>
                                             @item.Location
