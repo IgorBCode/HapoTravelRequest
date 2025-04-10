@@ -35,6 +35,12 @@ body {
     margin: 0 auto 0 1rem;
 }
 
+/*Used for login pages*/
+.logo-for-login{
+    height: auto;
+    margin: 0 auto;
+}
+
 /*Web icons in nav bar*/
 .icon {
     margin-right: 0.5rem;
@@ -485,4 +491,37 @@ th {
     background-color: #E6C62D;
     /* Slightly darker shade */
     color: #212529;
+}
+    #progressbar li.active:before, #progressbar li.active:after {
+        background: #FFDC32;
+        color: #111827;
+    }
+
+.login-body {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.login-intro h1 {
+    font-weight: bold;
+}
+
+.login-intro {
+    padding-bottom: 1em;
+}
+
+.login-account {
+    width: 20em;
+    margin: 0 auto;
+}
+
+#login-submit {
+    background: black;
+    color: white;
+    margin-bottom: 2em;
+}
+
+#forgot-password {
+    width: 20em;
+    margin: 0 auto;
 }
