@@ -574,5 +574,27 @@ namespace HapoTravelRequest.Controllers
         {
             return _context.TravelRequests.Any(e => e.Id == id);
         }
+        [Authorize(Roles = "Admin,User,VP,CEO,Processor")]
+        public async Task<IActionResult> ViewTravelRequests()
+        {
+            var requests = await _context.TravelRequests
+                .Include(r => r.User)
+                .Select(r => new TravelRequestListVM
+                {
+                    Id = r.Id,
+                    FirstName = r.User.FirstName,
+                    LastName = r.User.LastName,
+                    ConferenceDescription = r.ConferenceDescription,
+                    Location = r.Location,
+                    ConferenceStartDate = r.ConferenceStartDate,
+                    ConferenceEndDate = r.ConferenceEndDate,
+                    TransportationMode = r.TransportationMode,
+                    CostOfConference = r.CostOfConference,
+                    ApprovalStatus = r.ApprovalStatus
+                })
+                .ToListAsync();
+
+            return View(requests);
+        }
     }
 }
