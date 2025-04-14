@@ -33,40 +33,26 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ? "active" : "")"
+                               asp-area="" asp-controller="TravelRequests" asp-action="Create">
+                                Request Travel
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "MyRequests" ? "active" : "")"
                                 asp-area="" asp-controller="TravelRequests" asp-action="MyRequests">
                                 My Requests
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Create" ? "active" : "")"
-                                asp-area="" asp-controller="TravelRequests" asp-action="Create">
-                                Request Travel
-                            </a>
-                        </li>
                         @if (User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Admin" ? "active" : "")"
+                                <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "UserList" ? "active" : "")"
                                     asp-area="" asp-controller="Admin" asp-action="UserList">Admin Panel
                                 </a>
                             </li>
                         }
-                        @if (User.IsInRole("CEO") || User.IsInRole("VP") || User.IsInRole("Administrator"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Approve
-                                    Travel Requests</a>
-                            </li>
-                        }
-                        @if (User.IsInRole("Processor") || User.IsInRole("Administrator"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Book
-                                    Travel</a>
-                            </li>
-                        }
-                        @if (User.IsInRole("Processor") || User.IsInRole("CEO") || User.IsInRole("VP"))
+                        @if (User.IsInRole("Processor") || User.IsInRole("CEO") || User.IsInRole("VP") || User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "TravelRequests" && ViewContext.RouteData.Values["action"]?.ToString() == "ViewTravelRequests" ? "active" : "")"

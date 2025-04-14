@@ -24,328 +24,97 @@
         </div>
     </header>
       
-    <div class="request-table">
-        <table>
-            <thead>
-                <tr>
-                    <th>Employee</th>
-                    <th>Location</th>
-                    <th>Date</th>
-                    <th>Transportation</th>
-                    <th>Cost</th>
-                    <th>Quick Action</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="request-body-user">
-                @* display travel requests if they exist *@
-                @if (Model.UserTravelRequests != null && Model.UserTravelRequests.Any())
-                {
-                    @foreach (var item in Model.UserTravelRequests)
-                    {
-                        <tr>
-                            <td>
-                                <a asp-controller="TravelRequests" asp-action="Overview" asp-route-id="@item.Id">
-                                    @item.FirstName @item.LastName
-                                </a>
-                            </td>
-                            <td>
-                                @item.Location
-                            </td>
-                            <td>
-                                @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
-                            </td>
-                            <td>
-                                @item.TransportationMode
-                            </td>
-                            <td>
-                                $@item.CostOfConference
-                            </td>
-                            <td><button class="btn cancel">Cancel</button></td>
-                            <td>
-                                @if(item.ApprovalStatus.GetDisplayName() == "Pending")
-                                {
-                                    <span class="status pending">@item.ApprovalStatus.GetDisplayName()</span>
-                                }
-                                else if(item.ApprovalStatus.GetDisplayName() == "Booked")
-                                {
-                                    <span class="status booked">@item.ApprovalStatus.GetDisplayName()</span>
-                                }
-                                else
-                                {
-                                    <span class="status denied">@item.ApprovalStatus.GetDisplayName()</span>
-                                }
-                            </td>
-                        </tr>
-                    }
-                }
-                @* if no travel requests exist display message *@
-                else
+<div class="request-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Transportation</th>
+                <th>Cost</th>
+                <th>Quick Action</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="request-body-user">
+            @* display travel requests if they exist *@
+            @if (Model.UserTravelRequests != null && Model.UserTravelRequests.Any())
+            {
+                @foreach (var item in Model.UserTravelRequests)
                 {
                     <tr>
-                        <td class="text-center">
-                        <h3>No travel requests available.</h3>
+                        <td>
+                            <a asp-controller="TravelRequests" asp-action="Details" asp-route-id="@item.Id">
+                                @item.FirstName @item.LastName
+                            </a>
                         </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        </div>
-</div>
-
-@if (!User.IsInRole("Administrator"))
-{
-    <!--CEO/VP Section-->
-
-    @if (User.IsInRole("VP"))
-    {
-    <div class="vp-container">
-            <header class="request-header">
-                <h2 class="request_header">VP Approval</h2>
-                <!--Sort button implementation-->
-                <div class="dropdown">
-                    <button class="sort-btn">
-                        Sort By: <span id="selected-option-vp"></span>
-                        <i class="bi bi-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <ul id="sortoptions-vp">
-                            <li onclick="sortRequests('newest', 'request-body-vp','sortoptions-vp','selected-option-vp')" data-value="Newest">Newest</li>
-                            <li onclick="sortRequests('oldest', 'request-body-vp','sortoptions-vp','selected-option-vp')" data-value="Oldest">Oldest</li>
-                        </ul>
-                    </div>
-                </div>
-            </header>
-    <div class="request-table">
-        <table>
-            <thead>
-                <tr>
-                    <th>Employee</th>
-                    <th>Location</th>
-                    <th>Date</th>
-                    <th>Transportation</th>
-                    <th>Cost</th>
-                    <th>Quick Action</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="request-body-vp">
-                @* display travel requests if they exist *@
-                @if (Model.VPApprovalList != null && Model.VPApprovalList.Any())
-                {
-                    @foreach (var item in Model.VPApprovalList)
-                    {
-                        <tr>
-                            <td>
-                                <a asp-controller="TravelRequests" asp-action="Approval" asp-route-id="@item.Id">
-                                    @item.FirstName @item.LastName
-                                </a>
-                            </td>
-                            <td>
-                                @item.Location
-                            </td>
-                            <td>
-                                @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
-                            </td>
-                            <td>
-                                @item.TransportationMode
-                            </td>
-                            <td>
-                                $@item.CostOfConference
-                            </td>
-                            <td><button class="btn cancel">Cancel</button></td>
-                            <td>
-                                @item.ApprovalStatus.GetDisplayName()
-                            </td>
-                        </tr>
-                    }
-                }
-                @* if no travel requests exist display message *@
-                else
-                {
-                    <tr>
-                        <td class="text-center">
-                        <h3>No travel requests to approve.</h3>
+                        <td>
+                            @item.Location
                         </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        </div>
-    </div>
-    }
-
-
-    @if (User.IsInRole("CEO"))
-    {
-        <div class="ceo-container">
-            <header class="request-header">
-                <h2 class="request_header">Waiting Approval</h2>
-                <!--Sort button implementation-->
-                <div class="dropdown">
-                    <button class="sort-btn">
-                        Sort By: <span id="selected-option-ceo"></span>
-                        <i class="bi bi-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <ul id="sortoptions-ceo">
-                            <li onclick="sortRequests('newest', 'request-body-ceo','sortoptions-ceo','selected-option-ceo')" data-value="Newest">Newest</li>
-                            <li onclick="sortRequests('oldest', 'request-body-ceo','sortoptions-ceo', 'selected-option-ceo')" data-value="Oldest">Oldest</li>
-                        </ul>
-                    </div>
-                </div>
-            </header>
-            <div class="request-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Employee Name</th>
-                            <th>Location</th>
-                            <th>Date</th>
-                            <th>Quick Action</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tbody id="request-body-ceo">
-                            @* display travel requests if they exist *@
-                            @if (Model.CEOApprovalList != null && Model.CEOApprovalList.Any())
+                        <td>
+                            @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
+                        </td>
+                        <td>
+                            @item.TransportationMode
+                        </td>
+                        <td>
+                            $@item.CostOfConference
+                        </td>
+                        <td>
+                            <form asp-action="Cancel" asp-controller="TravelRequests" method="post">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="redirectAction" value="Index" />
+                                    <input type="hidden" name="redirectController " value="Home" />
+                                    <button type="submit" class="btn cancel">
+                                        Cancel
+                                    </button>
+                            </form>
+                        </td>
+                        <td>
+                            @if(item.ApprovalStatus <= ApprovalStatus.ApprovedByCEO)
                             {
-                                @foreach (var item in Model.CEOApprovalList)
-                                {
-                                <tr>
-                                    <td>
-                                        <a asp-controller="TravelRequests" asp-action="Approval" asp-route-id="@item.Id">
-                                            @item.FirstName @item.LastName
-                                        </a>
-                                    </td>
-                                    <td>
-                                            @item.Location
-                                    </td>
-                                    <td>
-                                            @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
-                                    </td>
-                                    <td>
-                                        <div class="action-btn">
-                                            <button class="btn btn-success">
-                                                <i class="bi bi-check-square"></i>
-                                            </button>
-                                            <button class="btn btn-danger">
-                                                <i class="bi bi-x-lg"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                            @if (item.ApprovalStatus.GetDisplayName() == "Pending")
-                                            {
-                                            <span class="status pending">@item.ApprovalStatus.GetDisplayName()</span>
-                                            }
-                                            else if (item.ApprovalStatus.GetDisplayName() == "Booked")
-                                            {
-                                            <span class="status booked">@item.ApprovalStatus.GetDisplayName()</span>
-                                            }
-                                            else
-                                            {
-                                            <span class="status denied">@item.ApprovalStatus.GetDisplayName()</span>
-                                            }
-                                    </td>
-                                </tr>
-                                }
+                                <span class="status pending">@item.ApprovalStatus.GetDisplayName()</span>
                             }
-                            @* if no travel requests exist display message *@
+                            else if(item.ApprovalStatus == ApprovalStatus.Booked)
+                            {
+                                <span class="status booked">@item.ApprovalStatus.GetDisplayName()</span>
+                            }
                             else
                             {
-                            <tr>
-                                <td class="text-center">
-                                    <h3>No travel requests available.</h3>
-                                </td>
-                            </tr>
+                                <span class="status denied">@item.ApprovalStatus.GetDisplayName()</span>
                             }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    }
-    
+                        </td>
+                    </tr>
+                }
+            }
+            @* if no travel requests exist display message *@
+            else
+            {
+                <tr>
+                    <td class="text-center">
+                    <h3>No travel requests available.</h3>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+</div>
 
-    <!--Processor Section-->
-    @if (User.IsInRole("Processor"))
-    {
-        <div class="processor-container">
-            <header class="request-header">
-                <h2 class="request_header">Booking Required</h2>
-                <!--Sort button implementation-->
-                <div class="dropdown">
-                    <button class="sort-btn">
-                        Sort By: <span id="selected-option-processor"></span>
-                        <i class="bi bi-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <ul id="sortoptions-processor">
-                            <li onclick="sortRequests('newest', 'request-body-processor','sortoptions-processor','selected-option-processor')" data-value="Newest">Newest</li>
-                            <li onclick="sortRequests('oldest', 'request-body-processor','sortoptions-processor','selected-option-processor')" data-value="Oldest">Oldest</li>
-                        </ul>
-                    </div>
-                </div>
-            </header>
-            <div class="request-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Employee Name</th>
-                            <th>Location</th>
-                            <th>Date</th>
-                            <th>Transportation</th>
-                            <th>Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody id="request-body-processor">
-                        @if (Model.BookerList != null && Model.BookerList.Any())
-                        {
-                            @foreach (var item in Model.BookerList)
-                            {
-                                <tr>
-                                    <td>
-                                        @item.FirstName @item.LastName
-                                    </td>
-                                    <td>
-                                        @item.Location
-                                    </td>
-                                    <td>
-                                        @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
-                                    </td>
-                                    <td>
-                                        @item.TransportationMode
-                                    </td>
-                                    <td>
-                                        @item.CostOfConference
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        @* if no travel requests exist display message *@
-                        else
-                        {
-                            <tr>
-                                <td class="text-center">
-                                    <h3>No travel requests available.</h3>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    }
-}
-
-@if (User.IsInRole("Administrator"))
+<!--CEO/VP Section-->
+@if (User.IsInRole("VP") || User.IsInRole("Administrator"))
 {
-
-    <!--VP SECTION-->
-    <div class="request-container">
+<div class="vp-container">
         <header class="request-header">
-            <h2 class="request_header">VP Approval</h2>
+            @if (User.IsInRole("Administrator"))
+            {
+                <h2 class="request_header">VP Approval</h2>
+            }
+            else
+            {
+            <h2 class="request_header">Waiting Approval</h2>
+            }
             <!--Sort button implementation-->
             <div class="dropdown">
                 <button class="sort-btn">
@@ -360,66 +129,103 @@
                 </div>
             </div>
         </header>
-        <div class="request-table">
-            <table>
-                <thead>
+<div class="request-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Transportation</th>
+                <th>Cost</th>
+                <th>Quick Action</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="request-body-vp">
+            @* display travel requests if they exist *@
+            @if (Model.VPApprovalList != null && Model.VPApprovalList.Any())
+            {
+                @foreach (var item in Model.VPApprovalList)
+                {
                     <tr>
-                        <th>Employee</th>
-                        <th>Location</th>
-                        <th>Date</th>
-                        <th>Transportation</th>
-                        <th>Cost</th>
-                        <th>Quick Action</th>
-                        <th>Status</th>
+                        <td>
+                            <a asp-controller="TravelRequests" asp-action="Approval" asp-route-id="@item.Id">
+                                @item.FirstName @item.LastName
+                            </a>
+                        </td>
+                        <td>
+                            @item.Location
+                        </td>
+                        <td>
+                            @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
+                        </td>
+                        <td>
+                            @item.TransportationMode
+                        </td>
+                        <td>
+                            $@item.CostOfConference
+                        </td>
+                        <td>
+                            <div class="action-btn">
+                                <form asp-action="ApproveOrDeny" asp-controller="TravelRequests" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="hidden" name="redirectAction" value="Index" />
+                                    <input type="hidden" name="redirectController" value="Home" />
+                                    <button type="submit" name="decision" value="approve" class="btn btn-success">
+                                            <i class="bi bi-check-square"></i>
+                                    </button>
+                                        <button type="submit" name="decision" value="deny" class="btn btn-danger">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                        <td>
+                            @if (item.ApprovalStatus <= ApprovalStatus.ApprovedByCEO)
+                            {
+                                <span class="status pending">@item.ApprovalStatus.GetDisplayName()</span>
+                            }
+                            else if (item.ApprovalStatus == ApprovalStatus.Booked)
+                            {
+                                <span class="status booked">@item.ApprovalStatus.GetDisplayName()</span>
+                            }
+                            else
+                            {
+                                <span class="status denied">@item.ApprovalStatus.GetDisplayName()</span>
+                            }
+                        </td>
                     </tr>
-                </thead>
-                <tbody id="request-body-vp">
-                    @* display travel requests if they exist *@
-                    @if (Model.VPApprovalList != null && Model.VPApprovalList.Any())
-                    {
-                        @foreach (var item in Model.VPApprovalList)
-                        {
-                            <tr>
-                                <td>
-                                    @item.FirstName @item.LastName
-                                </td>
-                                <td>
-                                    @item.Location
-                                </td>
-                                <td>
-                                    @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
-                                </td>
-                                <td>
-                                    @item.TransportationMode
-                                </td>
-                                <td>
-                                    $@item.CostOfConference
-                                </td>
-                                <td><button class="btn cancel">Cancel</button></td>
-                                <td>
-                                    @item.ApprovalStatus.GetDisplayName()
-                                </td>
-                            </tr>
-                        }
-                    }
-                    @* if no travel requests exist display message *@
-                    else
-                    {
-                        <tr>
-                            <td class="text-center">
-                                <h3>No travel requests to approve.</h3>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                }
+            }
+            @* if no travel requests exist display message *@
+            else
+            {
+                <tr>
+                    <td class="text-center">
+                    <h3>No travel requests to approve.</h3>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
     </div>
+</div>
+}
 
-    <!--CEO SECTION-->
+
+@if (User.IsInRole("CEO") || User.IsInRole("Administrator"))
+{
     <div class="ceo-container">
         <header class="request-header">
-            <h2 class="request_header">Waiting Approvals</h2>
+            @if (User.IsInRole("Administrator"))
+            {
+                <h2 class="request_header">CEO Approval</h2>
+            }
+            else
+            {
+                <h2 class="request_header">Waiting Approval</h2>
+            }
             <!--Sort button implementation-->
             <div class="dropdown">
                 <button class="sort-btn">
@@ -438,9 +244,11 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Employee Name</th>
+                        <th>Employee</th>
                         <th>Location</th>
                         <th>Date</th>
+                        <th>Transportation</th>
+                        <th>Cost</th>
                         <th>Quick Action</th>
                         <th>Status</th>
                     </tr>
@@ -454,7 +262,9 @@
                             {
                             <tr>
                                 <td>
+                                    <a asp-controller="TravelRequests" asp-action="Approval" asp-route-id="@item.Id">
                                         @item.FirstName @item.LastName
+                                    </a>
                                 </td>
                                 <td>
                                         @item.Location
@@ -463,28 +273,39 @@
                                         @item.ConferenceStartDate?.ToShortDateString() - @item.ConferenceEndDate?.ToShortDateString()
                                 </td>
                                 <td>
+                                        @item.TransportationMode
+                                </td>
+                                <td>
+                                    $@item.CostOfConference
+                                </td>
+                                <td>
                                     <div class="action-btn">
-                                        <button class="btn btn-success">
-                                            <i class="bi bi-check-square"></i>
-                                        </button>
-                                        <button class="btn btn-danger">
-                                            <i class="bi bi-x-lg"></i>
-                                        </button>
+                                        <form asp-action="ApproveOrDeny" asp-controller="TravelRequests" method="post" class="d-inline">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <input type="hidden" name="redirectAction" value="Index" />
+                                            <input type="hidden" name="redirectController" value="Home" />
+                                            <button type="submit" name="decision" value="approve" class="btn btn-success">
+                                                <i class="bi bi-check-square"></i>
+                                            </button>
+                                            <button type="submit" name="decision" value="deny" class="btn btn-danger">
+                                                <i class="bi bi-x-lg"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                                 <td>
-                                        @if (item.ApprovalStatus.GetDisplayName() == "Pending")
-                                        {
-                                        <span class="status pending">@item.ApprovalStatus.GetDisplayName()</span>
-                                        }
-                                        else if (item.ApprovalStatus.GetDisplayName() == "Booked")
-                                        {
-                                        <span class="status booked">@item.ApprovalStatus.GetDisplayName()</span>
-                                        }
-                                        else
-                                        {
-                                        <span class="status denied">@item.ApprovalStatus.GetDisplayName()</span>
-                                        }
+                                    @if (item.ApprovalStatus <= ApprovalStatus.ApprovedByCEO)
+                                    {
+                                    <span class="status pending">@item.ApprovalStatus.GetDisplayName()</span>
+                                    }
+                                    else if (item.ApprovalStatus == ApprovalStatus.Booked)
+                                    {
+                                    <span class="status booked">@item.ApprovalStatus.GetDisplayName()</span>
+                                    }
+                                    else
+                                    {
+                                    <span class="status denied">@item.ApprovalStatus.GetDisplayName()</span>
+                                    }
                                 </td>
                             </tr>
                             }
@@ -502,8 +323,12 @@
             </table>
         </div>
     </div>
+}
+    
 
-    <!--PROCESSOR SECTION-->
+<!--Processor Section-->
+@if (User.IsInRole("Processor") || User.IsInRole("Administrator"))
+{
     <div class="processor-container">
         <header class="request-header">
             <h2 class="request_header">Booking Required</h2>
@@ -533,13 +358,15 @@
                     </tr>
                 </thead>
                 <tbody id="request-body-processor">
-                    @if (Model.BookerList != null && Model.BookerList.Any())
+                    @if (Model.ProcessorList != null && Model.ProcessorList.Any())
                     {
-                        @foreach (var item in Model.BookerList)
+                        @foreach (var item in Model.ProcessorList)
                         {
                             <tr>
                                 <td>
-                                    @item.FirstName @item.LastName
+                                    <a asp-controller="TravelRequests" asp-action="Book" asp-route-id="@item.Id">
+                                        @item.FirstName @item.LastName
+                                    </a>
                                 </td>
                                 <td>
                                     @item.Location
