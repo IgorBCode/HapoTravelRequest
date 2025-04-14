@@ -5,6 +5,8 @@
 }
 <form asp-action="ApproveOrDeny" method="post" class="sticky-action-bar">
     <input type="hidden" name="id" value="@Model.Id" />
+    <input type="hidden" name="redirectAction" value="ViewTravelRequests" />
+    <input type="hidden" name="redirectController " value="TravelRequests" />
     <button type="submit" name="decision" value="approve" class="custom-btn-yellow">Approve</button>
     <button type="submit" name="decision" value="deny" class="btn btn-danger">Deny</button>
 </form>

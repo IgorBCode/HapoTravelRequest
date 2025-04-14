@@ -170,49 +170,37 @@ namespace HapoTravelRequest.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    if (Input.RoleName == "VP")
-                    {
-                        await _userManager.AddToRolesAsync(user, new[] {"Employee", "VP"});
-                    }
-                    else if (Input.RoleName == "CEO")
-                    {
-                        await _userManager.AddToRolesAsync(user, new[] {"Employee", "CEO"});
-                    }
-                    else if (Input.RoleName == "Processor")
-                    {
-                        await _userManager.AddToRolesAsync(user, new[] { "Employee", "Processor"});
-                    }
-                    else if (Input.RoleName == "Administrator")
-                    {
-                        await _userManager.AddToRolesAsync(user, new[] {"Employee", "CEO", "VP", "Processor", "Administrator" });
-                    }
-                    else
-                    {
-                        await _userManager.AddToRoleAsync(user, "Employee");
-                    }
-
-                    // commented out email confirmation logic
-                    //var userId = await _userManager.GetUserIdAsync(user);
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    //var callbackUrl = Url.Page(
-                    //    "/Account/ConfirmEmail",
-                    //    pageHandler: null,
-                    //    values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                    //    protocol: Request.Scheme);
-
-                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    //if (Input.RoleName == "VP")
                     //{
-                    //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    //    await _userManager.AddToRolesAsync(user, new[] {"Employee", "VP"});
+                    //}
+                    //else if (Input.RoleName == "CEO")
+                    //{
+                    //    await _userManager.AddToRolesAsync(user, new[] {"Employee", "CEO"});
+                    //}
+                    //else if (Input.RoleName == "Processor")
+                    //{
+                    //    await _userManager.AddToRolesAsync(user, new[] { "Employee", "Processor"});
+                    //}
+                    //else if (Input.RoleName == "Administrator")
+                    //{
+                    //    await _userManager.AddToRolesAsync(user, new[] {"Employee", "CEO", "VP", "Processor", "Administrator" });
                     //}
                     //else
                     //{
-                    //    await _signInManager.SignInAsync(user, isPersistent: false);
-                    //    return LocalRedirect(returnUrl);
+                    //    await _userManager.AddToRoleAsync(user, "Employee");
                     //}
+
+                    string assignedRole = Input.RoleName switch
+                    {
+                        "VP" => "VP",
+                        "CEO" => "CEO",
+                        "Processor" => "Processor",
+                        "Administrator" => "Administrator",
+                        _ => "Employee"
+                    };
+
+                    await _userManager.AddToRoleAsync(user, assignedRole);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Test Email Subject", $"Check this out! It's not a virus :) <a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>click here</a>");
 
