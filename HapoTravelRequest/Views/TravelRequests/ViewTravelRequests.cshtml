@@ -1,3 +1,4 @@
+@using HapoTravelRequest.Helpers
 @model List<HapoTravelRequest.Models.TravelRequest.TravelRequestListVM>
 @{
   ViewData["Title"] = "View Travel Requests";
@@ -37,37 +38,76 @@
       @foreach (var request in Model)
       {
         <tr>
-          <td>@request.FirstName @request.LastName</td>
+            @* Take user to approval page if they're vp or ceo' *@
+            @* if user is admin, take them to approval page only if request is pending approval*@
+            @if (User.IsInRole("VP") || 
+            User.IsInRole("CEO") || 
+            (User.IsInRole("Administrator") && request.ApprovalStatus < ApprovalStatus.ApprovedByCEO))
+            {
+                <td>
+                    <a asp-controller="TravelRequests" asp-action="Approval" asp-route-id="@request.Id">
+                        @request.FirstName @request.LastName
+                    </a>
+                </td>
+            }
+            @* take processors to booking page*@
+            else if (User.IsInRole("Processor") ||
+            (User.IsInRole("Administrator") && request.ApprovalStatus == ApprovalStatus.ApprovedByCEO))
+            {
+                <td>
+                    <a asp-controller="TravelRequests" asp-action="Book" asp-route-id="@request.Id">
+                        @request.FirstName @request.LastName
+                    </a>
+                </td>
+            }
+            @* default to view travel request details*@
+            else 
+            {
+                <td>
+                    <a asp-controller="TravelRequests" asp-action="Details" asp-route-id="@request.Id">
+                        @request.FirstName @request.LastName
+                    </a>
+                </td>
+            }
+
           <td>@request.ConferenceDescription</td>
           <td>@request.Location</td>
           <td>@request.ConferenceStartDate?.ToString("MM/dd/yyyy")</td>
           <td>@request.ConferenceEndDate?.ToString("MM/dd/yyyy")</td>
           <td>$@request.CostOfConference</td>
           <td>
-            @if (User.IsInRole("VP") || User.IsInRole("CEO"))
+            @if (User.IsInRole("VP") || User.IsInRole("CEO") || User.IsInRole("Administrator"))
             {
-              <a asp-action="ViewRequest" asp-route-id="@request.Id" class="btn btn-sm text-dark" title="View">
+              <a asp-action="Details" asp-controller="TravelRequests" asp-route-id="@request.Id" class="btn btn-sm text-dark" title="View">
                 <i class="bi bi-eye"></i>
               </a>
-              <a asp-action="Edit" asp-route-id="@request.Id" class="btn btn-sm text-dark" title="Edit">
-                <i class="bi bi-check-square"></i>
-              </a>
-              <a asp-action="Delete" asp-route-id="@request.Id" class="btn btn-sm text-dark" title="Cancel">
-                <i class="bi bi-x-lg"></i>
-              </a>
+              @* approve and deny buttons *@
+              <form asp-action="ApproveOrDeny" method="post" class="d-inline">
+                  <input type="hidden" name="id" value="@request.Id" />
+                                <input type="hidden" name="redirectAction" value="ViewTravelRequests" />
+                                <input type="hidden" name="redirectController " value="TravelRequests" />
+                        <button type="submit" name="decision" value="approve" class="btn btn-sm text-dark">
+                        <i class="bi bi-check-square"></i>
+                    </button>
+                                <button type="submit" name="decision" value="deny" class="btn btn-sm text-dark">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+              </form>
             }
-            else if (User.IsInRole("Processor"))
+            else if (User.IsInRole("Processor") || User.IsInRole("Administrator"))
             {
-              <a asp-action="Delete" asp-route-id="@request.Id" class="btn btn-sm text-dark" title="Cancel">
-                <i class="bi bi-x-lg"></i>
-              </a>
+                <form asp-controller="TravelRequests" asp-route-id="@request.Id" method="post" class="d-inline">
+                    <input type="hidden" name="id" value="@request.Id" />
+                    <input type="hidden" name="redirectAction" value="ViewTravelRequests" />
+                    <input type="hidden" name="redirectController " value="TravelRequests" />
+                    <button asp-action="Cancel" asp-route-id="@request.Id" class="btn btn-sm text-dark" title="Cancel">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </form>
             }
           </td>
-
-
-
           <td>
-            <span class="btn btn-sm btn-warning">@request.ApprovalStatus</span>
+            <span class="btn btn-sm btn-warning">@request.ApprovalStatus.GetDisplayName()</span>
           </td>
         </tr>
       }

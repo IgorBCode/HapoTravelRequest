@@ -17,6 +17,9 @@ namespace HapoTravelRequest.Models
         Booked = 3,
 
         [Display(Name = "Denied")]
-        Denied = 4
+        Denied = 4,
+
+        [Display(Name = "Canceled")]
+        Cancelled = 5
     }
 }

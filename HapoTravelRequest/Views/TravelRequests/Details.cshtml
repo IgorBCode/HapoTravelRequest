@@ -1,198 +1,70 @@
-﻿@model HapoTravelRequest.Data.TravelRequest
+﻿@model HapoTravelRequest.Models.TravelRequest.TravelRequestReadOnlyVM
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Travel Request Details";
 }
 
-<h1>Details</h1>
+<h2>Travel Request Details</h2>
 
-<div>
-    <h4>TravelRequest</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PurposeOfTravel)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PurposeOfTravel)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NonEmployeeLegalName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NonEmployeeLegalName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NonEmployeeDOB)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NonEmployeeDOB)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ConferenceDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ConferenceDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ConferenceLink)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ConferenceLink)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AlternativeText)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AlternativeText)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CostOfConference)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CostOfConference)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ConferenceStartDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ConferenceStartDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ConferenceEndDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ConferenceEndDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DepartureDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DepartureDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReturnDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReturnDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EmployeesAttending)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EmployeesAttending)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EmployeesAttendingNames)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EmployeesAttendingNames)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ConferenceHotelName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ConferenceHotelName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PreferredLodgingInfo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PreferredLodgingInfo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SpecialTravelRequest)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SpecialTravelRequest)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TransportationMode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TransportationMode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AirlineDetails)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AirlineDetails)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FlightCost)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FlightCost)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GroundTransportation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GroundTransportation)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MileageReimbursement)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MileageReimbursement)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MileageRoundTrip)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MileageRoundTrip)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MIE)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MIE)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DailyMIEAmount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DailyMIEAmount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DaysForMIE)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DaysForMIE)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DepositAccount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DepositAccount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AccountType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AccountType)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ApprovalStatus)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ApprovalStatus)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.Id)
-        </dd>
-    </dl>
+<hr />
+<h4>Employee Information</h4>
+<div class="row">
+    <div class="col-md-6">
+        <p><strong>@Html.DisplayNameFor(m => m.FirstName):</strong> @Model.FirstName</p>
+        <p><strong>@Html.DisplayNameFor(m => m.LastName):</strong> @Model.LastName</p>
+        <p><strong>@Html.DisplayNameFor(m => m.DateOfBirth):</strong> @Model.DateOfBirth</p>
+        <p><strong>@Html.DisplayNameFor(m => m.PhoneNumber):</strong> @Model.PhoneNumber</p>
+    </div>
+    <div class="col-md-6">
+        <p><strong>@Html.DisplayNameFor(m => m.Department):</strong> @Model.Department</p>
+        <p><strong>@Html.DisplayNameFor(m => m.PositionTitle):</strong> @Model.PositionTitle</p>
+        <p><strong>@Html.DisplayNameFor(m => m.DepartmentDirector):</strong> @Model.DepartmentDirector</p>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<hr />
+<h4>Conference & Travel Information</h4>
+<div class="row">
+    <div class="col-md-6">
+        <p><strong>@Html.DisplayNameFor(m => m.PurposeOfTravel):</strong> @Model.PurposeOfTravel</p>
+        <p><strong>@Html.DisplayNameFor(m => m.NonEmployeeGuests):</strong> @(Model.NonEmployeeGuests ? "Yes" : "No")</p>
+        <p><strong>@Html.DisplayNameFor(m => m.NonEmployeeLegalName):</strong> @Model.NonEmployeeLegalName</p>
+        <p><strong>@Html.DisplayNameFor(m => m.NonEmployeeDOB):</strong> @Model.NonEmployeeDOB?.ToShortDateString()</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ConferenceDescription):</strong> @Model.ConferenceDescription</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ConferenceLink):</strong> @Model.ConferenceLink</p>
+        <p><strong>@Html.DisplayNameFor(m => m.AlternativeText):</strong> @Model.AlternativeText</p>
+        <p><strong>@Html.DisplayNameFor(m => m.Location):</strong> @Model.Location</p>
+        <p><strong>@Html.DisplayNameFor(m => m.CostOfConference):</strong> $@Model.CostOfConference</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ConferenceStartDate):</strong> @Model.ConferenceStartDate?.ToShortDateString()</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ConferenceEndDate):</strong> @Model.ConferenceEndDate?.ToShortDateString()</p>
+        <p><strong>@Html.DisplayNameFor(m => m.RegistrationDeadline):</strong> @Model.RegistrationDeadline?.ToShortDateString()</p>
+        <p><strong>@Html.DisplayNameFor(m => m.DepartureDate):</strong> @Model.DepartureDate.ToShortDateString()</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ReturnDate):</strong> @Model.ReturnDate.ToShortDateString()</p>
+    </div>
+    <div class="col-md-6">
+        <p><strong>@Html.DisplayNameFor(m => m.EmployeesAttending):</strong> @Model.EmployeesAttending</p>
+        <p><strong>@Html.DisplayNameFor(m => m.EmployeesAttendingNames):</strong> @Model.EmployeesAttendingNames</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ConferenceHotelName):</strong> @Model.ConferenceHotelName</p>
+        <p><strong>@Html.DisplayNameFor(m => m.PreferredLodgingInfo):</strong> @Model.PreferredLodgingInfo</p>
+        <p><strong>@Html.DisplayNameFor(m => m.SpecialTravelRequest):</strong> @Model.SpecialTravelRequest</p>
+        <p><strong>@Html.DisplayNameFor(m => m.TransportationMode):</strong> @Model.TransportationMode</p>
+        <p><strong>@Html.DisplayNameFor(m => m.AirlineDetails):</strong> @Model.AirlineDetails</p>
+        <p><strong>@Html.DisplayNameFor(m => m.FlightCost):</strong> $@Model.FlightCost</p>
+        <p><strong>@Html.DisplayNameFor(m => m.GroundTransportation):</strong> @Model.GroundTransportation</p>
+        <p><strong>@Html.DisplayNameFor(m => m.MileageReimbursement):</strong> @(Model.MileageReimbursement ? "Yes" : "No")</p>
+        <p><strong>@Html.DisplayNameFor(m => m.MileageRoundTrip):</strong> @Model.MileageRoundTrip</p>
+        <p><strong>@Html.DisplayNameFor(m => m.MIE):</strong> @(Model.MIE ? "Yes" : "No")</p>
+        <p><strong>@Html.DisplayNameFor(m => m.DailyMIEAmount):</strong> $@Model.DailyMIEAmount</p>
+        <p><strong>@Html.DisplayNameFor(m => m.DaysForMIE):</strong> @Model.DaysForMIE</p>
+        <p><strong>@Html.DisplayNameFor(m => m.DepositAccount):</strong> @Model.DepositAccount</p>
+        <p><strong>@Html.DisplayNameFor(m => m.AccountType):</strong> @Model.AccountType</p>
+        <p><strong>@Html.DisplayNameFor(m => m.CorporateCard):</strong> @(Model.CorporateCard ? "Yes" : "No")</p>
+        <p><strong>@Html.DisplayNameFor(m => m.ValueExplination):</strong> @Model.ValueExplination</p>
+        <p><strong>@Html.DisplayNameFor(m => m.EmergencyContactname):</strong> @Model.EmergencyContactname</p>
+        <p><strong>@Html.DisplayNameFor(m => m.EmergencyContactPhoneNumber):</strong> @Model.EmergencyContactPhoneNumber</p>
+        <p><strong>@Html.DisplayNameFor(m => m.TSANumber):</strong> @Model.TSANumber</p>
+        <p><strong>@Html.DisplayNameFor(m => m.GroundOptions):</strong> @Model.GroundOptions</p>
+        <p><strong>@Html.DisplayNameFor(m => m.Registered):</strong> @(Model.Registered ? "Yes" : "No")</p>
+        <p><strong>@Html.DisplayNameFor(m => m.RegisteredForConference):</strong> @(Model.RegisteredForConference ? "Yes" : "No")</p>
+    </div>
 </div>

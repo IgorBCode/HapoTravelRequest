@@ -26,8 +26,8 @@ namespace HapoTravelRequest.Controllers
             var user = await _userManager.GetUserAsync(User);
             bool isVP = await _userManager.IsInRoleAsync(user, "VP");
             bool isCEO = await _userManager.IsInRoleAsync(user, "CEO");
-            bool isBooker = await _userManager.IsInRoleAsync(user, "Booker");
-            bool isAdmin = await _userManager.IsInRoleAsync(user, "CEO");
+            bool isProcessor = await _userManager.IsInRoleAsync(user, "Processor");
+            bool isAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
 
             // get 3 most recent travel requests for the logged in user
             var travelRequests = await _context.TravelRequests
@@ -44,7 +44,8 @@ namespace HapoTravelRequest.Controllers
                     ConferenceStartDate = q.ConferenceStartDate,
                     ConferenceEndDate = q.ConferenceEndDate,
                     TransportationMode = q.TransportationMode,
-                    CostOfConference = q.CostOfConference
+                    CostOfConference = q.CostOfConference,
+                    ApprovalStatus = q.ApprovalStatus
                 })
                 .ToListAsync();
 
@@ -52,7 +53,7 @@ namespace HapoTravelRequest.Controllers
             List<TravelRequestListVM> vpApprovalList = new List<TravelRequestListVM>();
             List<TravelRequestListVM> ceoApprovalList = new List<TravelRequestListVM>();
             List<TravelRequestListVM> adminList = new List<TravelRequestListVM>();
-            List<TravelRequestListVM> bookerList = new List<TravelRequestListVM>();
+            List<TravelRequestListVM> processorList = new List<TravelRequestListVM>();
             
             // VP APPROVAL LIST
             if (isVP)
@@ -74,13 +75,14 @@ namespace HapoTravelRequest.Controllers
                     ConferenceStartDate = q.ConferenceStartDate,
                     ConferenceEndDate = q.ConferenceEndDate,
                     TransportationMode = q.TransportationMode,
-                    CostOfConference = q.CostOfConference
+                    CostOfConference = q.CostOfConference,
+                    ApprovalStatus = q.ApprovalStatus
                 })
                 .ToListAsync();
             }
 
             // CEO APPROVAL LIST
-            if (isCEO)
+            if (isCEO || isAdmin)
             {
                 ceoApprovalList = await _context.TravelRequests
                 .Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByVP)
@@ -96,15 +98,16 @@ namespace HapoTravelRequest.Controllers
                     ConferenceStartDate = q.ConferenceStartDate,
                     ConferenceEndDate = q.ConferenceEndDate,
                     TransportationMode = q.TransportationMode,
-                    CostOfConference = q.CostOfConference
+                    CostOfConference = q.CostOfConference,
+                    ApprovalStatus = q.ApprovalStatus
                 })
                 .ToListAsync();
             }
 
             // NEED TO BE BOOKED LIST
-            if (isBooker)
+            if (isProcessor)
             {
-                bookerList = await _context.TravelRequests
+                processorList = await _context.TravelRequests
                 .Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO)
                 .Include(q => q.User)
                 .OrderByDescending(q => q.ConferenceStartDate)
@@ -118,16 +121,16 @@ namespace HapoTravelRequest.Controllers
                     ConferenceStartDate = q.ConferenceStartDate,
                     ConferenceEndDate = q.ConferenceEndDate,
                     TransportationMode = q.TransportationMode,
-                    CostOfConference = q.CostOfConference
+                    CostOfConference = q.CostOfConference,
+                    ApprovalStatus = q.ApprovalStatus
                 })
                 .ToListAsync();
             }
 
             if (isAdmin)
             {
-                adminList = await _context.TravelRequests
-                .Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO ||
-                            q.ApprovalStatus == ApprovalStatus.ApprovedByVP)
+                vpApprovalList = await _context.TravelRequests
+                .Where(q => q.ApprovalStatus == ApprovalStatus.Pending)
                 .Include(q => q.User)
                 .OrderByDescending(q => q.ConferenceStartDate)
                 .Take(3)
@@ -140,18 +143,38 @@ namespace HapoTravelRequest.Controllers
                     ConferenceStartDate = q.ConferenceStartDate,
                     ConferenceEndDate = q.ConferenceEndDate,
                     TransportationMode = q.TransportationMode,
-                    CostOfConference = q.CostOfConference
+                    CostOfConference = q.CostOfConference,
+                    ApprovalStatus = q.ApprovalStatus
                 })
                 .ToListAsync();
+                //adminList = await _context.TravelRequests
+                //.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO ||
+                //            q.ApprovalStatus == ApprovalStatus.ApprovedByVP)
+                //.Include(q => q.User)
+                //.OrderByDescending(q => q.ConferenceStartDate)
+                //.Take(3)
+                //.Select(q => new TravelRequestListVM
+                //{
+                //    Id = q.Id,
+                //    FirstName = q.User.FirstName,
+                //    LastName = q.User.LastName,
+                //    Location = q.Location,
+                //    ConferenceStartDate = q.ConferenceStartDate,
+                //    ConferenceEndDate = q.ConferenceEndDate,
+                //    TransportationMode = q.TransportationMode,
+                //    CostOfConference = q.CostOfConference,
+                //    ApprovalStatus = q.ApprovalStatus
+                //})
+                //.ToListAsync();
             }
 
             var model = new HomePageVM
             {
                 UserTravelRequests = travelRequests,
-                BookerList = bookerList,
+                ProcessorList = processorList,
                 VPApprovalList = vpApprovalList,
                 CEOApprovalList = ceoApprovalList,
-                AdminApprovalList = adminList
+                //AdminApprovalList = adminList
             };
 
             return View(model);
