@@ -7,17 +7,10 @@
 :root {
     --bs-body-color: #141414;
     --hapo-yellow: #FFDC32;
-    --hapo-grey: #9D9FA2;
+    --hapo-grey: #B5B7C0;
+    --hapo-grey-light: #9d9fa20D;
     --hapo-green: #6CC72B;
     --hapo-black: #000000;
-}
-
-html {
-    position: relative;
-}
-
-body {
-    margin-bottom: 3.75rem;
 }
 
 .btn:focus,
@@ -176,14 +169,13 @@ th {
     align-items: center;
     padding: 0.625rem 1.5rem;
     font-family: 'Museo Sans', var(--bs-font-sans-serif);
-    background-color: white;
-    color: var(--hapo-black);
+    background-color: var(--hapo-grey-light);
     border: none;
     cursor: pointer;
     border-radius: 0.25rem;
     box-shadow: 0rem 0.25rem 0.5rem 0rem rgba(0, 0, 0, 0.2);
-    position: relative;
-    width: 9.688rem;
+    /* position: relative; */
+    width: 10rem;
     padding: 0.625rem;
 }
 
@@ -306,6 +298,7 @@ th {
     cursor: pointer;
     margin-top: 3.25rem;
     font-size: 3.75rem;
+    transition: cubic-bezier(0.55, 0.055, 0.675, 0.19) 0.1s;
 }
 
 /* invert button colors on hover */
