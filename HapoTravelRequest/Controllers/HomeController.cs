@@ -24,41 +24,24 @@ namespace HapoTravelRequest.Controllers
             {
                 ["VP"] = await _userManager.IsInRoleAsync(user, "VP"),
                 ["CEO"] = await _userManager.IsInRoleAsync(user, "CEO"),
-                ["Booker"] = await _userManager.IsInRoleAsync(user, "Booker"),
+                ["Processor"] = await _userManager.IsInRoleAsync(user, "Processor"),
                 ["Admin"] = await _userManager.IsInRoleAsync(user, "Admin")
             };
 
             var model = new HomePageVM
             {
-                UserTravelRequests = await GetTravelRequestsListAsync(
-                    query => query.Where(q => q.UserId == user.Id),
-                    3
-                ),
+                UserTravelRequests = await GetTravelRequestsListAsync(query => query.Where(q => q.UserId == user.Id), 3),
                 VPApprovalList = userRoles["VP"]
-                    ? await GetTravelRequestsListAsync(
-                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.Pending &&
-                                                q.User.DepartmentDirector.Equals(user.Email, StringComparison.CurrentCultureIgnoreCase)),
-                        3
-                    )
+                    ? await GetTravelRequestsListAsync(query => query.Where(q => q.ApprovalStatus == ApprovalStatus.Pending && q.User.DepartmentDirector.ToLower() == user.Email!.ToLower()), 3)
                     : [],
                 CEOApprovalList = userRoles["CEO"]
-                    ? await GetTravelRequestsListAsync(
-                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByVP),
-                        3
-                    )
+                    ? await GetTravelRequestsListAsync(query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByVP), 3)
                     : [],
-                BookerList = userRoles["Booker"]
-                    ? await GetTravelRequestsListAsync(
-                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO),
-                        3
-                    )
+                ProcessorList = userRoles["Processor"]
+                    ? await GetTravelRequestsListAsync(query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO), 3)
                     : [],
                 AdminApprovalList = userRoles["Admin"]
-                    ? await GetTravelRequestsListAsync(
-                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO ||
-                                                q.ApprovalStatus == ApprovalStatus.ApprovedByVP),
-                        3
-                    )
+                    ? await GetTravelRequestsListAsync(query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO || q.ApprovalStatus == ApprovalStatus.ApprovedByVP), 3)
                     : []
             };
 
@@ -75,6 +58,7 @@ namespace HapoTravelRequest.Controllers
                 .Take(take)
                 .Select(q => new TravelRequestListVM
                 {
+                    Id = q.Id,
                     FirstName = q.User.FirstName,
                     LastName = q.User.LastName,
                     Location = q.Location,

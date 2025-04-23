@@ -1,34 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using HapoTravelRequest.Data;
 using HapoTravelRequest.Models.TravelRequest;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
-using HapoTravelRequest.Services;
-using System.Runtime.ConstrainedExecution;
-using Microsoft.IdentityModel.Tokens;
 using HapoTravelRequest.Models;
-using Azure.Core;
 
 namespace HapoTravelRequest.Controllers
 {
     [Authorize]
-    public class TravelRequestsController : Controller
+    public class TravelRequestsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IEmailSender emailSender) : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _emailSender;
-
-        public TravelRequestsController(
-            ApplicationDbContext context, 
-            UserManager<ApplicationUser> userManager,
-            IEmailSender emailSender
-            )
-        {
-            _context = context;
-            _userManager = userManager;
-            _emailSender = emailSender;
-        }
+        private readonly ApplicationDbContext _context = context;
+        private readonly UserManager<ApplicationUser> _userManager = userManager;
+        private readonly IEmailSender _emailSender = emailSender;
 
         // GET: TravelRequests
         public async Task<IActionResult> Index()
@@ -252,8 +233,8 @@ namespace HapoTravelRequest.Controllers
             {
                 return View(model);
             }
-            
-            var user = await _userManager.GetUserAsync (User);
+
+            var user = await _userManager.GetUserAsync(User);
             if (user is null)
             {
                 return NotFound();
@@ -362,7 +343,7 @@ namespace HapoTravelRequest.Controllers
                 Registered = model.Registered,
                 ApprovalStatus = status
             };
-            
+
             _context.TravelRequests.Add(travelRequest);
             await _context.SaveChangesAsync();
 
@@ -813,7 +794,7 @@ namespace HapoTravelRequest.Controllers
         public async Task<IActionResult> ViewTravelRequests()
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null) 
+            if (user == null)
             {
                 return NotFound();
             }
