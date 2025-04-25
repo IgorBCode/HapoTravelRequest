@@ -144,6 +144,16 @@ th {
     color: var(--hapo-grey)
 }
 
+.request-container-admin {
+    max-width: 75rem;
+    background: white;
+    border-radius: 0.625rem;
+}
+
+.admin-user-list-table {
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
 .btn {
     padding: 0.375rem 0.75rem;
     border: none;
