@@ -1,15 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using HapoTravelRequest.Models.TravelRequest;
 using HapoTravelRequest.Models;
+using HapoTravelRequest.Services;
 
 namespace HapoTravelRequest.Controllers
 {
     [Authorize]
-    public class TravelRequestsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IEmailSender emailSender) : Controller
+    public class TravelRequestsController(
+        ApplicationDbContext context, 
+        UserManager<ApplicationUser> userManager, 
+        IEmailSender emailSender,
+        TravelRequestService travelRequestService) : Controller
     {
         private readonly ApplicationDbContext _context = context;
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly IEmailSender _emailSender = emailSender;
+        private readonly TravelRequestService _travelRequestService = travelRequestService;
 
         // GET: TravelRequests
         public async Task<IActionResult> Index()
@@ -172,29 +178,42 @@ namespace HapoTravelRequest.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            if (user == null)
+            if (user is null)
             {
                 return NotFound();
             }
 
-            // get all travel requests
-            var travelRequests = await _context.TravelRequests
-                .Where(q => q.UserId == user.Id)
-                .Include(q => q.User)
-                .OrderByDescending(q => q.ConferenceStartDate)
-                .Select(q => new TravelRequestListVM
-                {
-                    Id = q.Id,
-                    FirstName = q.User.FirstName,
-                    LastName = q.User.LastName,
-                    Location = q.Location,
-                    ConferenceStartDate = q.ConferenceStartDate,
-                    ConferenceEndDate = q.ConferenceEndDate,
-                    TransportationMode = q.TransportationMode,
-                    CostOfConference = q.CostOfConference,
-                    ApprovalStatus = q.ApprovalStatus
-                })
-                .ToListAsync();
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var travelRequests = new List<TravelRequestListVM>();
+
+            // current users requests
+            var userRequests = await _travelRequestService.GetTravelRequestsListAsync(
+                query => query.Where(q => q.UserId == user.Id));
+            travelRequests.AddRange(userRequests);
+
+            // add role based requests to list
+            if (roles.Contains("VP") || roles.Contains("Administrator"))
+            {
+                var vpRequests = await _travelRequestService.GetTravelRequestsListAsync(
+                    query => query.Where(q => q.ApprovalStatus == ApprovalStatus.Pending &&
+                                                q.User.DepartmentDirector.ToLower() == user.Email.ToLower()));
+                travelRequests.AddRange(vpRequests);
+            }
+
+            if (roles.Contains("CEO") || roles.Contains("Administrator"))
+            {
+                var ceoRequests = await _travelRequestService.GetTravelRequestsListAsync(
+                    query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByVP));
+                travelRequests.AddRange(ceoRequests);
+            }
+
+            if (roles.Contains("Processor") || roles.Contains("Administrator"))
+            {
+                var processorRequests = await _travelRequestService.GetTravelRequestsListAsync(
+                    query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO));
+                travelRequests.AddRange(processorRequests);
+            }
 
             return View(travelRequests);
         }
@@ -528,6 +547,7 @@ namespace HapoTravelRequest.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Processor,Administrator")]
         public async Task<IActionResult> Book(int? id)
         {
             if (id == null)
