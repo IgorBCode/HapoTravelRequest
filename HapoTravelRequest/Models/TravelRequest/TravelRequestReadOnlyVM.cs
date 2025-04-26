@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using HapoTravelRequest.Models.Comment;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HapoTravelRequest.Models.TravelRequest;
 
@@ -142,4 +143,10 @@ public class TravelRequestReadOnlyVM
 
     [Display(Name = "Are you registered?")]
     public bool Registered { get; set; }
+
+    //****************** Comment ******************
+    [Display(Name = "Add comment")]
+    public string NewComment { get; set; }
+
+    public List<CommentVM> RequestComments { get; set; }
 }
