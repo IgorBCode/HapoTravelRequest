@@ -1,0 +1,20 @@
+﻿@model List<HapoTravelRequest.Models.Comment.CommentVM>
+
+<div id="comments-list">
+    @if (Model != null && Model.Any())
+    {
+        <ul class="list-group">
+            @foreach (var comment in Model)
+            {
+                <li class="list-group-item">
+                    <strong>@comment.AuthorName</strong> (@comment.CreateTime.ToShortDateString()):<br />
+                    @comment.Content
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No comments.</p>
+    }
+</div>
