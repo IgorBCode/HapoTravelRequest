@@ -4,8 +4,20 @@
     ViewData["Title"] = "Travel Request Details";
 }
 
-<h2>Travel Request Details</h2>
+@* comments id *@
+<input type="hidden" id="travelRequestId" name="Id" value="@Model.Id" />
 
+
+<h2>Travel Request Details</h2>
+<hr />
+<h4>Comments</h4>
+<div class="row">
+    <div class="col-md-6">
+        <div id="comments-container">
+            @* div for comments *@
+        </div>
+    </div>
+</div>
 <hr />
 <h4>Employee Information</h4>
 <div class="row">
@@ -68,3 +80,27 @@
         <p><strong>@Html.DisplayNameFor(m => m.RegisteredForConference):</strong> @(Model.RegisteredForConference ? "Yes" : "No")</p>
     </div>
 </div>
+@section Scripts {
+    <script>
+        function loadComments() {
+            var travelRequestId = $('input[name="Id"]').val();
+            $.get('@Url.Action("GetComments", "TravelRequests")', { id: travelRequestId }, function (data) {
+                $('#comments-container').hide().html(data).fadeIn(400);
+            });
+        }
+
+        $(document).ready(function () {
+            loadComments();
+
+            $('#add-comment-form').submit(function (e) {
+                e.preventDefault();
+                var form = $(this);
+
+                $.post(form.attr('action'), form.serialize(), function () {
+                    form[0].reset();
+                    loadComments();
+                });
+            });
+        });
+    </script>
+}

@@ -8,5 +8,4 @@ public class HomePageVM
     public List<TravelRequestListVM> ProcessorList { get; set; } = new();
     public List<TravelRequestListVM> VPApprovalList { get; set; } = new();
     public List<TravelRequestListVM> CEOApprovalList { get; set; } = new();
-    public List<TravelRequestListVM> AdminApprovalList { get; set; } = new();
 }

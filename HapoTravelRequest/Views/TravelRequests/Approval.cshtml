@@ -14,6 +14,28 @@
 <h2>Travel Request Details</h2>
 
 <hr />
+<div class="mt-4">
+    <form asp-action="AddComment" method="post" class="my-4" id="add-comment-form">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group">
+            <label asp-for="NewComment" class="control-label"></label>
+            <textarea asp-for="NewComment" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="NewComment" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-2 mb-4">Submit Comment</button>
+    </form>
+    <hr />
+    <h4>Comments</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <div id="comments-container">
+                @* div for comments *@
+            </div>
+        </div>
+    </div>
+</div>
 <h4>Employee Information</h4>
 <div class="row">
     <div class="col-md-6">
@@ -75,3 +97,29 @@
         <p><strong>@Html.DisplayNameFor(m => m.RegisteredForConference):</strong> @(Model.RegisteredForConference ? "Yes" : "No")</p>
     </div>
 </div>
+
+@* display new comments without reloading page *@
+@section Scripts {
+    <script>
+        function loadComments() {
+            var travelRequestId = $('input[name="Id"]').val();
+            $.get('@Url.Action("GetComments", "TravelRequests")', { id: travelRequestId }, function (data) {
+                $('#comments-container').hide().html(data).fadeIn(400);
+            });
+        }
+
+        $(document).ready(function () {
+            loadComments();
+
+            $('#add-comment-form').submit(function (e) {
+                e.preventDefault();
+                var form = $(this);
+
+                $.post(form.attr('action'), form.serialize(), function () {
+                    form[0].reset();
+                    loadComments();
+                });
+            });
+        });
+    </script>
+}

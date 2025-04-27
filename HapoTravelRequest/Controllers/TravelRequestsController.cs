@@ -2,6 +2,7 @@
 using HapoTravelRequest.Models.TravelRequest;
 using HapoTravelRequest.Models;
 using HapoTravelRequest.Services;
+using HapoTravelRequest.Models.Comment;
 
 namespace HapoTravelRequest.Controllers
 {
@@ -174,7 +175,7 @@ namespace HapoTravelRequest.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> MyRequests()
+        public async Task<IActionResult> ViewTravelRequests()
         {
             var user = await _userManager.GetUserAsync(User);
 
@@ -214,6 +215,9 @@ namespace HapoTravelRequest.Controllers
                     query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO));
                 travelRequests.AddRange(processorRequests);
             }
+
+            // prevent duplicate requests showing up from multiple queries
+            travelRequests = travelRequests.DistinctBy(q => q.Id).ToList();
 
             return View(travelRequests);
         }
@@ -420,7 +424,15 @@ namespace HapoTravelRequest.Controllers
                 $@"<p><strong>Location:</strong> {model.Location}" +
                 $@"<p><strong>Conference Fee:</strong> ${model.CostOfConference}" +
                 "<br><br><p>Log into the travel request system to approve/deny the request.</p>";
-                await _emailSender.SendEmailAsync(user.DepartmentDirector, emailSubject, msg);
+
+                try
+                {
+                    await _emailSender.SendEmailAsync(user.DepartmentDirector, emailSubject, msg);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error sending email: {ex.ToString()}");
+                }
             }
 
             return RedirectToAction("Index", "Home");
@@ -718,6 +730,46 @@ namespace HapoTravelRequest.Controllers
             return RedirectToAction(redirectAction, redirectController);
         }
 
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddComment(TravelRequestReadOnlyVM model)
+        {
+            if (!string.IsNullOrWhiteSpace(model.NewComment))
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                var comment = new Comment
+                {
+                    Content = model.NewComment,
+                    CreatedTime = DateTime.UtcNow,
+                    UserId = user.Id,
+                    TravelRequestId = model.Id
+                };
+
+                _context.Comments.Add(comment);
+                await _context.SaveChangesAsync();
+                Console.WriteLine("Success");
+            }
+
+            return RedirectToAction("Approval", new { id = model.Id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetComments(int id)
+        {
+            var comments = await _context.Comments
+                .Where(c => c.TravelRequestId == id)
+                .OrderBy(c => c.CreatedTime)
+                .Select(c => new CommentVM
+                {
+                    Content = c.Content,
+                    CreateTime = c.CreatedTime,
+                    AuthorName = c.User.FirstName + " " + c.User.LastName
+                })
+                .ToListAsync();
+            return PartialView("_CommentsPartial", comments);
+        }
+
         // GET: TravelRequests/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -810,115 +862,112 @@ namespace HapoTravelRequest.Controllers
             return _context.TravelRequests.Any(e => e.Id == id);
         }
 
-        [Authorize(Roles = "Administrator,VP,CEO,Processor")]
-        public async Task<IActionResult> ViewTravelRequests()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            bool isVP = await _userManager.IsInRoleAsync(user, "VP");
-            bool isCEO = await _userManager.IsInRoleAsync(user, "CEO");
-            bool isProcessor = await _userManager.IsInRoleAsync(user, "Processor");
-            bool isAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
+        //[Authorize(Roles = "Administrator,VP,CEO,Processor")]
+        //public async Task<IActionResult> ViewTravelRequests()
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    bool isVP = await _userManager.IsInRoleAsync(user, "VP");
+        //    bool isCEO = await _userManager.IsInRoleAsync(user, "CEO");
+        //    bool isProcessor = await _userManager.IsInRoleAsync(user, "Processor");
+        //    bool isAdmin = await _userManager.IsInRoleAsync(user, "Administrator");
 
-            // Lists for all other travel requests
-            List<TravelRequestListVM> trList = new List<TravelRequestListVM>();
-            //List<TravelRequestListVM> ceoApprovalList = new List<TravelRequestListVM>();
-            //List<TravelRequestListVM> adminList = new List<TravelRequestListVM>();
-            //List<TravelRequestListVM> processorList = new List<TravelRequestListVM>();
+        //    // Lists for all other travel requests
+        //    List<TravelRequestListVM> trList = new List<TravelRequestListVM>();
 
-            // VP APPROVAL LIST
-            if (isVP)
-            {
-                // get travel requests that need to be approved by ceo and 
-                // where the requesting employees vp is the logged in user
-                trList = await _context.TravelRequests
-                .Where(q => q.ApprovalStatus == ApprovalStatus.Pending &&
-                            q.User.DepartmentDirector.ToLower() == user.Email.ToLower())
-                .Include(q => q.User)
-                .OrderByDescending(q => q.ConferenceStartDate)
-                .Select(q => new TravelRequestListVM
-                {
-                    Id = q.Id,
-                    FirstName = q.User.FirstName,
-                    LastName = q.User.LastName,
-                    Location = q.Location,
-                    ConferenceStartDate = q.ConferenceStartDate,
-                    ConferenceEndDate = q.ConferenceEndDate,
-                    TransportationMode = q.TransportationMode,
-                    CostOfConference = q.CostOfConference,
-                    ApprovalStatus = q.ApprovalStatus
-                })
-                .ToListAsync();
-            }
+        //    // VP APPROVAL LIST
+        //    if (isVP)
+        //    {
+        //        // get travel requests that need to be approved by ceo and 
+        //        // where the requesting employees vp is the logged in user
+        //        trList = await _context.TravelRequests
+        //        .Where(q => q.ApprovalStatus == ApprovalStatus.Pending &&
+        //                    q.User.DepartmentDirector.ToLower() == user.Email.ToLower())
+        //        .Include(q => q.User)
+        //        .OrderByDescending(q => q.ConferenceStartDate)
+        //        .Select(q => new TravelRequestListVM
+        //        {
+        //            Id = q.Id,
+        //            FirstName = q.User.FirstName,
+        //            LastName = q.User.LastName,
+        //            Location = q.Location,
+        //            ConferenceStartDate = q.ConferenceStartDate,
+        //            ConferenceEndDate = q.ConferenceEndDate,
+        //            TransportationMode = q.TransportationMode,
+        //            CostOfConference = q.CostOfConference,
+        //            ApprovalStatus = q.ApprovalStatus
+        //        })
+        //        .ToListAsync();
+        //    }
 
-            // CEO APPROVAL LIST
-            if (isCEO)
-            {
-                trList = await _context.TravelRequests
-                .Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByVP)
-                .Include(q => q.User)
-                .OrderByDescending(q => q.ConferenceStartDate)
-                .Select(q => new TravelRequestListVM
-                {
-                    Id = q.Id,
-                    FirstName = q.User.FirstName,
-                    LastName = q.User.LastName,
-                    Location = q.Location,
-                    ConferenceStartDate = q.ConferenceStartDate,
-                    ConferenceEndDate = q.ConferenceEndDate,
-                    TransportationMode = q.TransportationMode,
-                    CostOfConference = q.CostOfConference,
-                    ApprovalStatus = q.ApprovalStatus
-                })
-                .ToListAsync();
-            }
+        //    // CEO APPROVAL LIST
+        //    if (isCEO)
+        //    {
+        //        trList = await _context.TravelRequests
+        //        .Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByVP)
+        //        .Include(q => q.User)
+        //        .OrderByDescending(q => q.ConferenceStartDate)
+        //        .Select(q => new TravelRequestListVM
+        //        {
+        //            Id = q.Id,
+        //            FirstName = q.User.FirstName,
+        //            LastName = q.User.LastName,
+        //            Location = q.Location,
+        //            ConferenceStartDate = q.ConferenceStartDate,
+        //            ConferenceEndDate = q.ConferenceEndDate,
+        //            TransportationMode = q.TransportationMode,
+        //            CostOfConference = q.CostOfConference,
+        //            ApprovalStatus = q.ApprovalStatus
+        //        })
+        //        .ToListAsync();
+        //    }
 
-            // NEED TO BE BOOKED LIST
-            if (isProcessor)
-            {
-                trList = await _context.TravelRequests
-                .Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO)
-                .Include(q => q.User)
-                .OrderByDescending(q => q.ConferenceStartDate)
-                .Select(q => new TravelRequestListVM
-                {
-                    Id = q.Id,
-                    FirstName = q.User.FirstName,
-                    LastName = q.User.LastName,
-                    Location = q.Location,
-                    ConferenceStartDate = q.ConferenceStartDate,
-                    ConferenceEndDate = q.ConferenceEndDate,
-                    TransportationMode = q.TransportationMode,
-                    CostOfConference = q.CostOfConference,
-                    ApprovalStatus = q.ApprovalStatus
-                })
-                .ToListAsync();
-            }
+        //    // NEED TO BE BOOKED LIST
+        //    if (isProcessor)
+        //    {
+        //        trList = await _context.TravelRequests
+        //        .Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO)
+        //        .Include(q => q.User)
+        //        .OrderByDescending(q => q.ConferenceStartDate)
+        //        .Select(q => new TravelRequestListVM
+        //        {
+        //            Id = q.Id,
+        //            FirstName = q.User.FirstName,
+        //            LastName = q.User.LastName,
+        //            Location = q.Location,
+        //            ConferenceStartDate = q.ConferenceStartDate,
+        //            ConferenceEndDate = q.ConferenceEndDate,
+        //            TransportationMode = q.TransportationMode,
+        //            CostOfConference = q.CostOfConference,
+        //            ApprovalStatus = q.ApprovalStatus
+        //        })
+        //        .ToListAsync();
+        //    }
 
-            if (isAdmin)
-            {
-                trList = await _context.TravelRequests
-                    .Include(q => q.User)
-                    .OrderByDescending(q => q.ConferenceStartDate)
-                    .Select(q => new TravelRequestListVM
-                    {
-                        Id = q.Id,
-                        FirstName = q.User.FirstName,
-                        LastName = q.User.LastName,
-                        Location = q.Location,
-                        ConferenceStartDate = q.ConferenceStartDate,
-                        ConferenceEndDate = q.ConferenceEndDate,
-                        TransportationMode = q.TransportationMode,
-                        CostOfConference = q.CostOfConference,
-                        ApprovalStatus = q.ApprovalStatus
-                    })
-                    .ToListAsync();
-            }
+        //    if (isAdmin)
+        //    {
+        //        trList = await _context.TravelRequests
+        //            .Include(q => q.User)
+        //            .OrderByDescending(q => q.ConferenceStartDate)
+        //            .Select(q => new TravelRequestListVM
+        //            {
+        //                Id = q.Id,
+        //                FirstName = q.User.FirstName,
+        //                LastName = q.User.LastName,
+        //                Location = q.Location,
+        //                ConferenceStartDate = q.ConferenceStartDate,
+        //                ConferenceEndDate = q.ConferenceEndDate,
+        //                TransportationMode = q.TransportationMode,
+        //                CostOfConference = q.CostOfConference,
+        //                ApprovalStatus = q.ApprovalStatus
+        //            })
+        //            .ToListAsync();
+        //    }
 
-            return View(trList);
-        }
+        //    return View(trList);
+        //}
     }
 }

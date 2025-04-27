@@ -33,28 +33,52 @@ namespace HapoTravelRequest.Controllers
                 UserTravelRequests = await _travelRequestService.GetTravelRequestsListAsync(
                     query => query.Where(q => q.UserId == user.Id), 3),
 
-                VPApprovalList = roles.Contains("VP") || roles.Contains("Admin")
-                    ? await _travelRequestService.GetTravelRequestsListAsync(
-                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.Pending &&
-                                                  q.User.DepartmentDirector.ToLower() == user.Email!.ToLower()), 3)
-                    : [],
+                //VPApprovalList = roles.Contains("VP") || roles.Contains("Administrator")
+                //    ? await _travelRequestService.GetTravelRequestsListAsync(
+                //        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.Pending &&
+                //                                  q.User.DepartmentDirector.ToLower() == user.Email!.ToLower()), 3)
+                //    : [],
 
-                CEOApprovalList = roles.Contains("CEO") || roles.Contains("Admin")
-                    ? await _travelRequestService.GetTravelRequestsListAsync(
-                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByVP), 3)
-                    : [],
+                //CEOApprovalList = roles.Contains("CEO") || roles.Contains("Administrator")
+                //    ? await _travelRequestService.GetTravelRequestsListAsync(
+                //        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByVP), 3)
+                //    : [],
 
-                ProcessorList = roles.Contains("Processor") || roles.Contains("Admin")
-                    ? await _travelRequestService.GetTravelRequestsListAsync(
-                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO), 3)
-                    : [],
-
-                AdminApprovalList = roles.Contains("Admin")
-                    ? await _travelRequestService.GetTravelRequestsListAsync(
-                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByVP ||
-                                                  q.ApprovalStatus == ApprovalStatus.ApprovedByCEO), 3)
-                    : []
+                //ProcessorList = roles.Contains("Processor") || roles.Contains("Administrator")
+                //    ? await _travelRequestService.GetTravelRequestsListAsync(
+                //        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO), 3)
+                //    : []
             };
+
+            // VP list
+            if (roles.Contains("VP") || roles.Contains("Administrator"))
+            {
+                if (roles.Contains("VP"))
+                {
+                    model.VPApprovalList = await _travelRequestService.GetTravelRequestsListAsync(
+                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.Pending &&
+                                                  q.User.DepartmentDirector.ToLower() == user.Email!.ToLower()), 3);
+                }
+                else if (roles.Contains("Administrator")) // get requests that are waiting approval from any vp
+                {
+                    model.VPApprovalList = await _travelRequestService.GetTravelRequestsListAsync(
+                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.Pending), 3);
+                }
+
+            }
+
+            // CEO list
+            if (roles.Contains("CEO") || roles.Contains("Administrator"))
+            {
+                model.CEOApprovalList = await _travelRequestService.GetTravelRequestsListAsync(
+                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByVP), 3);
+            }
+
+            if (roles.Contains("Processor") || roles.Contains("Administrator"))
+            {
+                model.ProcessorList = await _travelRequestService.GetTravelRequestsListAsync(
+                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO), 3);
+            }
 
             return View(model);
         }
