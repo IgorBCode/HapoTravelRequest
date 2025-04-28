@@ -206,7 +206,7 @@ namespace HapoTravelRequest.Controllers
                     var vpRequests = await _travelRequestService.GetTravelRequestsListAsync(
                         query => query.Where(q => q.ApprovalStatus == ApprovalStatus.Pending &&
                                                   q.User.DepartmentDirector != null &&
-                                                  q.User.DepartmentDirector.Equals(user.Email, StringComparison.OrdinalIgnoreCase)));
+                                                  q.User.DepartmentDirector.ToLower() == user.Email.ToLower()));
                     travelRequests.AddRange(vpRequests);
                 }
 
