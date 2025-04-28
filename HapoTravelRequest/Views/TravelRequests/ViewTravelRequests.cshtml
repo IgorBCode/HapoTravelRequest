@@ -126,6 +126,7 @@
     <button class="btn btn-light me-2" onclick="prevPage()">
       <i class="bi bi-arrow-left"></i>
     </button>
+        <span id="paginationDisplay" class="me-2"></span>
     <button class="btn btn-light" onclick="nextPage()">
       <i class="bi bi-arrow-right"></i>
     </button>
@@ -133,107 +134,114 @@
 </div>
 
 <script>
-  let currentPage = 1;
-  const rowsPerPage = 10;
+    let currentPage = 1;
+    const rowsPerPage = 10;
 
-  function getAllRows() {
-    return Array.from(document.querySelectorAll("#travelRequestTable tr"));
-  }
-
-  function getVisibleRows() {
-    return getAllRows().filter(row => row.style.display !== "none");
-  }
-
-  function showPage(page) {
-    const visibleRows = getVisibleRows();
-    const totalPages = Math.ceil(visibleRows.length / rowsPerPage);
-
-    visibleRows.forEach(row => row.style.display = "none");
-
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    visibleRows.slice(start, end).forEach(row => row.style.display = "");
-
-    currentPage = page;
-  }
-
-  function nextPage() {
-    const visibleRows = getVisibleRows();
-    const totalPages = Math.ceil(visibleRows.length / rowsPerPage);
-    if (currentPage < totalPages) {
-      showPage(currentPage + 1);
+    function getAllRows() {
+      return Array.from(document.querySelectorAll("#travelRequestTable tr"));
     }
-  }
 
-  function prevPage() {
-    if (currentPage > 1) {
-      showPage(currentPage - 1);
-    }
-  }
+    function getFilteredRows() {
+      const searchValue = document.getElementById("searchInput").value.toLowerCase();
+      const filterValue = document.getElementById("filterSelect").value;
+      const allRows = getAllRows();
 
-  function applySearchFilterSort() {
-    const searchValue = document.getElementById("searchInput").value.toLowerCase();
-    const filterValue = document.getElementById("filterSelect").value;
-    const sortValue = document.getElementById("sortSelect").value;
-    const rows = getAllRows();
+      return allRows.filter(row => {
+        const status = row.dataset.approvalStatus;
+        let matchesFilter = true;
 
-    rows.forEach(row => {
-      const status = row.dataset.approvalStatus;
-      let matchesFilter = true;
-
-      if (filterValue === "ToReview") {
-        if (@(User.IsInRole("VP").ToString().ToLower())) {
-          matchesFilter = (status === "pending");
-        } else if (@(User.IsInRole("CEO").ToString().ToLower())) {
-          matchesFilter = (status === "approvedbyvp");
-        } else if (@(User.IsInRole("Administrator").ToString().ToLower())) {
-          matchesFilter = (status === "pending" || status === "approvedbyvp");
+        if (filterValue === "ToReview") {
+          if (@(User.IsInRole("VP").ToString().ToLower())) {
+            matchesFilter = (status === "pending");
+          } else if (@(User.IsInRole("CEO").ToString().ToLower())) {
+            matchesFilter = (status === "approvedbyvp");
+          } else if (@(User.IsInRole("Administrator").ToString().ToLower())) {
+            matchesFilter = (status === "pending" || status === "approvedbyvp");
+          }
+        } else if (filterValue === "ToBook") {
+          matchesFilter = (status === "approvedbyceo");
         }
-      } else if (filterValue === "ToBook") {
-        matchesFilter = (status === "approvedbyceo");
-      }
 
-      const rowText = row.innerText.toLowerCase();
-      const matchesSearch = rowText.includes(searchValue);
+        const rowText = row.innerText.toLowerCase();
+        const matchesSearch = rowText.includes(searchValue);
 
-      if (matchesFilter && matchesSearch) {
-        row.style.display = "";
-      } else {
-        row.style.display = "none";
+        return matchesFilter && matchesSearch;
+      });
+    }
+
+    function showPage(page) {
+      const filteredRows = getFilteredRows();
+      const allRows = getAllRows();
+
+      allRows.forEach(row => row.style.display = "none");
+
+      const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+
+      const start = (page - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+
+      filteredRows.slice(start, end).forEach(row => row.style.display = "");
+
+      currentPage = page;
+      updatePaginationDisplay(totalPages);
+    }
+
+    function nextPage() {
+      const filteredRows = getFilteredRows();
+      const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+
+      if (currentPage < totalPages) {
+        showPage(currentPage + 1);
       }
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        showPage(currentPage - 1);
+      }
+    }
+
+    function applySearchFilterSort() {
+      const sortValue = document.getElementById("sortSelect").value;
+      const filteredRows = getFilteredRows();
+
+      // Sorting
+      filteredRows.sort((a, b) => {
+        if (sortValue.includes("Name")) {
+          const nameA = a.querySelector("td").innerText.toLowerCase();
+          const nameB = b.querySelector("td").innerText.toLowerCase();
+          return nameA.localeCompare(nameB);
+        } else if (sortValue.includes("Start Date")) {
+          const dateA = new Date(a.children[3].innerText);
+          const dateB = new Date(b.children[3].innerText);
+          return dateA - dateB;
+        } else if (sortValue.includes("Status")) {
+          const statusA = a.dataset.approvalStatus;
+          const statusB = b.dataset.approvalStatus;
+          return statusA.localeCompare(statusB);
+        }
+      });
+
+      // Reorder in DOM
+      const tableBody = document.getElementById("travelRequestTable");
+      filteredRows.forEach(row => tableBody.appendChild(row));
+
+      currentPage = 1;
+      showPage(currentPage);
+    }
+
+    function updatePaginationDisplay(totalPages) {
+      const display = document.getElementById("paginationDisplay");
+      if (display) {
+        display.textContent = `Page ${currentPage} of ${totalPages}`;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      applySearchFilterSort();
     });
 
-    let visibleRows = getVisibleRows();
-
-    visibleRows.sort((a, b) => {
-      if (sortValue.includes("Name")) {
-        const nameA = a.querySelector("td").innerText.toLowerCase();
-        const nameB = b.querySelector("td").innerText.toLowerCase();
-        return nameA.localeCompare(nameB);
-      } else if (sortValue.includes("Start Date")) {
-        const dateA = new Date(a.children[3].innerText);
-        const dateB = new Date(b.children[3].innerText);
-        return dateA - dateB;
-      } else if (sortValue.includes("Status")) {
-        const statusA = a.dataset.approvalStatus;
-        const statusB = b.dataset.approvalStatus;
-        return statusA.localeCompare(statusB);
-      }
-    });
-
-    const tableBody = document.getElementById("travelRequestTable");
-    visibleRows.forEach(row => tableBody.appendChild(row));
-
-    currentPage = 1;
-    showPage(currentPage);
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    applySearchFilterSort();
-  });
-
-  document.getElementById("searchInput").addEventListener("input", applySearchFilterSort);
-  document.getElementById("filterSelect").addEventListener("change", applySearchFilterSort);
-  document.getElementById("sortSelect").addEventListener("change", applySearchFilterSort);
+    document.getElementById("searchInput").addEventListener("input", applySearchFilterSort);
+    document.getElementById("filterSelect").addEventListener("change", applySearchFilterSort);
+    document.getElementById("sortSelect").addEventListener("change", applySearchFilterSort);
 </script>

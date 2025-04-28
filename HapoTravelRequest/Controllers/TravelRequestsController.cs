@@ -188,35 +188,46 @@ namespace HapoTravelRequest.Controllers
 
             var travelRequests = new List<TravelRequestListVM>();
 
-            // current users requests
-            var userRequests = await _travelRequestService.GetTravelRequestsListAsync(
-                query => query.Where(q => q.UserId == user.Id));
-            travelRequests.AddRange(userRequests);
-
-            // add role based requests to list
-            if (roles.Contains("VP") || roles.Contains("Administrator"))
+            if (roles.Contains("Administrator"))
             {
-                var vpRequests = await _travelRequestService.GetTravelRequestsListAsync(
-                    query => query.Where(q => q.ApprovalStatus == ApprovalStatus.Pending &&
-                                                q.User.DepartmentDirector.ToLower() == user.Email.ToLower()));
-                travelRequests.AddRange(vpRequests);
+                // Admin sees all requests
+                travelRequests = await _travelRequestService.GetTravelRequestsListAsync(query => query);
+            }
+            else
+            {
+                // Regular user sees their own requests first
+                var userRequests = await _travelRequestService.GetTravelRequestsListAsync(
+                    query => query.Where(q => q.UserId == user.Id));
+                travelRequests.AddRange(userRequests);
+
+                // If user is VP, add pending requests for their department
+                if (roles.Contains("VP"))
+                {
+                    var vpRequests = await _travelRequestService.GetTravelRequestsListAsync(
+                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.Pending &&
+                                                  q.User.DepartmentDirector != null &&
+                                                  q.User.DepartmentDirector.Equals(user.Email, StringComparison.OrdinalIgnoreCase)));
+                    travelRequests.AddRange(vpRequests);
+                }
+
+                // If user is CEO, add requests approved by VP
+                if (roles.Contains("CEO"))
+                {
+                    var ceoRequests = await _travelRequestService.GetTravelRequestsListAsync(
+                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByVP));
+                    travelRequests.AddRange(ceoRequests);
+                }
+
+                // If user is Processor, add requests approved by CEO
+                if (roles.Contains("Processor"))
+                {
+                    var processorRequests = await _travelRequestService.GetTravelRequestsListAsync(
+                        query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO));
+                    travelRequests.AddRange(processorRequests);
+                }
             }
 
-            if (roles.Contains("CEO") || roles.Contains("Administrator"))
-            {
-                var ceoRequests = await _travelRequestService.GetTravelRequestsListAsync(
-                    query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByVP));
-                travelRequests.AddRange(ceoRequests);
-            }
-
-            if (roles.Contains("Processor") || roles.Contains("Administrator"))
-            {
-                var processorRequests = await _travelRequestService.GetTravelRequestsListAsync(
-                    query => query.Where(q => q.ApprovalStatus == ApprovalStatus.ApprovedByCEO));
-                travelRequests.AddRange(processorRequests);
-            }
-
-            // prevent duplicate requests showing up from multiple queries
+            // Remove duplicates from overlapping queries
             travelRequests = travelRequests.DistinctBy(q => q.Id).ToList();
 
             return View(travelRequests);
