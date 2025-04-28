@@ -4,21 +4,6 @@
     ViewData["Title"] = "Travel Request Details";
 }
 
-@* comments id *@
-<input type="hidden" id="travelRequestId" name="Id" value="@Model.Id" />
-
-
-<h2>Travel Request Details</h2>
-<hr />
-<h4>Comments</h4>
-<div class="row">
-    <div class="col-md-6">
-        <div id="comments-container">
-            @* div for comments *@
-        </div>
-    </div>
-</div>
-<hr />
 <h4>Employee Information</h4>
 <div class="row">
     <div class="col-md-6">
@@ -78,6 +63,21 @@
         <p><strong>@Html.DisplayNameFor(m => m.GroundOptions):</strong> @Model.GroundOptions</p>
         <p><strong>@Html.DisplayNameFor(m => m.Registered):</strong> @(Model.Registered ? "Yes" : "No")</p>
         <p><strong>@Html.DisplayNameFor(m => m.RegisteredForConference):</strong> @(Model.RegisteredForConference ? "Yes" : "No")</p>
+    </div>
+</div>
+
+@* comments id *@
+<input type="hidden" id="travelRequestId" name="Id" value="@Model.Id" />
+
+<hr />
+<h2>Travel Request Details</h2>
+<hr />
+<h4>Comments</h4>
+<div class="row mb-5">
+    <div class="col-md-6">
+        <div id="comments-container">
+            @* div for comments *@
+        </div>
     </div>
 </div>
 @section Scripts {
