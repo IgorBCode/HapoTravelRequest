@@ -1,5 +1,6 @@
 @using HapoTravelRequest.Helpers
 @model List<HapoTravelRequest.Models.TravelRequest.TravelRequestListVM>
+
 @{
   ViewData["Title"] = "View Travel Requests";
 }
@@ -8,11 +9,19 @@
   <!-- Search and Sort -->
   <div class="d-flex justify-content-between align-items-center mb-3">
     <input type="text" id="searchInput" placeholder="Search Travel Requests" class="form-control w-50" />
+
     <select id="filterSelect" class="form-select w-auto ms-2">
       <option value="">Filter by</option>
-      <option value="ToReview">To Review</option> 
-      <option value="ToBook">To Book</option>
+      @if (User.IsInRole("VP") || User.IsInRole("CEO") || User.IsInRole("Administrator"))
+      {
+        <option value="ToReview">To Review</option>
+      }
+      @if (User.IsInRole("Processor") || User.IsInRole("Administrator"))
+      {
+        <option value="ToBook">To Book</option>
+      }
     </select>
+
     <select id="sortSelect" class="form-select w-auto">
       <option selected>Sort by: Name</option>
       <option>Sort by: Start Date</option>
@@ -34,78 +43,77 @@
         <th>Status</th>
       </tr>
     </thead>
+
     <tbody id="travelRequestTable">
       @foreach (var request in Model)
       {
-        <tr>
-            @* Take user to approval page if they're vp or ceo' *@
-            @* if user is admin, take them to approval page only if request is pending approval*@
-            @if (User.IsInRole("VP") || 
-            User.IsInRole("CEO") || 
-            (User.IsInRole("Administrator") && request.ApprovalStatus < ApprovalStatus.ApprovedByCEO))
-            {
-                <td>
-                    <a asp-controller="TravelRequests" asp-action="Approval" asp-route-id="@request.Id">
-                        @request.FirstName @request.LastName
-                    </a>
-                </td>
-            }
-            @* take processors to booking page*@
-            else if (User.IsInRole("Processor") ||
-            (User.IsInRole("Administrator") && request.ApprovalStatus == ApprovalStatus.ApprovedByCEO))
-            {
-                <td>
-                    <a asp-controller="TravelRequests" asp-action="Book" asp-route-id="@request.Id">
-                        @request.FirstName @request.LastName
-                    </a>
-                </td>
-            }
-            @* default to view travel request details*@
-            else 
-            {
-                <td>
-                    <a asp-controller="TravelRequests" asp-action="Details" asp-route-id="@request.Id">
-                        @request.FirstName @request.LastName
-                    </a>
-                </td>
-            }
+        <tr data-approval-status="@request.ApprovalStatus.ToString().ToLower()">
+          @* Employee Name links based on role *@
+          @if (User.IsInRole("VP") || User.IsInRole("CEO") || (User.IsInRole("Administrator") && request.ApprovalStatus <
+                  ApprovalStatus.ApprovedByCEO))
+          {
+            <td>
+              <a asp-controller="TravelRequests" asp-action="Approval" asp-route-id="@request.Id">
+                @request.FirstName @request.LastName
+              </a>
+            </td>
+          }
+          else if (User.IsInRole("Processor") || (User.IsInRole("Administrator") && request.ApprovalStatus ==
+          ApprovalStatus.ApprovedByCEO))
+          {
+            <td>
+              <a asp-controller="TravelRequests" asp-action="Book" asp-route-id="@request.Id">
+                @request.FirstName @request.LastName
+              </a>
+            </td>
+          }
+          else
+          {
+            <td>
+              <a asp-controller="TravelRequests" asp-action="Details" asp-route-id="@request.Id">
+                @request.FirstName @request.LastName
+              </a>
+            </td>
+          }
 
           <td>@request.ConferenceDescription</td>
           <td>@request.Location</td>
           <td>@request.ConferenceStartDate?.ToString("MM/dd/yyyy")</td>
           <td>@request.ConferenceEndDate?.ToString("MM/dd/yyyy")</td>
           <td>$@request.CostOfConference</td>
+
           <td>
             @if (User.IsInRole("VP") || User.IsInRole("CEO") || User.IsInRole("Administrator"))
             {
-              <a asp-action="Details" asp-controller="TravelRequests" asp-route-id="@request.Id" class="btn btn-sm text-dark" title="View">
+              <a asp-action="Details" asp-controller="TravelRequests" asp-route-id="@request.Id"
+                class="btn btn-sm text-dark" title="View">
                 <i class="bi bi-eye"></i>
               </a>
-              @* approve and deny buttons *@
               <form asp-action="ApproveOrDeny" method="post" class="d-inline">
-                  <input type="hidden" name="id" value="@request.Id" />
-                                <input type="hidden" name="redirectAction" value="ViewTravelRequests" />
-                                <input type="hidden" name="redirectController " value="TravelRequests" />
-                        <button type="submit" name="decision" value="approve" class="btn btn-sm text-dark">
-                        <i class="bi bi-check-square"></i>
-                    </button>
-                                <button type="submit" name="decision" value="deny" class="btn btn-sm text-dark">
-                        <i class="bi bi-x-lg"></i>
-                    </button>
+                <input type="hidden" name="id" value="@request.Id" />
+                <input type="hidden" name="redirectAction" value="ViewTravelRequests" />
+                <input type="hidden" name="redirectController" value="TravelRequests" />
+                <button type="submit" name="decision" value="approve" class="btn btn-sm text-dark">
+                  <i class="bi bi-check-square"></i>
+                </button>
+                <button type="submit" name="decision" value="deny" class="btn btn-sm text-dark">
+                  <i class="bi bi-x-lg"></i>
+                </button>
               </form>
             }
             else if (User.IsInRole("Processor") || User.IsInRole("Administrator"))
             {
-                <form asp-controller="TravelRequests" asp-route-id="@request.Id" method="post" class="d-inline">
-                    <input type="hidden" name="id" value="@request.Id" />
-                    <input type="hidden" name="redirectAction" value="ViewTravelRequests" />
-                    <input type="hidden" name="redirectController " value="TravelRequests" />
-                    <button asp-action="Cancel" asp-route-id="@request.Id" class="btn btn-sm text-dark" title="Cancel">
-                        <i class="bi bi-x-lg"></i>
-                    </button>
-                </form>
+              <form asp-controller="TravelRequests" asp-route-id="@request.Id" method="post" class="d-inline">
+                <input type="hidden" name="id" value="@request.Id" />
+                <input type="hidden" name="redirectAction" value="ViewTravelRequests" />
+                <input type="hidden" name="redirectController" value="TravelRequests" />
+                <button asp-action="Cancel" asp-route-id="@request.Id" class="btn btn-sm text-dark" title="Cancel">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </form>
             }
           </td>
+
           <td>
             <span class="btn btn-sm btn-warning">@request.ApprovalStatus.GetDisplayName()</span>
           </td>
@@ -113,6 +121,7 @@
       }
     </tbody>
   </table>
+
   <div class="d-flex justify-content-end mt-3">
     <button class="btn btn-light me-2" onclick="prevPage()">
       <i class="bi bi-arrow-left"></i>
@@ -121,29 +130,37 @@
       <i class="bi bi-arrow-right"></i>
     </button>
   </div>
-
 </div>
-</HapoTravelRequest.Models.TravelRequest.TravelRequestListVM>
 
 <script>
   let currentPage = 1;
   const rowsPerPage = 10;
 
+  function getAllRows() {
+    return Array.from(document.querySelectorAll("#travelRequestTable tr"));
+  }
+
+  function getVisibleRows() {
+    return getAllRows().filter(row => row.style.display !== "none");
+  }
+
   function showPage(page) {
-    const rows = Array.from(document.querySelectorAll("#travelRequestTable tr"));
-    const totalPages = Math.ceil(rows.length / rowsPerPage);
-    rows.forEach(row => row.style.display = "none");
+    const visibleRows = getVisibleRows();
+    const totalPages = Math.ceil(visibleRows.length / rowsPerPage);
+
+    visibleRows.forEach(row => row.style.display = "none");
 
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
-    rows.slice(start, end).forEach(row => row.style.display = "");
+
+    visibleRows.slice(start, end).forEach(row => row.style.display = "");
 
     currentPage = page;
   }
 
   function nextPage() {
-    const rows = document.querySelectorAll("#travelRequestTable tr");
-    const totalPages = Math.ceil(rows.length / rowsPerPage);
+    const visibleRows = getVisibleRows();
+    const totalPages = Math.ceil(visibleRows.length / rowsPerPage);
     if (currentPage < totalPages) {
       showPage(currentPage + 1);
     }
@@ -155,8 +172,68 @@
     }
   }
 
-  // Init on page load
-  document.addEventListener("DOMContentLoaded", () => {
+  function applySearchFilterSort() {
+    const searchValue = document.getElementById("searchInput").value.toLowerCase();
+    const filterValue = document.getElementById("filterSelect").value;
+    const sortValue = document.getElementById("sortSelect").value;
+    const rows = getAllRows();
+
+    rows.forEach(row => {
+      const status = row.dataset.approvalStatus;
+      let matchesFilter = true;
+
+      if (filterValue === "ToReview") {
+        if (@(User.IsInRole("VP").ToString().ToLower())) {
+          matchesFilter = (status === "pending");
+        } else if (@(User.IsInRole("CEO").ToString().ToLower())) {
+          matchesFilter = (status === "approvedbyvp");
+        } else if (@(User.IsInRole("Administrator").ToString().ToLower())) {
+          matchesFilter = (status === "pending" || status === "approvedbyvp");
+        }
+      } else if (filterValue === "ToBook") {
+        matchesFilter = (status === "approvedbyceo");
+      }
+
+      const rowText = row.innerText.toLowerCase();
+      const matchesSearch = rowText.includes(searchValue);
+
+      if (matchesFilter && matchesSearch) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+    });
+
+    let visibleRows = getVisibleRows();
+
+    visibleRows.sort((a, b) => {
+      if (sortValue.includes("Name")) {
+        const nameA = a.querySelector("td").innerText.toLowerCase();
+        const nameB = b.querySelector("td").innerText.toLowerCase();
+        return nameA.localeCompare(nameB);
+      } else if (sortValue.includes("Start Date")) {
+        const dateA = new Date(a.children[3].innerText);
+        const dateB = new Date(b.children[3].innerText);
+        return dateA - dateB;
+      } else if (sortValue.includes("Status")) {
+        const statusA = a.dataset.approvalStatus;
+        const statusB = b.dataset.approvalStatus;
+        return statusA.localeCompare(statusB);
+      }
+    });
+
+    const tableBody = document.getElementById("travelRequestTable");
+    visibleRows.forEach(row => tableBody.appendChild(row));
+
+    currentPage = 1;
     showPage(currentPage);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    applySearchFilterSort();
   });
+
+  document.getElementById("searchInput").addEventListener("input", applySearchFilterSort);
+  document.getElementById("filterSelect").addEventListener("change", applySearchFilterSort);
+  document.getElementById("sortSelect").addEventListener("change", applySearchFilterSort);
 </script>
