@@ -4,197 +4,204 @@
     ViewData["Title"] = "Travel Request Details";
 }
 
-<h2>Travel Request Details</h2>
+<h2 class="page-title">Travel Request Details</h2>
 
-<hr />
-
-<h4>Employee Information</h4>
 <form asp-controller="TravelRequests" method="post">
     <input type="hidden" name="id" value="@Model.Id" />
     <input type="hidden" name="redirectAction" value="ViewTravelRequests" />
     <input type="hidden" name="redirectController" value="TravelRequests" />
-    <div class="row">
-        <div class="col-md-6">
-            <p><strong>@Html.DisplayNameFor(m => m.FirstName):</strong> @Model.FirstName</p>
-            <p><strong>@Html.DisplayNameFor(m => m.LastName):</strong> @Model.LastName</p>
-            <p><strong>@Html.DisplayNameFor(m => m.DateOfBirth):</strong> @Model.DateOfBirth</p>
-            <p><strong>@Html.DisplayNameFor(m => m.PhoneNumber):</strong> @Model.PhoneNumber</p>
+
+    <div class="accordion" id="detailsAccordion">
+
+        <!-- Employee Information -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingEmployee">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmployee" aria-expanded="true" aria-controls="collapseEmployee">
+                    Employee Information
+                </button>
+            </h2>
+            <div id="collapseEmployee" class="accordion-collapse collapse show" aria-labelledby="headingEmployee">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-item"><strong>First Name:</strong> @Model.FirstName</div>
+                            <div class="info-item"><strong>Last Name:</strong> @Model.LastName</div>
+                            <div class="info-item"><strong>Date of Birth:</strong> @Model.DateOfBirth.ToShortDateString()</div>
+                            <div class="info-item"><strong>Phone Number:</strong> @Model.PhoneNumber</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item"><strong>Department:</strong> @Model.Department</div>
+                            <div class="info-item"><strong>Position Title:</strong> @Model.PositionTitle</div>
+                            <div class="info-item"><strong>Department Director:</strong> @Model.DepartmentDirector</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-            <p><strong>@Html.DisplayNameFor(m => m.Department):</strong> @Model.Department</p>
-            <p><strong>@Html.DisplayNameFor(m => m.PositionTitle):</strong> @Model.PositionTitle</p>
-            <p><strong>@Html.DisplayNameFor(m => m.DepartmentDirector):</strong> @Model.DepartmentDirector</p>
+
+        <!-- Conference and Travel Information -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingConference">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseConference" aria-expanded="true" aria-controls="collapseConference">
+                    Conference and Travel Information
+                </button>
+            </h2>
+            <div id="collapseConference" class="accordion-collapse collapse show" aria-labelledby="headingConference">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-item"><strong>Purpose of Travel:</strong> @Model.PurposeOfTravel</div>
+                            <div class="info-item"><strong>Conference Description:</strong> @Model.ConferenceDescription</div>
+                            <div class="info-item"><strong>Conference Link:</strong> @Model.ConferenceLink</div>
+                            <div class="info-item"><strong>Alternative Text:</strong> @Model.AlternativeText</div>
+                            <div class="info-item"><strong>Location:</strong> @Model.Location</div>
+                            <div class="info-item"><strong>Non-Employee Guests:</strong> @(Model.NonEmployeeGuests ? "Yes" : "No")</div>
+                            <div class="info-item"><strong>Guest Name:</strong> @Model.NonEmployeeLegalName</div>
+                            <div class="info-item"><strong>Guest DOB:</strong> @Model.NonEmployeeDOB?.ToShortDateString()</div>
+                            <div class="info-item"><strong>Employees Attending:</strong> @Model.EmployeesAttending</div>
+                            <div class="info-item"><strong>Employee Names:</strong> @Model.EmployeesAttendingNames</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-item"><strong>Emergency Contact:</strong> @Model.EmergencyContactname</div>
+                            <div class="info-item"><strong>Emergency Contact Phone:</strong> @Model.EmergencyContactPhoneNumber</div>
+                            <div class="info-item"><strong>TSA Number:</strong> @Model.TSANumber</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Book Travel (Input Fields) -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingBookTravel">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBookTravel" aria-expanded="true" aria-controls="collapseBookTravel">
+                    Book Travel
+                </button>
+            </h2>
+            <div id="collapseBookTravel" class="accordion-collapse collapse show" aria-labelledby="headingBookTravel">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @* Left Side Inputs *@
+                            <div class="mb-3">
+                                <label asp-for="CostOfConference" class="form-label"></label>
+                                <input asp-for="CostOfConference" class="form-control" />
+                                <span asp-validation-for="CostOfConference" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="ConferenceStartDate" class="form-label"></label>
+                                <input asp-for="ConferenceStartDate" class="form-control" placeholder="mm/dd/yyyy" />
+                                <span asp-validation-for="ConferenceStartDate" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="ConferenceEndDate" class="form-label"></label>
+                                <input asp-for="ConferenceEndDate" class="form-control" placeholder="mm/dd/yyyy" />
+                                <span asp-validation-for="ConferenceEndDate" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="DepartureDate" class="form-label"></label>
+                                <input asp-for="DepartureDate" class="form-control" placeholder="mm/dd/yyyy" />
+                                <span asp-validation-for="DepartureDate" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="ReturnDate" class="form-label"></label>
+                                <input asp-for="ReturnDate" class="form-control" placeholder="mm/dd/yyyy" />
+                                <span asp-validation-for="ReturnDate" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            @* Right Side Inputs *@
+                            <div class="mb-3">
+                                <label asp-for="ConferenceHotelName" class="form-label"></label>
+                                <input asp-for="ConferenceHotelName" class="form-control" />
+                                <span asp-validation-for="ConferenceHotelName" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="TransportationMode" class="form-label"></label>
+                                <input asp-for="TransportationMode" class="form-control" />
+                                <span asp-validation-for="TransportationMode" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="AirlineDetails" class="form-label"></label>
+                                <textarea asp-for="AirlineDetails" class="form-control"></textarea>
+                                <span asp-validation-for="AirlineDetails" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="FlightCost" class="form-label"></label>
+                                <input asp-for="FlightCost" class="form-control" />
+                                <span asp-validation-for="FlightCost" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="GroundTransportation" class="form-label"></label>
+                                <input asp-for="GroundTransportation" class="form-control" />
+                                <span asp-validation-for="GroundTransportation" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="GroundOptions" class="form-label"></label>
+                                <input asp-for="GroundOptions" class="form-control" />
+                                <span asp-validation-for="GroundOptions" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Radio buttons section (below 2 columns) *@
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="form-check mb-2">
+                                <label>Registered For Conference</label><br />
+                                <input type="radio" asp-for="RegisteredForConference" value="true" /> Yes
+                                <input type="radio" asp-for="RegisteredForConference" value="false" /> No
+                            </div>
+                            <div class="form-check mb-2">
+                                <label>Registered?</label><br />
+                                <input type="radio" asp-for="Registered" value="true" /> Yes
+                                <input type="radio" asp-for="Registered" value="false" /> No
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <hr />
-    <h4>Conference & Travel Information</h4>
-    <div class="row">
-        <div class="col-md-6">
-            <p><strong>@Html.DisplayNameFor(m => m.PurposeOfTravel):</strong> @Model.PurposeOfTravel</p>
-            <p><strong>@Html.DisplayNameFor(m => m.NonEmployeeGuests):</strong> @(Model.NonEmployeeGuests ? "Yes" :
-                                "No")</p>
-            <p><strong>@Html.DisplayNameFor(m => m.NonEmployeeLegalName):</strong> @Model.NonEmployeeLegalName</p>
-            <p><strong>@Html.DisplayNameFor(m => m.NonEmployeeDOB):</strong> @Model.NonEmployeeDOB?.ToShortDateString()
-            </p>
-            <p><strong>@Html.DisplayNameFor(m => m.ConferenceDescription):</strong> @Model.ConferenceDescription</p>
-            <p><strong>@Html.DisplayNameFor(m => m.ConferenceLink):</strong> @Model.ConferenceLink</p>
-            <p><strong>@Html.DisplayNameFor(m => m.AlternativeText):</strong> @Model.AlternativeText</p>
-            <p><strong>@Html.DisplayNameFor(m => m.Location):</strong> @Model.Location</p>
-            <label asp-for="CostOfConference" class="control-label"></label>
-            <input asp-for="CostOfConference" class="form-control" />
-            <span asp-validation-for="CostOfConference" class="text-danger"></span>
+    <!-- Sticky Action Bar -->
+    <div class="sticky-action-bar">
+        <button type="submit" asp-action="Book" class="custom-btn-yellow me-2">Submit</button>
+        <button type="submit" asp-action="Cancel" class="btn btn-danger">Cancel Request</button>
+    </div>
+</form>
 
-            <label asp-for="ConferenceStartDate" class="control-label"></label>
-            <input asp-for="ConferenceStartDate" class="form-control" placeholder="mm/dd/yyyy" />
-            <span asp-validation-for="ConferenceStartDate" class="text-danger"></span>
+<div class="page-bottom-buffer"></div>
 
-            <label asp-for="ConferenceEndDate" class="control-label"></label>
-            <input asp-for="ConferenceEndDate" class="form-control" placeholder="mm/dd/yyyy" />
-            <span asp-validation-for="ConferenceEndDate" class="text-danger"></span>
-
-            <p><strong>@Html.DisplayNameFor(m => m.RegistrationDeadline):</strong>
-                @Model.RegistrationDeadline?.ToShortDateString()</p>
-
-            <label asp-for="DepartureDate" class="control-label"></label>
-            <input asp-for="DepartureDate" class="form-control" placeholder="mm/dd/yyyy" />
-            <span asp-validation-for="DepartureDate" class="text-danger"></span>
-
-            <label asp-for="ReturnDate" class="control-label"></label>
-            <input asp-for="ReturnDate" class="form-control" placeholder="mm/dd/yyyy" />
-            <span asp-validation-for="ReturnDate" class="text-danger"></span>
-        </div>
-        <div class="col-md-6">
-            <p><strong>@Html.DisplayNameFor(m => m.EmployeesAttending):</strong> @Model.EmployeesAttending</p>
-            <p><strong>@Html.DisplayNameFor(m => m.EmployeesAttendingNames):</strong> @Model.EmployeesAttendingNames</p>
-
-            <label asp-for="ConferenceHotelName" class="control-label"></label>
-            <input asp-for="ConferenceHotelName" class="form-control" />
-            <small class="form-text text-muted">Preferred hotel for conference.</small>
-            <span asp-validation-for="ConferenceHotelName" class="text-danger"></span>
-
-            <p><strong>@Html.DisplayNameFor(m => m.PreferredLodgingInfo):</strong> @Model.PreferredLodgingInfo</p>
-            <p><strong>@Html.DisplayNameFor(m => m.SpecialTravelRequest):</strong> @Model.SpecialTravelRequest</p>
-
-            <label asp-for="TransportationMode" class="control-label"></label>
-            <input asp-for="TransportationMode" class="form-control" />
-            <span asp-validation-for="TransportationMode" class="text-danger"></span>
-
-            <label asp-for="AirlineDetails" class="control-label"></label>
-            <textarea asp-for="AirlineDetails" class="form-control"></textarea>
-            <small class="form-text text-muted">Preferred Flights (carrier, flight # and preferred times).</small>
-            <span asp-validation-for="AirlineDetails" class="text-danger"></span>
-
-            <label asp-for="FlightCost" class="control-label"></label>
-            <input asp-for="FlightCost" class="form-control" />
-            <span asp-validation-for="FlightCost" class="text-danger"></span>
-
-            <label asp-for="GroundTransportation" class="control-label"></label>
-            <input asp-for="GroundTransportation" class="form-control" />
-            <small class="form-text text-muted">Other than Taxi/Uber</small>
-            <span asp-validation-for="GroundTransportation" class="text-danger"></span>
-
-            <label>Mileage Reimbursement?</label>
-            <input type="radio" asp-for="MileageReimbursement" value="true" id="MileageReimbursementYes" />
-            <label for="Registered">Yes</label>
-            <input type="radio" asp-for="MileageReimbursement" value="false" id="MileageReimbursementNo" />
-            <label for="MileageReimbursement">No</label>
-
-
-            <label asp-for="MileageRoundTrip" class="control-label"></label>
-            <input asp-for="MileageRoundTrip" class="form-control" />
-            <span asp-validation-for="MileageRoundTrip" class="text-danger"></span>
-
-
-            <label>Meals & Incidentals (M&IE)</label>
-            <input type="radio" asp-for="MIE" value="true" id="MIEYes" />
-            <label for="MIE">Yes</label>
-            <input type="radio" asp-for="MIE" value="false" id="MIENo" />
-            <label for="MIE">No</label>
-            <small class="form-text text-muted">If traveling within the Pacific NW: 1 meal and mileage reimbursement
-                day(s) of travel will be included</small>
-
-            <label asp-for="DailyMIEAmount" class="control-label"></label>
-            <input asp-for="DailyMIEAmount" class="form-control" />
-            <span asp-validation-for="DailyMIEAmount" class="text-danger"></span>
-
-            <label asp-for="DaysForMIE" class="control-label"></label>
-            <input asp-for="DaysForMIE" class="form-control" />
-            <span asp-validation-for="DaysForMIE" class="text-danger"></span>
-
-            <label asp-for="DepositAccount" class="control-label"></label>
-            <input asp-for="DepositAccount" class="form-control" />
-            <span asp-validation-for="DepositAccount" class="text-danger"></span>
-
-            <label asp-for="AccountType" class="control-label"></label>
-            <input asp-for="AccountType" class="form-control" />
-            <span asp-validation-for="AccountType" class="text-danger"></span>
-
-
-            <label>Corporate Card?</label>
-            <input type="radio" asp-for="CorporateCard" value="true" id="CorporateCardYes" />
-            <label for="CorporateCard">Yes</label>
-            <input type="radio" asp-for="CorporateCard" value="false" id="CorporateCardNo" />
-            <label for="CorporateCard">No</label>
-            <small class="form-text text-muted">If Yes- Same allowance for M*IE apply. There will be no deposit into
-                your account.</small>
-
-
-
-            <p><strong>@Html.DisplayNameFor(m => m.EmergencyContactname):</strong> @Model.EmergencyContactname</p>
-            <p><strong>@Html.DisplayNameFor(m => m.EmergencyContactPhoneNumber):</strong>
-                @Model.EmergencyContactPhoneNumber</p>
-            <p><strong>@Html.DisplayNameFor(m => m.TSANumber):</strong> @Model.TSANumber</p>
-
-            <label asp-for="GroundOptions" class="control-label"></label>
-            <input asp-for="GroundOptions" class="form-control" />
-            <span asp-validation-for="GroundOptions" class="text-danger"></span>
-
-            <label>Registered For Conference</label>
-            <div>
-                <input type="radio" asp-for="RegisteredForConference" value="true" id="RegisteredForConferenceYes" />
-                <label for="RegisteredForConference">Yes</label>
-                <input type="radio" asp-for="RegisteredForConference" value="false" id="RegisteredForConferenceNo" />
-                <label for="RegisteredForConference">No</label>
-            </div>
-            <div class="form-group col-md-3">
-                <label>Registered?</label>
-                <div>
-                    <input type="radio" asp-for="Registered" value="true" id="RegisteredYes" />
-                    <label for="Registered">Yes</label>
-                    <input type="radio" asp-for="Registered" value="false" id="RegisteredNo" />
-                    <label for="Registered">No</label>
+<!-- Comments Section -->
+<div class="accordion mt-5" id="commentsAccordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingComments">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseComments" aria-expanded="true" aria-controls="collapseComments">
+                Comments
+            </button>
+        </h2>
+        <div id="collapseComments" class="accordion-collapse collapse show" aria-labelledby="headingComments">
+            <div class="accordion-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div id="comments-container"></div>
+                        <form asp-action="AddComment" method="post" class="my-4" id="add-comment-form">
+                            <input type="hidden" asp-for="Id" />
+                            <div class="form-group">
+                                <label asp-for="NewComment" class="control-label"></label>
+                                <textarea asp-for="NewComment" class="form-control" rows="4"></textarea>
+                                <span asp-validation-for="NewComment" class="text-danger"></span>
+                            </div>
+                            <button type="submit" class="custom-btn-yellow mt-2 mb-4">Submit Comment</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="sticky-action-bar">
-        <button type="submit" asp-action="Book" class="btn btn-success me-2">Submit</button>
-        <button type="submit" asp-action="Cancel" class="btn btn-danger">Cancel</button>
-    </div>
-</form>
-
-<div class="my-5">
-    <hr />
-    <h4>Comments</h4>
-    <div class="row">
-        <div class="col-md-6">
-            <div id="comments-container">
-                @* div for comments *@
-            </div>
-        </div>
-    </div>
-    <form asp-action="AddComment" method="post" class="my-4" id="add-comment-form">
-        <input type="hidden" asp-for="Id" />
-
-        <div class="form-group">
-            <label asp-for="NewComment" class="control-label"></label>
-            <textarea asp-for="NewComment" class="form-control" rows="4"></textarea>
-            <span asp-validation-for="NewComment" class="text-danger"></span>
-        </div>
-
-        <button type="submit" class="btn btn-primary mt-2 mb-4">Submit Comment</button>
-    </form>
 </div>
 
 @section Scripts {
@@ -221,3 +228,26 @@
         });
     </script>
 }
+
+<style>
+    .accordion-button {
+        background-color: #FFDC32;
+        color: #212529;
+        font-weight: bold;
+    }
+    .accordion-button:not(.collapsed) {
+        background-color: #FFDC32;
+        color: #212529;
+    }
+    .info-item {
+        margin-bottom: 0.75rem;
+    }
+    .page-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+    }
+    .page-bottom-buffer {
+        height: 100px;
+    }
+</style>

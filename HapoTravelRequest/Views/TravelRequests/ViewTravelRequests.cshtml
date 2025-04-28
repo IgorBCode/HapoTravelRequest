@@ -90,6 +90,10 @@
           <td>$@request.CostOfConference</td>
 
           <td>
+            <a asp-action="Details" asp-controller="TravelRequests" asp-route-id="@request.Id"
+                class="btn btn-sm text-dark" title="View">
+                <i class="bi bi-eye"></i>
+            </a>
             @if (User.IsInRole("Employee") && request.ApprovalStatus != ApprovalStatus.Cancelled)
             {
               <form asp-action="Cancel" method="post" class="d-inline">
@@ -103,10 +107,6 @@
             }
             else if (User.IsInRole("VP") || User.IsInRole("CEO") || User.IsInRole("Administrator"))
             {
-              <a asp-action="Details" asp-controller="TravelRequests" asp-route-id="@request.Id"
-                class="btn btn-sm text-dark" title="View">
-                <i class="bi bi-eye"></i>
-              </a>
               <form asp-action="ApproveOrDeny" method="post" class="d-inline">
                 <input type="hidden" name="id" value="@request.Id" />
                 <input type="hidden" name="redirectAction" value="ViewTravelRequests" />
