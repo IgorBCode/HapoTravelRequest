@@ -7,8 +7,8 @@
 :root {
     --bs-body-color: #141414;
     --hapo-yellow: #FFDC32;
-    --hapo-grey: #B5B7C0;
-    --hapo-grey-light: #9d9fa20D;
+    --hapo-grey: #9D9FA2;
+    --hapo-grey-light: #9D9FA20D;
     --hapo-green: #6CC72B;
     --hapo-black: #000000;
 }
@@ -19,6 +19,21 @@
 .form-control:focus,
 .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.btn-light {
+    background-color: var(--hapo-grey-light);
+    border-color: var(--hapo-grey-light);
+}
+
+.btn-warning {
+    background-color: var(--hapo-yellow);
+    border-color: var(--hapo-yellow);
+}
+.btn-warning:hover {
+    background-color: var(--hapo-yellow);
+    border-color: var(--hapo-yellow);
+    cursor: default;
 }
 
 /*HAPO logo*/

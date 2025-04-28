@@ -64,14 +64,17 @@
                                 $@item.CostOfConference
                             </td>
                             <td>
-                                <form asp-action="Cancel" asp-controller="TravelRequests" method="post">
-                                    <input type="hidden" name="id" value="@item.Id" />
-                                    <input type="hidden" name="redirectAction" value="Index" />
-                                    <input type="hidden" name="redirectController " value="Home" />
-                                    <button type="submit" class="btn cancel">
-                                        Cancel
-                                    </button>
-                                </form>
+                                @if (item.ApprovalStatus != ApprovalStatus.Cancelled && item.ApprovalStatus != ApprovalStatus.Denied)
+                                {
+                                    <form asp-action="Cancel" asp-controller="TravelRequests" method="post">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="hidden" name="redirectAction" value="Index" />
+                                        <input type="hidden" name="redirectController" value="Home" />
+                                        <button type="submit" class="btn cancel">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                }
                             </td>
                             <td>
                                 @if (item.ApprovalStatus <= ApprovalStatus.ApprovedByCEO)
