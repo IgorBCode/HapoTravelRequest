@@ -25,6 +25,7 @@ public class TravelRequestService
                 Id = q.Id,
                 FirstName = q.User.FirstName,
                 LastName = q.User.LastName,
+                ConferenceDescription = q.ConferenceDescription,
                 Location = q.Location,
                 ConferenceStartDate = q.ConferenceStartDate,
                 ConferenceEndDate = q.ConferenceEndDate,

@@ -515,6 +515,20 @@ th {
         color: #111827;
     }
 
+.profile-img {
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+    margin-right: 1rem;
+    border: 0.125rem solid #fff;
+    box-shadow: 0 0.0625rem 0.1875rem rgba(0,0,0,0.2);
+    transition: all 0.2s ease-in-out;
+}
+
+.profile-img:hover {
+    transform: scale(1.05);
+}
+
 .login-body {
     text-align: center;
     margin: 0 auto;
