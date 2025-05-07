@@ -51,8 +51,8 @@ namespace HapoTravelRequest.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Department = user.Department,
-                PhoneNumber = user.PhoneNumber,
-                PositionTitle = user.PositionTitle,
+                PhoneNumber = user.PhoneNumber ?? string.Empty,
+                PositionTitle = user.PositionTitle ?? string.Empty,
                 DepartmentDirector = user.DepartmentDirector,
 
                 // Travel request info *************************
@@ -87,13 +87,13 @@ namespace HapoTravelRequest.Controllers
                 DepositAccount = travelRequest.DepositAccount,
                 AccountType = travelRequest.AccountType,
                 CorporateCard = travelRequest.CorporateCard,
-                ValueExplination = travelRequest.ValueExplination,
-                EmergencyContactname = travelRequest.EmergencyContactname,
-                EmergencyContactPhoneNumber = travelRequest.EmergencyContactPhoneNumber,
+                ValueExplanation = travelRequest.ValueExplanation,
+                EmergencyContactName = travelRequest.EmergencyContactName ?? string.Empty,
+                EmergencyContactPhoneNumber = travelRequest.EmergencyContactPhoneNumber ?? string.Empty,
                 TSANumber = travelRequest.TSANumber,
                 GroundOptions = travelRequest.GroundOptions,
                 RegisteredForConference = travelRequest.RegisteredForConference,
-                Registered = travelRequest.Registered
+                Registered = travelRequest.Registered,
             };
 
 
@@ -126,8 +126,8 @@ namespace HapoTravelRequest.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Department = user.Department,
-                PhoneNumber = user.PhoneNumber,
-                PositionTitle = user.PositionTitle,
+                PhoneNumber = user.PhoneNumber ?? string.Empty,
+                PositionTitle = user.PositionTitle ?? string.Empty,
                 DepartmentDirector = user.DepartmentDirector,
 
                 // Travel request info *************************
@@ -162,9 +162,9 @@ namespace HapoTravelRequest.Controllers
                 DepositAccount = travelRequest.DepositAccount,
                 AccountType = travelRequest.AccountType,
                 CorporateCard = travelRequest.CorporateCard,
-                ValueExplination = travelRequest.ValueExplination,
-                EmergencyContactname = travelRequest.EmergencyContactname,
-                EmergencyContactPhoneNumber = travelRequest.EmergencyContactPhoneNumber,
+                ValueExplanation = travelRequest.ValueExplanation,
+                EmergencyContactName = travelRequest.EmergencyContactName ?? string.Empty,
+                EmergencyContactPhoneNumber = travelRequest.EmergencyContactPhoneNumber ?? string.Empty,
                 TSANumber = travelRequest.TSANumber,
                 GroundOptions = travelRequest.GroundOptions,
                 RegisteredForConference = travelRequest.RegisteredForConference,
@@ -206,7 +206,7 @@ namespace HapoTravelRequest.Controllers
                     var vpRequests = await _travelRequestService.GetTravelRequestsListAsync(
                         query => query.Where(q => q.ApprovalStatus == ApprovalStatus.Pending &&
                                                   q.User.DepartmentDirector != null &&
-                                                  q.User.DepartmentDirector.ToLower() == user.Email.ToLower()));
+                                                  q.User.DepartmentDirector.ToLower() == user.Email!.ToLower()));
                     travelRequests.AddRange(vpRequests);
                 }
 
@@ -249,10 +249,14 @@ namespace HapoTravelRequest.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 DateOfBirth = user.DateOfBirth,
-                PhoneNumber = user.PhoneNumber,
+                PhoneNumber = user.PhoneNumber ?? string.Empty,
                 Department = user.Department,
-                PositionTitle = user.PositionTitle,
-                DepartmentDirector = user.DepartmentDirector
+                PositionTitle = user.PositionTitle ?? string.Empty,
+                DepartmentDirector = user.DepartmentDirector,
+                // Initialize required members
+                PurposeOfTravel = string.Empty,
+                ConferenceDescription = string.Empty,
+                Location = string.Empty
             };
 
             return View(model);
@@ -337,6 +341,7 @@ namespace HapoTravelRequest.Controllers
 
             var travelRequest = new TravelRequest
             {
+                User = user,
                 UserId = user.Id,
                 PurposeOfTravel = model.PurposeOfTravel,
                 NonEmployeeGuests = model.NonEmployeeGuests,
@@ -368,8 +373,8 @@ namespace HapoTravelRequest.Controllers
                 DepositAccount = model.DepositAccount,
                 AccountType = model.AccountType,
                 CorporateCard = model.CorporateCard,
-                ValueExplination = model.ValueExplination,
-                EmergencyContactname = model.EmergencyContactname,
+                ValueExplanation = model.ValueExplanation,
+                EmergencyContactName = model.EmergencyContactName,
                 EmergencyContactPhoneNumber = model.EmergencyContactPhoneNumber,
                 TSANumber = model.TSANumber,
                 GroundOptions = model.GroundOptions,
@@ -385,7 +390,7 @@ namespace HapoTravelRequest.Controllers
             if (User.IsInRole("VP"))
             {
                 // send email to CEO
-                var CEOemailAddress = (await _userManager.GetUsersInRoleAsync("CEO")).FirstOrDefault()?.Email;
+                var CEOemailAddress = (await _userManager.GetUsersInRoleAsync("CEO")).FirstOrDefault()?.Email!;
                 string subject = $"Travel request for {travelRequest.User.FirstName} {travelRequest.User.LastName} waiting for approval";
 
                 string message = $"<p>{travelRequest.User.FirstName} {travelRequest.User.LastName} has submitted a new travel request.</p><hr>" +
@@ -408,8 +413,8 @@ namespace HapoTravelRequest.Controllers
             {
                 // send email to processor
                 var processors = await _userManager.GetUsersInRoleAsync("Processor");
-                var processor = processors.FirstOrDefault(); // get first user with processor role in database
-                string? processorEmail = processor.Email;
+                var processor = processors.FirstOrDefault()!; // get first user with processor role in database
+                string processorEmail = processor.Email!;
                 string subject = $"Booking required for {travelRequest.User.FirstName} {travelRequest.User.LastName}'s travel request";
 
                 string message = $"<p>{travelRequest.User.FirstName} {travelRequest.User.LastName}'s travel request has been approved and is waiting for booking'.</p><hr>" +
@@ -466,7 +471,7 @@ namespace HapoTravelRequest.Controllers
                 return NotFound();
             }
 
-            string? userEmailAddress = request.User.Email;
+            string userEmailAddress = request.User.Email!;
 
             // if vp or admin approved the request 
             if (decision == "approve" && (User.IsInRole("VP") || User.IsInRole("Administrator")) && request.ApprovalStatus == ApprovalStatus.Pending)
@@ -476,7 +481,7 @@ namespace HapoTravelRequest.Controllers
                 await _context.SaveChangesAsync();
 
                 // send email to CEO
-                var CEOemailAddress = (await _userManager.GetUsersInRoleAsync("CEO")).FirstOrDefault()?.Email;
+                var CEOemailAddress = (await _userManager.GetUsersInRoleAsync("CEO")).FirstOrDefault()?.Email!;
                 emailSubject = $"Travel request for {request.User.FirstName} {request.User.LastName} waiting for approval";
 
                 msg = $"<p>{request.User.FirstName} {request.User.LastName} has submitted a new travel request.</p><hr>" +
@@ -511,8 +516,8 @@ namespace HapoTravelRequest.Controllers
 
                 // send email to processor
                 var processors = await _userManager.GetUsersInRoleAsync("Processor");
-                var processor = processors.FirstOrDefault(); // get first user with processor role in database
-                string? processorEmail = processor.Email;
+                var processor = processors.FirstOrDefault()!; // get first user with processor role in database
+                string processorEmail = processor.Email!;
                 emailSubject = $"Booking required for {request.User.FirstName} {request.User.LastName}'s travel request";
 
                 msg = $"<p>{request.User.FirstName} {request.User.LastName}'s travel request has been approved and is waiting for booking'.</p><hr>" +
@@ -631,8 +636,8 @@ namespace HapoTravelRequest.Controllers
                 DepositAccount = request.DepositAccount,
                 AccountType = request.AccountType,
                 CorporateCard = request.CorporateCard,
-                ValueExplination = request.ValueExplination,
-                EmergencyContactname = request.EmergencyContactname,
+                ValueExplanation = request.ValueExplanation,
+                EmergencyContactName = request.EmergencyContactName,
                 EmergencyContactPhoneNumber = request.EmergencyContactPhoneNumber,
                 TSANumber = request.TSANumber,
                 GroundOptions = request.GroundOptions,
@@ -683,7 +688,7 @@ namespace HapoTravelRequest.Controllers
 
             // send email to user
             string emailSubject = $"Trip to {request.Location} booked.";
-            string emailAddress = request.User.Email;
+            string emailAddress = request.User.Email!;
             string msg = $"<p>Your trip has been to {request.Location} has been booked</p>";
 
             if (!string.IsNullOrWhiteSpace(model.TransportationMode))
@@ -753,8 +758,10 @@ namespace HapoTravelRequest.Controllers
                 {
                     Content = model.NewComment,
                     CreatedTime = DateTime.UtcNow,
-                    UserId = user.Id,
-                    TravelRequestId = model.Id
+                    UserId = user!.Id,
+                    User = user,
+                    TravelRequestId = model.Id,
+                    TravelRequest = await _context.TravelRequests.FindAsync(model.Id)
                 };
 
                 _context.Comments.Add(comment);

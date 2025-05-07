@@ -58,12 +58,12 @@
                         <div class="info-item"><strong>Conference Link:</strong> @Model.ConferenceLink</div>
                         <div class="info-item"><strong>Alternative Text:</strong> @Model.AlternativeText</div>
                         <div class="info-item"><strong>Location:</strong> @Model.Location</div>
-                        <div class="info-item"><strong>Cost:</strong> $@Model.CostOfConference</div>
-                        <div class="info-item"><strong>Conference Start:</strong> @Model.ConferenceStartDate?.ToShortDateString()</div>
-                        <div class="info-item"><strong>Conference End:</strong> @Model.ConferenceEndDate?.ToShortDateString()</div>
+                        <div class="info-item"><strong>Cost:</strong> @(Model.CostOfConference.HasValue ? $"${Model.CostOfConference.Value.ToString("0.00")}" : "Unknown")</div>
+                        <div class="info-item"><strong>Conference Start:</strong> @Model.ConferenceStartDate.ToShortDateString()</div>
+                        <div class="info-item"><strong>Conference End:</strong> @Model.ConferenceEndDate.ToShortDateString()</div>
                         <div class="info-item"><strong>Registration Deadline:</strong> @Model.RegistrationDeadline?.ToShortDateString()</div>
-                        <div class="info-item"><strong>Departure Date:</strong> @Model.DepartureDate.ToShortDateString()</div>
-                        <div class="info-item"><strong>Return Date:</strong> @Model.ReturnDate.ToShortDateString()</div>
+                        <div class="info-item"><strong>Departure Date:</strong> @Model.DepartureDate?.ToShortDateString()</div>
+                        <div class="info-item"><strong>Return Date:</strong> @Model.ReturnDate?.ToShortDateString()</div>
                     </div>
                     <div class="col-md-6">
                         <div class="info-item"><strong>Employees Attending:</strong> @Model.EmployeesAttending</div>
@@ -141,7 +141,7 @@
             <div class="accordion-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="info-item"><strong>Contact Name:</strong> @Model.EmergencyContactname</div>
+                        <div class="info-item"><strong>Contact Name:</strong> @Model.EmergencyContactName</div>
                         <div class="info-item"><strong>Contact Phone:</strong> @Model.EmergencyContactPhoneNumber</div>
                     </div>
                 </div>

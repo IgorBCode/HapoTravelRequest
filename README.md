@@ -14,5 +14,5 @@ To run with Visual Studio Code:
 1. Download repo and open the folder in Visual Studio Code
 2. Open a Powershell/Command Prompt terminal in the 'HapoTravelRequest' directory of your repository folder
 3. Install dotnet-ef (if not already installed) with the command 'dotnet tool install --global dotnet-ef'
-4. Run the command 'dotnet-ef database update'. This will set up the database for the application
+4. Run the command 'dotnet ef database update'. This will set up the database for the application
 5. Run the application with 'dotnet watch run'

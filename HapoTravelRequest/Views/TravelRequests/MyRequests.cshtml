@@ -41,8 +41,8 @@
                     <td>@request.FirstName @request.LastName</td>
                     <td>@request.ConferenceDescription</td>
                     <td>@request.Location</td>
-                    <td>@request.ConferenceStartDate?.ToString("MM/dd/yyyy")</td>
-                    <td>@request.ConferenceEndDate?.ToString("MM/dd/yyyy")</td>
+                    <td>@request.ConferenceStartDate.ToString("MM/dd/yyyy")</td>
+                    <td>@request.ConferenceEndDate.ToString("MM/dd/yyyy")</td>
                     <td>$@request.CostOfConference</td>
                     <td>
                         <form asp-action="Cancel" asp-controller="TravelRequests" method="post">

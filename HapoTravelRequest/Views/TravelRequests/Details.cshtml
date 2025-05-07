@@ -35,19 +35,19 @@
                 <div class="info-item"><strong>Conference Link:</strong> @Model.ConferenceLink</div>
                 <div class="info-item"><strong>Alternative Text:</strong> @Model.AlternativeText</div>
                 <div class="info-item"><strong>Location:</strong> @Model.Location</div>
-                <div class="info-item"><strong>Cost:</strong> $@Model.CostOfConference</div>
+                <div class="info-item"><strong>Cost:</strong> @(Model.CostOfConference.HasValue ? $"${Model.CostOfConference.Value.ToString("0.00")}" : "Unknown")</div>
             </div>
             <div class="col-md-6">
-                <div class="info-item"><strong>Conference Start:</strong> @Model.ConferenceStartDate?.ToShortDateString()</div>
-                <div class="info-item"><strong>Conference End:</strong> @Model.ConferenceEndDate?.ToShortDateString()</div>
+                <div class="info-item"><strong>Conference Start:</strong> @Model.ConferenceStartDate.ToShortDateString()</div>
+                <div class="info-item"><strong>Conference End:</strong> @Model.ConferenceEndDate.ToShortDateString()</div>
                 <div class="info-item"><strong>Registration Deadline:</strong> @Model.RegistrationDeadline?.ToShortDateString()</div>
-                <div class="info-item"><strong>Departure Date:</strong> @Model.DepartureDate.ToShortDateString()</div>
-                <div class="info-item"><strong>Return Date:</strong> @Model.ReturnDate.ToShortDateString()</div>
+                <div class="info-item"><strong>Departure Date:</strong> @Model.DepartureDate?.ToShortDateString()</div>
+                <div class="info-item"><strong>Return Date:</strong> @Model.ReturnDate?.ToShortDateString()</div>
                 <div class="info-item"><strong>Registered:</strong> @(Model.Registered ? "Yes" : "No")</div>
                 <div class="info-item"><strong>Registered for Conference:</strong> @(Model.RegisteredForConference ? "Yes" : "No")</div>
             </div>
             <div class="col-12">
-                <div class="info-item"><strong>Value Explanation:</strong> @Model.ValueExplination</div>
+                <div class="info-item"><strong>Value Explanation:</strong> @Model.ValueExplanation</div>
             </div>
         </div>
     </div>
@@ -117,7 +117,7 @@
         <div class="section-header">Emergency Contact</div>
         <div class="row">
             <div class="col-md-6">
-                <div class="info-item"><strong>Contact Name:</strong> @Model.EmergencyContactname</div>
+                <div class="info-item"><strong>Contact Name:</strong> @Model.EmergencyContactName</div>
                 <div class="info-item"><strong>Contact Phone:</strong> @Model.EmergencyContactPhoneNumber</div>
             </div>
         </div>

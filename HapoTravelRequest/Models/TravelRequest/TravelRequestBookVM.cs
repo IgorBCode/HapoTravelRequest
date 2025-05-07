@@ -7,33 +7,33 @@ public class TravelRequestBookVM
     public int Id { get; set; }
 
     //****************** User data ******************
-    public string UserId { get; set; }
+    public required string UserId { get; set; }
 
     [Display(Name = "First Name")]
-    public string FirstName { get; set; }
+    public required string FirstName { get; set; }
 
 
     [Display(Name = "Last Name")]
-    public string LastName { get; set; }
+    public required string LastName { get; set; }
 
     [Display(Name = "Date Of Birth")]
     public DateOnly DateOfBirth { get; set; }
 
     [Display(Name = "Phone Number")]
-    public string PhoneNumber { get; set; }
+    public string? PhoneNumber { get; set; }
 
     [Display(Name = "Department")]
-    public string Department { get; set; }
+    public required string Department { get; set; }
 
     [Display(Name = "Position/Title")]
-    public string PositionTitle { get; set; }
+    public string? PositionTitle { get; set; }
 
     [Display(Name = "Dept. Director Email")]
-    public string DepartmentDirector { get; set; }
+    public required string DepartmentDirector { get; set; }
 
     //****************** Travel Request ******************
     [Display(Name = "Purpose of Travel")]
-    public string? PurposeOfTravel { get; set; }
+    public required string PurposeOfTravel { get; set; }
 
     [Display(Name = "Non Employee Guest?")]
     public bool NonEmployeeGuests { get; set; }
@@ -45,7 +45,7 @@ public class TravelRequestBookVM
     public DateTime? NonEmployeeDOB { get; set; }
 
     [Display(Name = "Conference Description")]
-    public string? ConferenceDescription { get; set; }
+    public required string ConferenceDescription { get; set; }
 
     [Display(Name = "Conference Link")]
     public string? ConferenceLink { get; set; }
@@ -54,20 +54,22 @@ public class TravelRequestBookVM
     public string? AlternativeText { get; set; }
 
     [Display(Name = "Location")]
-    public string? Location { get; set; }
+    public required string Location { get; set; }
 
     [Column(TypeName = "decimal(18, 2)")]
     [DataType(DataType.Currency)]
     [Display(Name = "Cost of Conference")]
     public decimal? CostOfConference { get; set; }
 
+    [Required]
     [DataType(DataType.Date)]
     [Display(Name = "Conference Start Date")]
-    public DateTime? ConferenceStartDate { get; set; }
+    public DateTime ConferenceStartDate { get; set; }
 
+    [Required]
     [DataType(DataType.Date)]
     [Display(Name = "Conference End Date")]
-    public DateTime? ConferenceEndDate { get; set; }
+    public DateTime ConferenceEndDate { get; set; }
 
     [Display(Name = "Registration Deadline")]
     public DateTime? RegistrationDeadline { get; set; }
@@ -80,6 +82,7 @@ public class TravelRequestBookVM
     [Display(Name = "Return Date")]
     public DateTime? ReturnDate { get; set; }
 
+    [Required]
     [Display(Name = "How many HAPO employees attending")]
     public int EmployeesAttending { get; set; }
 
@@ -140,14 +143,14 @@ public class TravelRequestBookVM
     public bool CorporateCard { get; set; }
 
     [Display(Name = "Briefly explain how the conference is beneficial")]
-    public string? ValueExplination { get; set; }
+    public string? ValueExplanation { get; set; }
 
     [MaxLength(100)]
     [Display(Name = "Emergency Contact Name")]
-    public string EmergencyContactname { get; set; }
+    public string? EmergencyContactName { get; set; }
 
     [Display(Name = "Emergency Contact Phone")]
-    public string EmergencyContactPhoneNumber { get; set; }
+    public string? EmergencyContactPhoneNumber { get; set; }
 
     public string? TSANumber { get; set; }
 
@@ -162,7 +165,7 @@ public class TravelRequestBookVM
 
     //****************** Comment ******************
     [Display(Name = "Add comment")]
-    public string NewComment { get; set; }
+    public string? NewComment { get; set; }
 
-    public List<CommentVM> RequestComments { get; set; }
+    public List<CommentVM>? RequestComments { get; set; }
 }

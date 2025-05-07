@@ -1,7 +1,18 @@
+@font-face {
+    font-family: 'Museo Sans';
+    src: url('/assets/museo-sans/MuseoSans-300.otf') format('opentype'),
+         url('/assets/museo-sans/MuseoSans-500.otf') format('opentype'),
+         url('/assets/museo-sans/MuseoSans-700.otf') format('opentype');
+    font-weight: 300, 500, 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Museo Sans', var(--bs-font-sans-serif);
 }
 
 :root {

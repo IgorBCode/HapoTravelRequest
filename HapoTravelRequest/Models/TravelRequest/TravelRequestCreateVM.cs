@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using HapoTravelRequest.Data;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HapoTravelRequest.Models.TravelRequest;
@@ -12,11 +13,21 @@ public class TravelRequestCreateVM
         ReturnDate = DateTime.Today.AddDays(1);
         ConferenceStartDate = DateTime.Today;
         ConferenceEndDate = DateTime.Today.AddDays(1);
+
+        // initialize non-nullable string properties
+        UserId = string.Empty;
+        FirstName = string.Empty;
+        LastName = string.Empty;
+        PhoneNumber = string.Empty;
+        Department = string.Empty;
+        PositionTitle = string.Empty;
+        DepartmentDirector = string.Empty;
     }
 
     public int Id { get; set; }
 
     //****************** User data ******************
+    [Required]
     public string UserId { get; set; }
 
     [Required, MaxLength(100)]
@@ -50,9 +61,10 @@ public class TravelRequestCreateVM
     public string DepartmentDirector { get; set; }
 
     //****************** Travel Request ******************
+    [Required]
     [MaxLength(300)]
     [Display(Name = "Purpose of Travel")]
-    public string? PurposeOfTravel { get; set; }
+    public required string PurposeOfTravel { get; set; }
 
     [Display(Name = "Non Employee Guest?")]
     public bool NonEmployeeGuests { get; set; }
@@ -65,9 +77,10 @@ public class TravelRequestCreateVM
     [Display(Name = "Non Employee DOB")]
     public DateTime? NonEmployeeDOB { get; set; }
 
+    [Required]
     [MaxLength(300)]
     [Display(Name = "Conference Description")]
-    public string? ConferenceDescription { get; set; }
+    public required string ConferenceDescription { get; set; }
 
     [MaxLength(100)]
     [Display(Name = "Conference Link")]
@@ -77,35 +90,40 @@ public class TravelRequestCreateVM
     [Display(Name = "Alternative Text (optional)")]
     public string? AlternativeText { get; set; }
 
+    [Required]
     [MaxLength(200)]
     [Display(Name = "Location")]
-    public string? Location { get; set; }
+    public required string Location { get; set; }
 
     [Column(TypeName = "decimal(18, 2)")]
     [DataType(DataType.Currency)]
     [Display(Name = "Cost of Conference")]
-    public decimal CostOfConference { get; set; }
+    public decimal? CostOfConference { get; set; }
 
     [DataType(DataType.Date)]
     [Display(Name = "Conference Start Date")]
-    public DateTime? ConferenceStartDate { get; set; }
+    [Required]
+    public DateTime ConferenceStartDate { get; set; }
 
     [DataType(DataType.Date)]
     [Display(Name = "Conference End Date")]
-    public DateTime? ConferenceEndDate { get; set; }
+    [Required]
+    public DateTime ConferenceEndDate { get; set; }
 
     [DataType(DataType.Date)]
     [Display(Name = "Registration Deadline")]
     public DateTime? RegistrationDeadline { get; set; }
 
-    [DataType(DataType.DateTime)]
+    [DataType(DataType.Date)]
     [Display(Name = "Departure Date")]
-    public DateTime DepartureDate { get; set; }
+    public DateTime? DepartureDate { get; set; }
 
     [DataType(DataType.Date)]
     [Display(Name = "Return Date")]
-    public DateTime ReturnDate { get; set; }
+    public DateTime? ReturnDate { get; set; }
 
+    [Required]
+    [Range(1, int.MaxValue)]
     [Display(Name = "How many HAPO employees attending")]
     public int EmployeesAttending { get; set; }
 
@@ -142,11 +160,13 @@ public class TravelRequestCreateVM
     [Display(Name = "Ground Transportation")]
     public string? GroundTransportation { get; set; }
 
+    [Display(Name = "Mileage Reimbursement")]
     public bool MileageReimbursement { get; set; }
 
     [Display(Name = "Mileage Round Trip")]
     public int? MileageRoundTrip { get; set; }
 
+    [Display(Name = "Meals & Incidental Expenses")]
     public bool MIE { get; set; }
 
     [Column(TypeName = "decimal(18, 2)")]
@@ -169,16 +189,16 @@ public class TravelRequestCreateVM
     public bool CorporateCard { get; set; }
 
     [Display(Name = "Briefly explain how the conference is beneficial")]
-    public string? ValueExplination { get; set; }
+    public string? ValueExplanation { get; set; }
 
     [MaxLength(100)]
     [Display(Name = "Emergency Contact Name")]
-    public string EmergencyContactname { get; set; }
+    public string? EmergencyContactName { get; set; }
 
     [MaxLength(20)]
     [DataType(DataType.PhoneNumber)]
     [Display(Name = "Emergency Contact Phone")]
-    public string EmergencyContactPhoneNumber { get; set; }
+    public string? EmergencyContactPhoneNumber { get; set; }
 
     [Display(Name = "TSA Number")]
     public string? TSANumber { get; set; }

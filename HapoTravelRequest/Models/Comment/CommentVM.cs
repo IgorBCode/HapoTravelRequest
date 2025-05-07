@@ -2,7 +2,7 @@
 
 public class CommentVM
 {
-    public string Content { get; set; }
-    public string AuthorName { get; set; }
+    public required string Content { get; set; }
+    public required string AuthorName { get; set; }
     public DateTime CreateTime { get; set; }
 }

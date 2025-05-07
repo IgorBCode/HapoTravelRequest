@@ -26,36 +26,43 @@
                         <label asp-for="FirstName" class="control-label"></label>
                         <input asp-for="FirstName" class="form-control" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
+                        <span class="required-indicator text-danger" style="display:none;">* Required</span>
                     </div>
                     <div class="form-group col-md-3 mt-3">
                         <label asp-for="LastName" class="control-label"></label>
                         <input asp-for="LastName" class="form-control" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
+                        <span class="required-indicator text-danger" style="display:none;">* Required</span>
                     </div>
                     <div class="form-group col-md-3 mt-3">
                         <label asp-for="DateOfBirth" class="control-label"></label>
                         <input asp-for="DateOfBirth" class="form-control" />
                         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        <span class="required-indicator text-danger" style="display:none;">* Required</span>
                     </div>
                     <div class="form-group col-md-3 mt-3">
                         <label asp-for="PhoneNumber" class="control-label"></label>
                         <input asp-for="PhoneNumber" class="form-control" />
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        <span class="required-indicator text-danger" style="display:none;">* Required</span>
                     </div>
                     <div class="form-group col-md-5 mt-3">
                         <label asp-for="Department" class="control-label"></label>
                         <input asp-for="Department" class="form-control" />
                         <span asp-validation-for="Department" class="text-danger"></span>
+                        <span class="required-indicator text-danger" style="display:none;">* Required</span>
                     </div>
                     <div class="form-group col-md-5 mt-3">
                         <label asp-for="PositionTitle" class="control-label"></label>
                         <input asp-for="PositionTitle" class="form-control" />
                         <span asp-validation-for="PositionTitle" class="text-danger"></span>
+                        <span class="required-indicator text-danger" style="display:none;">* Required</span>
                     </div>
                     <div class="form-group col-md-5 mt-3">
                         <label asp-for="DepartmentDirector" class="control-label"></label>
                         <input asp-for="DepartmentDirector" class="form-control" />
                         <span asp-validation-for="DepartmentDirector" class="text-danger"></span>
+                        <span class="required-indicator text-danger" style="display:none;">* Required</span>
                     </div>
 
                 </div>
@@ -63,6 +70,7 @@
                     <label asp-for="PurposeOfTravel" class="control-label"></label>
                     <textarea asp-for="PurposeOfTravel" class="form-control" rows="3"></textarea>
                     <span asp-validation-for="PurposeOfTravel" class="text-danger"></span>
+                    <span class="required-indicator text-danger" style="display:none;">* Required</span>
                 </div>
                 <input type="button" name="next" class="next action-button mt-4" value="Next" />
             </fieldset>
@@ -84,6 +92,7 @@
                             <label asp-for="ConferenceDescription" class="control-label"></label>
                             <textarea asp-for="ConferenceDescription" class="form-control"></textarea>
                             <span asp-validation-for="ConferenceDescription" class="text-danger"></span>
+                            <span class="required-indicator text-danger" style="display:none;">* Required</span>
                         </div>
                     </div>
                 </div>
@@ -97,11 +106,13 @@
                         <label asp-for="ConferenceStartDate" class="control-label"></label>
                         <input asp-for="ConferenceStartDate" class="form-control" placeholder="mm/dd/yyyy" />
                         <span asp-validation-for="ConferenceStartDate" class="text-danger"></span>
+                        <span class="required-indicator text-danger" style="display:none;">* Required</span>
                     </div>
                     <div class="form-group col-md-4 mt-3">
                         <label asp-for="ConferenceEndDate" class="control-label"></label>
                         <input asp-for="ConferenceEndDate" class="form-control" placeholder="mm/dd/yyyy" />
                         <span asp-validation-for="ConferenceEndDate" class="text-danger"></span>
+                        <span class="required-indicator text-danger" style="display:none;">* Required</span>
                     </div>
                 </div>
                 <div class="form-row row">
@@ -122,6 +133,7 @@
                         <label asp-for="Location" class="control-label"></label>
                         <input asp-for="Location" class="form-control" />
                         <span asp-validation-for="Location" class="text-danger"></span>
+                        <span class="required-indicator text-danger" style="display:none;">* Required</span>
                     </div>
                     <div class="form-group col-md-4 mt-3">
                         <label asp-for="CostOfConference" class="control-label"></label>
@@ -129,9 +141,9 @@
                         <span asp-validation-for="CostOfConference" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6 mt-3">
-                        <label asp-for="ValueExplination" class="control-label"></label>
-                        <textarea asp-for="ValueExplination" class="form-control"></textarea>
-                        <span asp-validation-for="ValueExplination" class="text-danger"></span>
+                        <label asp-for="ValueExplanation" class="control-label"></label>
+                        <textarea asp-for="ValueExplanation" class="form-control"></textarea>
+                        <span asp-validation-for="ValueExplanation" class="text-danger"></span>
                     </div>
                 </div>
                     <input type="button" name="previous" class="previous action-button-previous mt-3" value="Previous" />
@@ -168,9 +180,10 @@
                 <div class="form-row row">
                     <div class="form-group col-md-3 mt-3">
                         <label asp-for="EmployeesAttending" class="control-label"></label>
-                        <input asp-for="EmployeesAttending" class="form-control" />
+                        <input asp-for="EmployeesAttending" class="form-control" min="1" value="1" />
                         <small class="form-text text-muted">Including yourself.</small>
                         <span asp-validation-for="EmployeesAttending" class="text-danger"></span>
+                        <span class="required-indicator text-danger" style="display:none;">* Required</span>
                     </div>
                 </div>
                 <div class="form-row row">
@@ -318,9 +331,9 @@
                 <fieldset>
                     <div class="field-row row">
                         <div class="form-group col-md-3 mt-3">
-                            <label asp-for="EmergencyContactname" class="control-label"></label>
-                            <input asp-for="EmergencyContactname" class="form-control" />
-                            <span asp-validation-for="EmergencyContactname" class="text-danger"></span>
+                            <label asp-for="EmergencyContactName" class="control-label"></label>
+                            <input asp-for="EmergencyContactName" class="form-control" />
+                            <span asp-validation-for="EmergencyContactName" class="text-danger"></span>
                         </div>
                     <div class="form-group col-md-3 mt-3">
                             <label asp-for="EmergencyContactPhoneNumber" class="control-label"></label>
@@ -369,49 +382,122 @@
     }
 
     <script>
-        // Function to validate only fields in the current step
-        function validateStep($fieldset) {
-            // Get all inputs, selects, and textareas inside this step
-            const $inputs = $fieldset.find("input, select, textarea");
-
-            let isValid = true;
-
-            // Trigger validation manually for each field
-            $inputs.each(function () {
-                if (!$(this).valid()) {
-                    isValid = false;
+        $(document).ready(function() {
+            // Add asterisk to required field labels
+            $("input[data-val-required], textarea[data-val-required], select[data-val-required]").each(function() {
+                var label = $("label[for='" + $(this).attr('id') + "']");
+                if (label.length > 0 && !label.text().endsWith('*')) {
+                    label.append('<span class="text-danger"> *</span>');
                 }
             });
 
-            return isValid;
-        }
+            // Hide all custom required indicators initially
+            $(".required-indicator").hide();
 
-        $(".next").click(function () {
-            let current_fs = $(this).parent();
-            let next_fs = $(this).parent().next();
-
-            // Only continue if current step is valid
-            if (validateStep(current_fs)) {
-                // Move to the next step
-                $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
-                current_fs.hide();
-                next_fs.show();
+            // Modify the jQuery validation settings to handle our custom validation
+            if ($.validator) {
+                // Store the original showErrors function
+                var originalShowErrors = $.validator.prototype.showErrors;
+                
+                // Override the showErrors function
+                $.validator.prototype.showErrors = function(errors) {
+                    // Call the original function first
+                    originalShowErrors.call(this, errors);
+                    
+                    // After ASP.NET validation runs, hide our custom messages
+                    // for fields that have ASP.NET validation errors showing
+                    for (var i = 0; i < this.errorList.length; i++) {
+                        var $element = $(this.errorList[i].element);
+                        $element.siblings(".required-indicator").hide();
+                    }
+                    
+                    // For empty required fields that don't have an error message showing,
+                    // display our custom indicator
+                    $("input[data-val-required], textarea[data-val-required], select[data-val-required]").each(function() {
+                        var $field = $(this);
+                        if (!$field.val().trim() && !$field.siblings(".field-validation-error").length) {
+                            $field.siblings(".required-indicator").show();
+                        }
+                    });
+                };
             }
+
+            // Function to validate step without duplicating error messages
+            function validateStep($fieldset) {
+                // Get all inputs, selects, and textareas inside this step
+                const $inputs = $fieldset.find("input, select, textarea");
+                let isValid = true;
+
+                // Clear any custom indicators before validation runs
+                $fieldset.find(".required-indicator").hide();
+
+                // Trigger ASP.NET validation
+                $inputs.each(function() {
+                    if (!$(this).valid()) {
+                        isValid = false;
+                    }
+                });
+
+                // Check for any empty required fields that don't have ASP.NET validation errors
+                $fieldset.find("input[data-val-required], textarea[data-val-required], select[data-val-required]").each(function() {
+                    var $field = $(this);
+                    if (!$field.val().trim() && !$field.siblings(".field-validation-error").length) {
+                        $field.siblings(".required-indicator").show();
+                        isValid = false;
+                    }
+                });
+
+                return isValid;
+            }
+
+            // When any input changes, revalidate the field
+            $("input, select, textarea").on("input change blur", function() {
+                var $field = $(this);
+                
+                // Validate the field using ASP.NET validation
+                $field.valid();
+                
+                // If it's a required field that's empty and doesn't have an ASP.NET error message
+                if ($field.attr("data-val-required") && !$field.val().trim() && 
+                    !$field.siblings(".field-validation-error").length) {
+                    $field.siblings(".required-indicator").show();
+                } else {
+                    $field.siblings(".required-indicator").hide();
+                }
+            });
+
+            $(".next").click(function() {
+                let current_fs = $(this).parent();
+                let next_fs = $(this).parent().next();
+
+                // Only continue if current step is valid
+                if (validateStep(current_fs)) {
+                    // Move to the next step
+                    $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+                    current_fs.hide();
+                    next_fs.show();
+                }
+            });
+
+            $(".previous").click(function() {
+                let current_fs = $(this).parent();
+                let previous_fs = $(this).parent().prev();
+
+                $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+                current_fs.hide();
+                previous_fs.show();
+            });
+
+            // Validate form on submit
+            $("form").on("submit", function(e) {
+                const $currentFieldset = $(this).find("fieldset:visible");
+                if (!validateStep($currentFieldset)) {
+                    e.preventDefault();
+                    return false;
+                }
+                return true;
+            });
         });
-
-        $(".previous").click(function () {
-            let current_fs = $(this).parent();
-            let previous_fs = $(this).parent().prev();
-
-            $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
-            current_fs.hide();
-            previous_fs.show();
-        });
-
-        // Prevent actual form submit for now (remove this later)
-        // $(".submit").click(function () {
-        //     return false;
-        // });
     </script>
 }
 
